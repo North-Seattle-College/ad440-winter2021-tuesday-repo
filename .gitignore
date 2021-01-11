@@ -105,3 +105,6 @@ dist
 
 # VS Code Workspace config files
 *.code-workspace
+
+# Mac window config files
+.DS_Store
