@@ -23,5 +23,7 @@ New-AzResourceGroup -Name $resourceGroupName -Location "$location"
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri
 
 func start
-# #publish function to azure
-# func azure functionapp publish $functionappname
+
+<# # #publish function to azure
+$functionappname = Read-Host -Prompt "Name your function APP"
+# func azure functionapp publish  #>
