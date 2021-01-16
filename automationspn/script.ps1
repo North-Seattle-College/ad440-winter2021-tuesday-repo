@@ -26,4 +26,4 @@ func start
 
 <# # #publish function to azure
 $functionappname = Read-Host -Prompt "Name your function APP"
-# func azure functionapp publish  #>
+# func azure functionapp publish $functionappname #>
