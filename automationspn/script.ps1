@@ -1,3 +1,6 @@
+#sign into azure account 
+Connect-AzAccount
+
 #Create a local function project
 #Choose folder name
 $foldername = Read-Host -Prompt "Enter a name for your folder" 
