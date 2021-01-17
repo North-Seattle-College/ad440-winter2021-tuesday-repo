@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westus2"
+        },
+        "virtualNetworkName": {
+            "value": "",
+            "metadata": {
+                "description": "VNet name"
+            }
+        },
+        "resourceGroup": {
+            "value": "nsc-rg-dev-usw2-team3"
+        },
+        "addressSpaces": {
+            "value": [
+                ""
+            ]
+        },
+        "vnetAddressPrefix": {
+        "type": "string",
+        "value": " ",
+        "metadata": {
+        "description": "Address prefix"
+            }
+        },
+        "ipv6Enabled": {
+            "value": false
+        },
+        "subnetCount": {
+            "value": 1
+        },
+        "subnet0_name": {
+            "value": "default"
+        },
+        "subnet0_addressRange": {
+            "value": "172.17.0.0/24"
+        },
+        "ddosProtectionPlanEnabled": {
+            "value": false
+        },
+        "firewallEnabled": {
+            "value": false
+        },
+        "bastionEnabled": {
+            "value": false
+        }
+    }
+}
