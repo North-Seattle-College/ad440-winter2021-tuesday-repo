@@ -8,11 +8,11 @@ func init $foldername --powershell
 #navigate into the project folder
 cd $foldername
 
-#create unique name for HTTP Trigger function
+<# #create unique name for HTTP Trigger function
 $functionname = Read-Host -Prompt "Name your function"
 #add function to the project
 func new --name $functionname --template "HTTP trigger" --authlevel "anonymous" 
-
+ #>
 
 $resourceGroupName = Read-Host -Prompt "Name your resource group"
 $location = 'West US 2'
@@ -24,6 +24,6 @@ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri
 
 func start
 
-<# # #publish function to azure
+<# publish function to azure
 $functionappname = Read-Host -Prompt "Name your function APP"
-# func azure functionapp publish $functionappname #>
+func azure functionapp publish $functionappname #>
