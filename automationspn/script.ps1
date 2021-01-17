@@ -8,7 +8,7 @@ func init $foldername --powershell
 #navigate into the project folder
 cd $foldername
 
-create unique name for HTTP Trigger function
+#create unique name for HTTP Trigger function
 $functionname = Read-Host -Prompt "Name your function"
 #add function to the project
 func new --name $functionname --template "HTTP trigger" --authlevel "anonymous"
