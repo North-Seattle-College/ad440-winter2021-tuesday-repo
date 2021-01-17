@@ -11,7 +11,7 @@ CREATE TABLE users (
   joinDate DATETIME NOT NULL
 );
 
--- 'Completed' is a boolean value with 0 equal to "false" and 1 equal to "true";
+-- 'Completed' is a boolean equivalent with 0 equal to "false" and 1 equal to "true";
 CREATE TABLE tasks (
   taskId INT PRIMARY KEY IDENTITY(1,1),
   taskUserId INT NOT NULL,
