@@ -8,8 +8,11 @@ CREATE TABLE users (
   userPassword VARCHAR(60),
   firstName VARCHAR(60) NOT NULL,
   lastName VARCHAR(60) NOT NULL,
-  joinDate DATETIME NOT NULL
+  joinDate DATETIME NOT NULL,
 );
+
+SET IDENTITY_INSERT dbo.users ON;
+GO
 
 -- 'Completed' is a boolean equivalent with 0 equal to "false" and 1 equal to "true";
 CREATE TABLE tasks (
@@ -22,3 +25,6 @@ CREATE TABLE tasks (
   CONSTRAINT tasks_fk_users
     FOREIGN KEY (taskUserId) REFERENCES users (userId)
 );
+
+SET IDENTITY_INSERT dbo.tasks ON;
+GO
