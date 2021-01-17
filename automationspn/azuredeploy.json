@@ -35,12 +35,13 @@
         }
       },
       "runtime": {
-        "type": "string",
-        "defaultValue": "powershell",
-        "metadata": {
-          "description": "The language worker runtime to load in the function app."
-        }
-      }
+      "type": "string",
+      "defaultValue": "node",
+      "allowedValues": [
+        "node",
+        "dotnet",
+        "java"
+      ]
     },
     "variables": {
       "functionAppName": "[parameters('appName')]",
