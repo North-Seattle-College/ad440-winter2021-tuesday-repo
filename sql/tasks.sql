@@ -1,3 +1,5 @@
+SET IDENTITY_INSERT dbo.tasks ON;
+
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (1, 0, 'Intuitive upward-trending capability', 'hmival0@china.com.cn', '2007-08-18', 0);
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (2, 1, 'Re-contextualized radical portal', 'aoreagan1@weather.com', '2007-02-07', 0);
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (3, 1, 'Centralized next generation framework', 'rbalderson2@homestead.com', '2016-07-08', 0);
@@ -998,3 +1000,5 @@ insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, comp
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (998, 1, 'Compatible global framework', 'jcamoysrp@wikispaces.com', '2019-11-29', 0);
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (999, 1, 'Public-key 24 hour product', 'alowndsbroughrq@godaddy.com', '2010-04-29', 0);
 insert into tasks (taskId, taskUserId, title, taskDescription, dateCreated, completed) values (1000, 0, 'Ergonomic empowering instruction set', 'cbolzenrr@livejournal.com', '2002-05-12', 1);
+
+SET IDENTITY_INSERT dbo.tasks OFF;

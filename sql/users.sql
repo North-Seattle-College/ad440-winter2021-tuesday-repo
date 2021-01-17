@@ -1,3 +1,5 @@
+SET IDENTITY_INSERT dbo.users ON;
+
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (1, 'elovie0@yelp.com', 'PnHTOIvKr', 'Evy', 'Lovie', '2011-12-10');
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (2, 'bcarberry1@360.cn', 'OlhFrn', 'Bendick', 'Carberry', '2012-02-16');
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (3, 'sellul2@pinterest.com', 'JXX1oIRP3w', 'Sher', 'Ellul', '2006-02-06');
@@ -998,3 +1000,5 @@ insert into users (userId, email, userPassword, firstName, lastName, joinDate) v
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (998, 'bhansodrp@xrea.com', '4iodwYFYv7Xt', 'Bride', 'Hansod', '2003-04-07');
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (999, 'aarriguccirq@admin.ch', 'SvCnKJaGEyc', 'Alaric', 'Arrigucci', '2000-06-28');
 insert into users (userId, email, userPassword, firstName, lastName, joinDate) values (1000, 'jbuxyrr@hao123.com', '0JuLVMKksF', 'Juieta', 'Buxy', '2017-04-03');
+
+SET IDENTITY_INSERT dbo.tasks OFF;
