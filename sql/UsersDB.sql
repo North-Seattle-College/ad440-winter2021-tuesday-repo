@@ -18,7 +18,7 @@ CREATE TABLE tasks (
   title VARCHAR(60),
   taskDescription VARCHAR(500),
   dateCreated DATETIME NOT NULL,
-  completed TINYINT(1) NOT NULL DEFAULT 0,
+  completed TINYINT NOT NULL DEFAULT 0,
   CONSTRAINT tasks_fk_users
     FOREIGN KEY (taskUserId) REFERENCES users (userId)
 );
