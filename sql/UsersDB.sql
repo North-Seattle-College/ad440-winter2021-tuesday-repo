@@ -11,9 +11,6 @@ CREATE TABLE users (
   joinDate DATETIME NOT NULL,
 );
 
-SET IDENTITY_INSERT dbo.users ON;
-GO
-
 -- 'Completed' is a boolean equivalent with 0 equal to "false" and 1 equal to "true";
 CREATE TABLE tasks (
   taskId INT PRIMARY KEY IDENTITY(1,1),
@@ -25,6 +22,3 @@ CREATE TABLE tasks (
   CONSTRAINT tasks_fk_users
     FOREIGN KEY (taskUserId) REFERENCES users (userId)
 );
-
-SET IDENTITY_INSERT dbo.tasks ON;
-GO
