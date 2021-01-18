@@ -59,7 +59,7 @@
                         },
                       "dependsOn": [
                             "[parameters('virtualNetworkName')]"
-                       ],
+                       ]
                     }
                 ],
                 "enableDdosProtection": "[parameters('ddosProtectionPlanEnabled')]"
