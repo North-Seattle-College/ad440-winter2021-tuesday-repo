@@ -35,7 +35,7 @@ param(
 #Redirects the user to sign in to the Azure portal
 Connect-AzAccount
 
-Sets the subscription ID correct so the resource group can be searched from the correct place
+#Sets the subscription ID correct so the resource group can be searched from the correct place
 Set-AzContext -SubscriptionId $SubscriptionId
 
 #creates the network security group
