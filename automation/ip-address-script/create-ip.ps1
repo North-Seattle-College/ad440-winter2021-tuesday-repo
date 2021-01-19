@@ -1,4 +1,4 @@
-
+#This script will create an IP address using parameters given by the user
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$True)]
@@ -28,10 +28,12 @@ param (
 
 #To login to azure from powershell use the following
 Connect-AzAccount 
-#to Connect to Azure using a service principal account
-    
-  #  $Credential = Get-Credential
-  #  Connect-AzAccount -Credential $Credential -Tenant 'xxxx-xxxx-xxxx-xxxx' -ServicePrincipal
+
+#PAREMETERS
+#SubscriptionId - The ID of the subscription, found in the vault
+#TenantId - The ID of the tenant, found in Azure Active Directory
+#IpName - The name of the IP address resource. Example: nsc-fun-dev-usw2-derekh
+#Location - The server zone the IP address will be hosted. Example: westus2
 
 #deploying IP address
 New-AzPublicIpAddress -Name $IpName -ResourceGroupName nsc-rg-dev-usw2-team3 -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
