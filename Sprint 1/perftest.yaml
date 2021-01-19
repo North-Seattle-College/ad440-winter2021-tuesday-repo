@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadtest
+  template:
+    metadata:
+      labels:
+        app: loadtest
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+        - image: chzbrgr71/loadtest:v2.1
+          name: loadtest
+          env:
+            - name: load_duration
+              value: "3600"
+            - name: load_rate
+              value: "10"
+            - name: load_url
+              value: http://artillery.io
