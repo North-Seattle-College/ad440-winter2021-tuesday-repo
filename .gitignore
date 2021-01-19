@@ -1,3 +1,9 @@
+#npm
+$APPDATA
+
+#visual studio code folder
+.vscode
+
 # Logs
 logs
 *.log
