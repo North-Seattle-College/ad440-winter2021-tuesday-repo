@@ -14,7 +14,44 @@ param (
 
     [Parameter(Mandatory=$False)]
     [SecureString]
-    $ServicePrincipalPassword
+    $ServicePrincipalPassword,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $RGName,
+    
+    [Parameter(Mandatory=$True)]
+    [string]
+    $Location,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $TempFilePath,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $ParamFilePath,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $VMName,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $vnet,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $subnet,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $sgname,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $ipaddress
+    
 )
 
 #To login to azure from powershell use the following
@@ -27,11 +64,7 @@ Connect-AzAccount
   
 
 #first thing to create a resource group
-#New-AzResourceGroup -Name $resourceGroup -Location $location   is asking to provide not null argument for resource group
-#New-AzResourceGroup -Name virtualMachineRG -Location westus2
-New-AzResourceGroup -Name nsc-rg-dev-usw2-team3 -Location westus2
+#New-AzResourceGroup -ResourceGroupName $RGName -Location $Location
 
-#deploying VM
-New-AzResourceGroupDeployment  -ResourceGroupName nsc-rg-dev-usw2-team3 -TemplateFile ./automation/vm/template.json -TemplateParameterFile ./automation/vm/parameters.json -Name nsc-aut-dev-usw2-vm-jg
-#following is using param from template
-#New-AzResourceGroupDeployment  -virtualMachineRG $resourceGroup -TemplateFile ./template.json -TemplateParameterFile ./parameters.json -virtualMachineName $VM 
+#deploying VM(created all resources)
+New-AzVM -ResourceGroupName $RGName -Name $VMName -Location $Location -VirtualNetworkName $vnet -SubnetName $subnet -SecurityGroupName $sgname -PublicIpAddressName $ipaddress 

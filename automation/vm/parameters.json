@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "westus2"
+            "value": null
         },
         "networkInterfaceName": {
-            "value": "nsc-aut-dev-usw2-vm-980"
+            "value": null
         },
         "networkSecurityGroupName": {
-            "value": "nsc-aut-dev-usw2-vm-joanna-nsg"
+            "value": null
         },
         "networkSecurityGroupRules": {
             "value": [
@@ -45,7 +45,7 @@
             "value": "default"
         },
         "virtualNetworkName": {
-            "value": "nsc-rg-dev-usw2-team3-vnet"
+            "value": null
         },
         "addressPrefixes": {
             "value": [
@@ -63,7 +63,7 @@
             ]
         },
         "publicIpAddressName": {
-            "value": "nsc-aut-dev-usw2-vm-joanna-ip"
+            "value": null
         },
         "publicIpAddressType": {
             "value": "Static"
@@ -72,13 +72,13 @@
             "value": "Standard"
         },
         "virtualMachineName": {
-            "value": "nsc-aut-dev-usw2-vm-joanna"
+            "value": null
         },
         "virtualMachineComputerName": {
-            "value": "nsc-aut-dev-usw2-vm-joanna"
+            "value": null
         },
         "virtualMachineRG": {
-            "value": "nsc-rg-dev-usw2-team3"
+            "value": null
         },
         "osDiskType": {
             "value": "Premium_LRS"
