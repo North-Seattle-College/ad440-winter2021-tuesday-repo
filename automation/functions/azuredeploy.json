@@ -6,7 +6,7 @@
             "type": "string",
             "defaultValue": "[concat('FuncAppspn-', uniqueString(resourceGroup().id))]",
             "metadata": {
-                "description": "The name of you Web Site."
+                "description": "The name of your Web Site."
             }
         },
         "storageAccountName": {
