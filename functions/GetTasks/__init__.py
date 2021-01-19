@@ -10,7 +10,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         tasks = dbHandler().getTasks()
-        tasks = list(row)
+        tasks = list(tasks)
         return func.HttpResponse(json.dumps(tasks))
     except ExceptionWithStatusCode as err:
         return func.HttpResponse(str(err), status_code=err.status_code)

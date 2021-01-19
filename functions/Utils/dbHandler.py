@@ -12,20 +12,23 @@ DRIVER = os.environ.get('DRIVER')
 
 class dbHandler():
     def __init__(self):
-        self.conn_string = 'Driver=' + DRIVER + \
+        self.conn_string = "Driver={" + DRIVER + "};Server=tcp:nsc-sqlsrv-usw2-sqltest.database.windows.net,1433;Database=" + DATABASE + ";Uid=" + USERNAME + ";Pwd=" + PASSWORD + ";Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+        '''
+        'Driver=' + DRIVER + \
             ';Server=' + SERVER + \
             ';PORT=1433;Database=' + DATABASE + \
             ';Uid='+USERNAME+';Pwd='+PASSWORD
+            '''
 
    # [Task # 3] Query and return all tasks
     def getTasks(self) -> List[Task]:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM Tasks")
+                cursor.execute("SELECT taskId, taskUserId, title, taskDescription, completed FROM Tasks")
                 rows = cursor.fetchall()
         tasks = []
         for row in rows:
-            tasks.append(row)
+            tasks.append(list(row))
         return tasks
 
     # [Task # 3] Insert new task into sql db

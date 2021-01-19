@@ -23,6 +23,7 @@ class Task():
     def get(self):
         return "this is a test"
 
+
     def getDict(self) -> Dict:
         return {
             "taskId": self.taskId,
@@ -32,3 +33,4 @@ class Task():
             "dateCreated": self.dateCreated,
             "completed": self.completed
         }
+        
