@@ -5,12 +5,12 @@ from typing import Dict
 class User():
     def __init__(
         self,
-        userId: int = None,
-        email: str,
-        userPassword: str,
-        firstName: str,
-        lastName: str,
-        joinDate: str,
+        userId:,
+        email,
+        userPassword,
+        firstName,
+        lastName,
+        joinDate,
     ):
         self.userId = userId
         self.email = email
@@ -27,7 +27,7 @@ class User():
             "userId": self.userId,
             "email": self.email,
             "userPassword": self.userPassword,
-            "firstName": self.firstName
-            "lastName": self.lastName
+            "firstName": self.firstName,
+            "lastName": self.lastName,
             "joinDate": self.joinDate
         }

@@ -5,12 +5,12 @@ from typing import Dict
 class Task():
     def __init__(
         self,
-        taskUserId: int = None,
-        taskId: int = None,
-        title: str,
-        taskDescription: str,
-        dateCreated: str,
-        completed: int,
+        taskUserId,
+        taskId,
+        title,
+        taskDescription,
+        dateCreated,
+        completed,
     ):
         self.taskUserId = taskUserId
         self.taskId = taskId
@@ -27,7 +27,7 @@ class Task():
             "taskId": self.taskId,
             "taskUserId": self.taskUserId,
             "title": self.title,
-            "taskDescription": self.taskDescription
-            "dateCreated": self.dateCreated
+            "taskDescription": self.taskDescription,
+            "dateCreated": self.dateCreated,
             "completed": self.completed
         }
