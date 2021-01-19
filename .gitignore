@@ -1,6 +1,9 @@
 #npm
 $APPDATA
 
+#apple attributes file
+**/.DS_Store
+
 #visual studio code folder
 .vscode
 
