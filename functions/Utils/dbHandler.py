@@ -43,7 +43,10 @@ class dbHandler():
                     """,
                     user_id.id, user_id.email, user_id.userPassword, user_id.firstName, user_id.lastName, user_id.joinDate
                 )
-                # add return messaging (user ID) back to user
+                if response:
+                    print('Successfully added user with UserId' + user_id.id)
+                else:
+                    print('An error has occurred.')
 
     # [Task # 2] Delete user_id from SQL DB
     def deleteUserId(self, user_id: User_Id) -> None:
@@ -56,4 +59,7 @@ class dbHandler():
                     """,
                     user_id.id, user_id.email, user_id.userPassword, user_id.firstName, user_id.lastName, user_id.joinDate
                 )
-                # add messaging 200 or proper exec
+                if response:
+                    print('User deleted!')
+                else:
+                    print('An error has occurred.')
