@@ -33,6 +33,9 @@ Param(
     $RGName,
     [Parameter(Mandatory=$true)]
     [string]
+    $Location,
+    [Parameter(Mandatory=$true)]
+    [string]
     $VNetName,
     [Parameter(Mandatory=$true)]
     [string]
@@ -51,24 +54,11 @@ Connect-AzAccount | Out-Null
 #Selecting subscription
 Select-AzureSubscription -SubscriptionId $SubscriptionId -ErrorAction Stop
 
-#Selecting resource
+#Display and Select resource
 Get-AzResourceGroup -ResourceGroupName $RGName
 
-# Create a virtual network
-$virtualNetwork = New-AzVirtualNetwork `
-  -ResourceGroupName $RGName 
-  -Location $Location
-  -Name $VNetName 
-  -AddressPrefix $VNetPrefix
-  -Subnet $subnetConfig
-
 # Create a subnet configuration
-$subnetConfig = New-AzVirtualNetworkSubnetConfig `
-  -Name $SubNetName 
-  -VirtualNetwork $virtualNetwork
-  -AddressPrefix $SubVNetPrefix
+$subnet1 = New-AzVirtualNetworkSubnetConfig -Name $SubNetName -AddressPrefix $SubVNetPrefix
 
-$virtualNetwork.Subnets.Add($subnetConfig)  
-
-#Associates the subnet to the virtual network
-  $virtualNetwork | Set-AzVirtualNetwork
+# Create a virtual network
+New-AzVirtualNetwork -Name $VNetName -ResourceGroupName $RGName -Location $Location -AddressPrefix $VNetPrefix -Subnet $subnet1
