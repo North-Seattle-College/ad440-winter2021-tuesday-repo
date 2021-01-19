@@ -5,6 +5,9 @@
         "location": {
             "value": null
         },
+        "templateFile": {
+            "value": null
+        },
         "networkInterfaceName": {
             "value": null
         },
@@ -86,11 +89,14 @@
         "virtualMachineSize": {
             "value": "Standard_B1s"
         },
+        "vmSize": {
+            "value": "Standard_B1s"
+        },
         "adminUsername": {
-            "value": "aabbcc"
+            "value": "string"
         },
         "adminPassword": {
-            "value": "aabbcc"
+            "value": "string"
         },
         "zone": {
             "value": "1"
