@@ -45,12 +45,6 @@ Param(
     $SubVNetPrefix
    )
 
- "you entered $SubscriptionId" 
- "you entered $RGName"   
- "you entered $SubNetName"   
- "you entered $SubVNetPrefix"   
- "you entered $VNetName"   
-
 #Login into Azure
 Connect-AzAccount | Out-Null
 
@@ -66,6 +60,7 @@ $virtualNetwork = New-AzVirtualNetwork `
   -Location $Location
   -Name $VNetName 
   -AddressPrefix $VNetPrefix
+  -Subnet $subnetConfig
 
 # Create a subnet configuration
 $subnetConfig = New-AzVirtualNetworkSubnetConfig `
