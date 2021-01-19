@@ -14,15 +14,15 @@ param(
 
     [Parameter(Mandatory=$True)]
     [string]
-    $ServicePrincipalPassword
+    $ServicePrincipalPassword,
 
     [Parameter(Mandatory=$True)]
     [string]
-    $ResourceGroupName   #Resource group name to add the network secutiry group into
+    $ResourceGroupName,   #Resource group name to add the network secutiry group into
 
     [Parameter(Mandatory=$True)]
     [string]
-    $Location            #Resource group location
+    $Location,            #Resource group location
 
     [Parameter(Mandatory=$True)]
     [string]
