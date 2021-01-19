@@ -29,13 +29,9 @@ param (
     [string]
     $TenantId,
 
-    [Parameter(Mandatory=$False)]
+    [Parameter(Mandatory=$True)]
     [string]
-    $ServicePrincipalId,
-
-    [Parameter(Mandatory=$False)]
-    [SecureString]
-    $ServicePrincipalPassword,
+    $ResourceGroupName,
 
     [Parameter(Mandatory=$True)]
     [string]
@@ -50,6 +46,6 @@ param (
 Connect-AzAccount 
 
 #deploying IP address
-New-AzPublicIpAddress -Name $IpName -ResourceGroupName nsc-rg-dev-usw2-team3 -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
+New-AzPublicIpAddress -Name $IpName -ResourceGroupName $ResourceGroupName -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
 
 #For the most part, few things need to be dynamically set by the user for this, so far.
