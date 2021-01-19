@@ -20,18 +20,18 @@ class dbHandler():
             ';Uid='+USERNAME+';Pwd='+PASSWORD
             '''
 
-    # [Task # 2] Query and return all user_id's from SQL DB
-    def getUserIds(self) -> List[User]:
+    # [Task # 1] Query and return all users from SQL DB
+    def getUsers(self) -> List[User]:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM Users")
+                cursor.execute("SELECT firstName, lastName FROM Users")
                 rows = cursor.fetchall()
-        user_id = []
+        users = []
         for row in rows:
-            user_id.append(self._rowToProduct(row))
-        return user_id
+            users.append(self._rowToProduct(row))
+        return users
 
-    # [Task # 2] Insert new user_id into SQL DB
+    # [Task # 1] Create new user into SQL DB
     def addUserId(self, user_id: User_Id) -> None:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
@@ -44,21 +44,5 @@ class dbHandler():
                 )
                 if response:
                     print('Successfully added user with UserId' + user_id.id)
-                else:
-                    print('An error has occurred.')
-
-    # [Task # 2] Delete user_id from SQL DB
-    def deleteUserId(self, user_id: User_Id) -> None:
-        with pyodbc.connect(self.conn_string) as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(
-                    """
-                    DELETE FROM User_Id (id, email, userPassword, firstName, lastName, joinDate)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                    """,
-                    user_id.id, user_id.email, user_id.userPassword, user_id.firstName, user_id.lastName, user_id.joinDate
-                )
-                if response:
-                    print('User deleted!')
                 else:
                     print('An error has occurred.')

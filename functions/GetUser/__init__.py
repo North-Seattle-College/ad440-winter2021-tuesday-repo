@@ -8,7 +8,7 @@ from ..Utils.dbHandler import dbHandler
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function for create user_id processed a request.')
+    logging.info('Python HTTP trigger function for get user processed a request.')
 
     try:
         requestHandler = RequestHandler()
