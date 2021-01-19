@@ -44,8 +44,7 @@ class dbHandler():
                 )
 
     # [Task # 4] Query and return a task with a provided taskID
-    def getTask(self) -> Task:
-        taskID = 1
+    def getTask(self, taskID) -> Task:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
                 cursor.execute('SELECT taskId, taskUserId, title, taskDescription, completed FROM Tasks WHERE taskID=?', taskID)
@@ -54,19 +53,18 @@ class dbHandler():
         return task
 
     # [Task # 4] Update a task with provided taskID and additional information
-    def putTask(self, task: Task) -> None:
+    def putTask(self, taskID, title, taskDescription, completed) -> None:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT taskId, taskUserId, title, taskDescription, completed FROM Tasks")
-                rows = cursor.fetchall()
-        tasks = []
-        for row in rows:
-            tasks.append(list(row))
-        return tasks
+                cursor.execute('UPDATE tasks SET title=?, taskDescription=?, completed=? WHERE taskId=?', title, taskDescription, completed, taskID)
+                cursor.execute('SELECT taskId, taskUserId, title, taskDescription, completed FROM Tasks WHERE taskID=?', taskID)
+                row = cursor.fetchone()
+        task = list(row)
+        return task
 
      # [Task # 4] Delete a task with provided taskID
-    def deleteTask(self, task: Task) -> None:
+    def deleteTask(self, taskID) -> None:
         with pyodbc.connect(self.conn_string) as conn:
             with conn.cursor() as cursor:
-                cursor.execute("DELETE FROM tasks WHERE taskId='{task.taskid}'")
-        return "Task successfully deleted"
+                cursor.execute('DELETE FROM Tasks WHERE taskId=?', taskID)
+        return "Task successfully deleted (dbHander.py)"
