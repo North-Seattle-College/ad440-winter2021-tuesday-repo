@@ -28,12 +28,6 @@
         "description": "Location for all resources."
       }
     },
-    "appInsightsLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "Location for Application Insights"
-      }
-    },
     "runtime": {
       "type": "string",
       "defaultValue": "node",
@@ -50,7 +44,6 @@
   "variables": {
     "functionAppName": "[parameters('appName')]",
     "hostingPlanName": "[parameters('appName')]",
-    "applicationInsightsName": "[parameters('appName')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), '-azfunctions')]",
     "functionWorkerRuntime": "[parameters('runtime')]"
   },
@@ -114,28 +107,11 @@
               "value": "~10"
             },
             {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
-            },
-            {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "[variables('functionWorkerRuntime')]"
             }
           ]
         }
-      }
-    },
-    {
-      "type": "microsoft.insights/components",
-      "apiVersion": "2020-02-02-preview",
-      "name": "[variables('applicationInsightsName')]",
-      "location": "[parameters('appInsightsLocation')]",
-      "tags": {
-        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
-      },
-      "properties": {
-        "ApplicationId": "[variables('applicationInsightsName')]",
-        "Request_Source": "IbizaWebAppExtensionCreate"
       }
     }
   ]
