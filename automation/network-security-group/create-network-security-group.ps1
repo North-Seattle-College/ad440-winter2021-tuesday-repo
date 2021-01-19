@@ -18,6 +18,10 @@
 param(
     [Parameter(Mandatory=$True)]
     [string]
+    $SubscriptionId,     #Subscription ID to use
+
+    [Parameter(Mandatory=$True)]
+    [string]
     $ResourceGroupName,   #Resource group name to add the network secutiry group into
 
     [Parameter(Mandatory=$True)]
@@ -28,5 +32,11 @@ param(
     [string]
     $NetworkSecurityGroupName  #Network Secutiry Name to create
 )
+#Redirects the user to sign in to the Azure portal
 Connect-AzAccount
+
+Sets the subscription ID correct so the resource group can be searched from the correct place
+Set-AzContext -SubscriptionId $SubscriptionId
+
+#creates the network security group
 New-AzNetworkSecurityGroup -Name $NetworkSecurityGroupName -ResourceGroupName $ResourceGroupName  -Location  $Location
