@@ -109,5 +109,5 @@ dist
 # Mac window config files
 .DS_Store
 
-.venv
-.vscode
+.venv/
+.vscode/
