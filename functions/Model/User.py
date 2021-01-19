@@ -5,7 +5,7 @@ from typing import Dict
 class User():
     def __init__(
         self,
-        userId:,
+        userId,
         email,
         userPassword,
         firstName,

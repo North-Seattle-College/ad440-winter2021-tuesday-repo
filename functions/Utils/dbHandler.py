@@ -3,9 +3,6 @@ import pyodbc
 from ..Model.User import User
 from ..Model.Task import Task
 from typing import List
-from dotenv import load_dotenv
-
-load_dotenv()
 
 SERVER = os.environ['SERVER']
 DATABASE = os.environ['DATABASE']

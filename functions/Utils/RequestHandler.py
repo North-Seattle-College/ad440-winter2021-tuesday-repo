@@ -5,7 +5,7 @@ from .ExceptionWithStatusCode import ExceptionWithStatusCode
 
 class RequestHandler():
 
-    def getUserId(self, req: func.HttpRequest) -> UserId:
+    def getUserId(self, req: func.HttpRequest) -> User:
         req_body = req.form
 
         # get id (required field)
@@ -71,17 +71,17 @@ class RequestHandler():
             )
 
         # get joinDate (required field)
-        try:
-            joinDate = req_body['joinDate']
-        except KeyError:
-            raise ExceptionWithStatusCode(
-                'Join Date is required',
-                status_code=400
-            )
-        if len(title) == 0:
-            raise ExceptionWithStatusCode(
-                'Join Date cannot be empty',
-                status_code=400
-            )
+        # try:
+        #     joinDate = req_body['joinDate']
+        # except KeyError:
+        #     raise ExceptionWithStatusCode(
+        #         'Join Date is required',
+        #         status_code=400
+        #     )
+        # if len(title) == 0:
+        #     raise ExceptionWithStatusCode(
+        #         'Join Date cannot be empty',
+        #         status_code=400
+        #     )
 
         return UserId(id, email, password, firstName, lastName, joinDate)
