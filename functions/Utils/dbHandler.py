@@ -4,19 +4,21 @@ from ..Model.User import User
 from ..Model.Task import Task
 from typing import List
 
-SERVER = os.environ['SERVER']
-DATABASE = os.environ['DATABASE']
-USERNAME = os.environ['USER']
-PASSWORD = os.environ['PASSWORD']
-DRIVER = os.environ['DRIVER']
+SERVER = os.environ.get('SERVER')
+DATABASE = os.environ.get('DATABASE')
+USERNAME = os.environ.get('USER')
+PASSWORD = os.environ.get('PASSWORD')
+DRIVER = os.environ.get('DRIVER')
 
 class dbHandler():
     def __init__(self):
-        def __init__(self):
-            self.conn_string = 'DRIVER=' + DRIVER + \
-                ';SERVER=' + SERVER + \
-                ';PORT=1433;DATABASE=' + DATABASE + \
-                ';UID='+USERNAME+';PWD='+PASSWORD
+        self.conn_string = "Driver={" + DRIVER + "};Server=tcp:nsc-sqlsrv-usw2-sqltest.database.windows.net,1433;Database=" + DATABASE + ";Uid=" + USERNAME + ";Pwd=" + PASSWORD + ";Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+        '''
+        'Driver=' + DRIVER + \
+            ';Server=' + SERVER + \
+            ';PORT=1433;Database=' + DATABASE + \
+            ';Uid='+USERNAME+';Pwd='+PASSWORD
+            '''
 
     # [Task # 2] Query and return all user_id's from SQL DB
     def getUserIds(self) -> List[User]:
