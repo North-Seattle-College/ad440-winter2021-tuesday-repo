@@ -10,9 +10,10 @@ PASSWORD = os.environ.get('PASSWORD')
 DRIVER = os.environ.get('DRIVER')
 
 
+
 class dbHandler():
     def __init__(self):
-        self.conn_string = "Driver={" + DRIVER + "};Server=tcp:nsc-sqlsrv-usw2-sqltest.database.windows.net,1433;Database=" + DATABASE + ";Uid=" + USERNAME + ";Pwd={" + PASSWORD + "};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+        self.conn_string = "Driver={" + DRIVER + "};Server=" + SERVER + ";Database=" + DATABASE + ";Uid=" + USERNAME + ";Pwd={" + PASSWORD + "};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
         '''
         'Driver=' + DRIVER + \
             ';Server=' + SERVER + \
