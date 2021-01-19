@@ -1,4 +1,24 @@
-#This script will create an IP address using parameters given by the user
+<#
+.DESCRIPTION
+  This script will create a public IPv4 address.
+  This script  requires an existing azure subscription and resource group.
+.PARAMETER SubscriptionId
+    The ID of the subscription, found in the vault
+.PARAMETER TenantId
+    The ID of the tenant, found in Azure Active Directory
+.PARAMETER ResourceGroupName
+    Required. Name of existing Resource group
+.PARAMETER Location
+    Required. Location of the NSG to be created
+.PARAMETER IpName
+    Required. Desired name of the IP address
+.NOTES
+  Version:        1.0
+  Author:         Derek Hendrick
+  Creation Date:  01/18/21
+  Purpose: IP Address Automation
+#>
+
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$True)]
@@ -28,12 +48,6 @@ param (
 
 #To login to azure from powershell use the following
 Connect-AzAccount 
-
-#PAREMETERS
-#SubscriptionId - The ID of the subscription, found in the vault
-#TenantId - The ID of the tenant, found in Azure Active Directory
-#IpName - The name of the IP address resource. Example: nsc-fun-dev-usw2-derekh
-#Location - The server zone the IP address will be hosted. Example: westus2
 
 #deploying IP address
 New-AzPublicIpAddress -Name $IpName -ResourceGroupName nsc-rg-dev-usw2-team3 -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
