@@ -9,7 +9,7 @@
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
 .PARAMETER Location
-    Required. Location of the NSG to be created
+    Required. Location of the IP to be created
 .PARAMETER IpName
     Required. Desired name of the IP address
 .NOTES
