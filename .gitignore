@@ -1,3 +1,6 @@
+#npm
+$APPDATA
+
 # Logs
 logs
 *.log
@@ -105,9 +108,8 @@ dist
 
 # VS Code Workspace config files
 *.code-workspace
-
-# Mac window config files
-.DS_Store
-
 .venv/
 .vscode/
+
+# Mac window config files
+**/.DS_Store
