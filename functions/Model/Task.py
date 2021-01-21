@@ -32,3 +32,4 @@ class Task():
             "dateCreated": self.dateCreated,
             "completed": self.completed
         }
+        
