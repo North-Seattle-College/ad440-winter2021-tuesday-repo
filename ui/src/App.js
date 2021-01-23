@@ -6,19 +6,30 @@ import {
   Switch,
 } from "react-router-dom";
 
-import HomePage from "./Components/Pages/HomePage";
+import NavScreen from "./components/navigation/NavScreen";
+import HomeScreen from "./components/pages/HomeScreen";
+import UsersScreen from "./components/pages/UsersScreen";
+import TasksScreen from "./components/pages/TasksScreen";
 
-import "./Components/css/App.css";
+import "./components/css/App.css";
 
 const App = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        <Redirect to="/" exact />
-      </Switch>
+      <NavScreen>
+        <Switch>
+          <Route path="/" exact>
+            <HomeScreen />
+          </Route>
+          <Route path="/users" exact>
+            <UsersScreen />
+          </Route>
+          <Route path="/users/:userid/tasks" exact>
+            <TasksScreen />
+          </Route>
+          <Redirect to="/" exact />
+        </Switch>
+      </NavScreen>
     </Router>
   );
 };
