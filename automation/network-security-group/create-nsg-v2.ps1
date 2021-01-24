@@ -8,6 +8,8 @@
     Required. Location of the NSG to be created
 .PARAMETER NetworkSecurityGroupName
     Required. Desired name of the network security group
+.PARAMETER TemplateJsonFileAbsolutePath
+    Required. Absolute path of the template.json file
 .NOTES
   Version:        1.0
   Author:         Juno Munkhkhurel
@@ -44,10 +46,10 @@ Connect-AzAccount
 Set-AzContext -SubscriptionId $SubscriptionId
 
 #checks if the resource group provided is valid
-$resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
+$resourceGroup = Get-AzResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup) {
 Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
-New-AzureRmResourceGroup -Name $ResourceGroupName -Location $Location
+New-AzResourceGroup -Name $ResourceGroupName -Location $Location }
 
 #creates the network security group
-New-AzRespourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFileAbsolutePath 
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFileAbsolutePath 
