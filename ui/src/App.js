@@ -10,6 +10,7 @@ import NavScreen from "./components/navigation/NavScreen";
 import HomeScreen from "./components/pages/HomeScreen";
 import UsersScreen from "./components/pages/UsersScreen";
 import TasksScreen from "./components/pages/TasksScreen";
+import TaskDetailsScreen from "./components/pages/TaskDetailsScreen";
 
 import "./components/css/App.css";
 
@@ -24,8 +25,11 @@ const App = () => {
           <Route path="/users" exact>
             <UsersScreen />
           </Route>
-          <Route path="/users/:userid/tasks" exact>
+          <Route path="/users/:userId/tasks" exact>
             <TasksScreen />
+          </Route>
+          <Route path="/users/:userId/tasks/:taskId" exact>
+            <TaskDetailsScreen />
           </Route>
           <Redirect to="/" exact />
         </Switch>
