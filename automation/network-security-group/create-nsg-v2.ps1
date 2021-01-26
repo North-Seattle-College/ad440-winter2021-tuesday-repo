@@ -28,11 +28,7 @@ param(
 
     [Parameter(Mandatory=$True)]
     [string]
-    $Location,            #Resource group location
-
-    [Parameter(Mandatory=$True)]
-    [string]
-    $NetworkSecurityGroupName,  #Network Secutiry Name to create
+    $LocationForNetworkSecurityGroup,     #Resource group location
 
     [Parameter(Mandatory=$True)]
     [string]
@@ -45,8 +41,10 @@ Connect-AzAccount
 #Sets the subscription ID correct so the resource group can be searched from the correct place
 Set-AzContext -SubscriptionId $SubscriptionId
 
+#attempts to retrieve the given resource group
+$resourceGroup = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+
 #checks if the resource group provided is valid
-$resourceGroup = Get-AzResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup) {
 Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
 New-AzResourceGroup -Name $ResourceGroupName -Location $Location }
