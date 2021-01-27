@@ -11,7 +11,7 @@ param(
 #sign into azure account 
 Connect-AzAccount
 
-$templateUri = "https://raw.githubusercontent.com/selinapn/ad440-winter2021-tuesday-repo/automationspn/automation/functions/azuredeploy.json"
+$templateUri = "https://raw.githubusercontent.com/selinapn/ad440-winter2021-tuesday-repo/automationspn-sprint2/automation/functions/azuredeploy.json"
 
 #Create new resource group and deploy template
 New-AzResourceGroup -Name $resourceGroupName -Location "$location"

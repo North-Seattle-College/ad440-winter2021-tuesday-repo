@@ -2,25 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-       "storageAccountPrefix": {
+       "storageAccountName": {
            "type": "string",
-           "defaultValue": "selinapn",
-           "maxLength": 11,
-           "minLength": 3,
+           "defaultValue": "[concat('stor-', uniqueString(resourceGroup().id))]",
            "metadata": {
                "description": "Prefix for storage account name"
-           }
-       },
-       "accountType": {
-           "type": "string",
-           "defaultValue": "Standard_LRS",
-           "allowedValues": [
-               "Standard_LRS",
-               "Premium_LRS",
-               "Standard_RAGRS"
-           ],
-           "metadata": {
-               "description": "SKU for storage account"
            }
        },
        "applicationName": {
@@ -37,43 +23,22 @@
            "metadata": {
                "description": "description"
            }
-       },
-       "skuTier": {
-           "type": "string",
-           "defaultValue": "Dynamic",
-           "metadata": {
-               "description": "SKU for host service"
-           }
-       },
-       "skuName": {
-           "type": "string",
-           "defaultValue":"Y1",
-           "metadata": {
-               "description": "Name of hosting plan"
-           }
        }
     },
     "variables": {
-        "hostPlanName": "[toLower(concat('plan-', parameters('applicationName')))]",
-        "storageAccountName": "[toLower(concat('stor-', uniqueString( resourceGroup().id )))]"
+        "hostPlanName": "[toLower(concat('plan-', parameters('applicationName')))]"
     },
     "resources": [
         {
-            "name": "[parameters('storageAccountPrefix')]",
+            "name": "[parameters('storageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "tags": {
-                "displayName": "[variables('storageAccountName')]"
-            },
             "location": "[resourceGroup().location]",
-            "kind": "[parameters('accountType')]",
+            "kind": "StorageV2",
             "sku": {
-                "name": "[parameters('accountType')]",
-                "tier": "[parameters('accountType')]"
+                "name": "Standard_LRS"
             },
-            "properties": {
-                "accountType": "[parameters('accountType')]"
-            }
+            "properties": {}
         },
         {
             "name": "[parameters('applicationName')]",
@@ -90,8 +55,8 @@
             "apiVersion": "2018-02-01",
             "location": "[resourceGroup().location]",
             "sku": {
-                "Tier": "[parameters('skuTier')]",
-                "Name": "[parameters('skuName')]"
+                "Tier": "Dynamic",
+                "Name": "Y1"
             },
             "tags": {
                 "displayName": "[parameters('appServicePlan')]"
