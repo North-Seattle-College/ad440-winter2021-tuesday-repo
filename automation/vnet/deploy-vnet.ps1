@@ -17,10 +17,10 @@
 .PARAMETER SubVNetPrefix
     Required. Desired address space for SubNet eg: 10.0.0.0/24
 .NOTES
-  Version:        1.0
+  Version:        2
   Author:         Jennifer Villacis
-  Creation Date:  01/15/21
-  Purpose: VNet creation Script
+  Creation Date:  01/27/21
+  Purpose: Virtual Network Automation Script
 #>
 
 [cmdletbinding()]
@@ -48,11 +48,16 @@ Param(
 #Login into Azure
 Connect-AzAccount | Out-Null
 
-#Display existing typed resource group
-Get-AzResourceGroup -ResourceGroupName $RGName
+# parameters
 
-# Create a subnet configuration
-$subnet1 = New-AzVirtualNetworkSubnetConfig -Name $SubNetName -AddressPrefix $SubVNetPrefix
+$virtualNetwork= @{
+    RGName= "";
+    Location=" ";
+    
+}
 
-# Create a virtual network
-New-AzVirtualNetwork -Name $VNetName -ResourceGroupName $RGName -Location $Location -AddressPrefix $VNetPrefix -Subnet $subnet1
+#New-AzResourceGroupDeployment -ResourceGroupName <resource-group-name> -TemplateFile <path-to-template>
+New-AzResourceGroupDeployment `
+  -Name ExampleDeployment `
+  -ResourceGroupName ExampleGroup `
+  -TemplateFile './vnet/template.json'
