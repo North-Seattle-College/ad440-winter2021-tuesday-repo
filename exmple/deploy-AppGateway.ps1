@@ -16,25 +16,25 @@
     # Loan Pham
     
 param(
-    [Parameter(Madatory=$true)]
+    [Parameter(Mandatory=$true)]
     [string]
     $SubcriptionID,
 
-    [Parameter(Madatory=$true)]
+    [Parameter(Mandatory=$true)]
     [string]
     $tenantID,
 
-    [Parameter(Madatory=$true)]
+    [Parameter(Mandatory=$true)]
     [string]
     $ResourGroupName,
 
-    [Parameter(Madatory=$true)]
+    [Parameter(Mandatory=$true)]
     [string]
     $Location,
 
-    [Parameter(Madatory=$true)]
+    [Parameter(Mandatory=$true)]
     [string]
-    $ApplicationGatewayName,
+    $ApplicationGatewayName
 
 )
 
