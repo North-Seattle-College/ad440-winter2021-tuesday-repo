@@ -87,6 +87,9 @@
             "kind": "[parameters('webKind')]",
             "properties": {
                 "reserved": true
+            },
+            "sku": {
+                "Name": "Y1"
             }
         },
         {
