@@ -9,6 +9,13 @@
                 "description": "The name of your Web Site."
             }
         },
+        "webKind": {
+            "type": "string",
+            "defaultValue": "webapp",
+            "metadata": {
+                "description": "Kind of site"
+            }
+        },
         "storageAccountName": {
             "type": "String",
             "defaultValue": "[concat('stor', uniqueString(resourceGroup().id))]"
@@ -17,7 +24,7 @@
             "type": "string",
             "defaultValue": "Standard_LRS",
             "metadata": {
-                "description": "description"
+                "description": "Storage type"
             }
         },
         "location": {
@@ -34,11 +41,11 @@
                 "description": "SKU of app serivce"
             }
         },
-        "tier": {
+        "storageKind": {
             "type": "string",
-            "defaultValue": "Dyanmic",
+            "defaultValue": "StorageV2",
             "metadata": {
-                "description": "Tier of app service"
+                "description": "Kind of storage"
             }
         }
     },
@@ -51,7 +58,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2019-08-01",
             "name": "[parameters('siteName')]",
-            "kind": "webapp",
+            "kind": "[parameters('webKind')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
@@ -84,12 +91,11 @@
             "apiVersion": "2019-08-01",
             "name": "[variables('hostingPlanName')]",
             "location": "[parameters('location')]",
-            "kind": "webapp",
+            "kind": "[parameters('webKind')]",
             "properties": {
                 "reserved": true
             },
             "sku": {
-                "Tier": "[parameters('tier')]",
                 "Name": "[parameters('sku')]"
             }
         },
@@ -98,7 +104,7 @@
             "name": "[parameters('storageAccountName')]",
             "apiVersion": "2019-06-01",
             "location": "[parameters('location')]",
-            "kind": "StorageV2",
+            "kind": "[parameters('storageKind')]",
             "sku": {
                 "name": "[parameters('storageSku')]"
             }
