@@ -34,13 +34,6 @@
                 "description": "Location for all resources."
             }
         },
-        "sku": {
-            "type": "string",
-            "defaultValue": "Y1",
-            "metadata": {
-                "description": "SKU of app serivce"
-            }
-        },
         "storageKind": {
             "type": "string",
             "defaultValue": "StorageV2",
@@ -50,7 +43,7 @@
         }
     },
     "variables": {
-        "hostingPlanName": "[concat('hpnspn-', resourceGroup().name)]",
+        "hostingPlanName": "[concat('hostspn-', resourceGroup().name)]",
         "storageAccountid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
     },
     "resources": [
@@ -96,7 +89,8 @@
                 "reserved": true
             },
             "sku": {
-                "Name": "[parameters('sku')]"
+                "Name": "Y1",
+                "Tier": "Dynamic"
             }
         },
         {
