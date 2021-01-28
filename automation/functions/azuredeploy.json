@@ -43,11 +43,11 @@
         },
         "sku": {
         "type": "string",
-        "defaultValue": "Free"
+        "defaultValue": "Standard"
       },
       "skucode": {
         "type": "string",
-        "defaultValue": "F1"
+        "defaultValue": "S1"
     }
     },
     "variables": {
