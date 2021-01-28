@@ -40,7 +40,15 @@
             "metadata": {
                 "description": "Kind of storage"
             }
-        }
+        },
+        "sku": {
+        "type": "string",
+        "defaultValue": "Free"
+      },
+      "skucode": {
+        "type": "string",
+        "defaultValue": "F1"
+    }
     },
     "variables": {
         "hostingPlanName": "[concat('hostspn-', resourceGroup().name)]",
@@ -88,9 +96,10 @@
             "properties": {
                 "reserved": true
             },
-            "sku": {
-                "Name": "Y1"
-            }
+                "sku": {
+          "Tier": "[parameters('sku')]",
+          "Name": "[parameters('skuCode')]"
+        }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
