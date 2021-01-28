@@ -11,7 +11,7 @@
         },
         "storageAccountName": {
             "type": "String",
-            "defaultValue": "[concat('stor-', uniqueString(resourceGroup().id))]"
+            "defaultValue": "[concat('stor', uniqueString(resourceGroup().id))]"
         },
         "storageSku": {
             "type": "string",
