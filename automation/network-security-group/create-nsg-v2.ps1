@@ -9,7 +9,7 @@
 .PARAMETER NetworkSecurityGroupName
     Required. Desired name of the network security group
 .PARAMETER TemplateJsonFileAbsolutePath
-    Required. Absolute path of the template.json file
+    Required. Path of the template.json file
 .NOTES
   Version:        1.0
   Author:         Juno Munkhkhurel
@@ -32,7 +32,7 @@ param(
 
     [Parameter(Mandatory=$True)]
     [string]
-    $TemplateJsonFileAbsolutePath  #Absolute path of the template.json file
+    $TemplateJsonFilePath  #Path of the template.json file, either absolute or relative
 
 )
 #Redirects the user to sign in to the Azure portal
@@ -47,7 +47,7 @@ $resourceGroup = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction Silen
 #checks if the resource group provided is valid
 if(!$resourceGroup) {
 Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
-New-AzResourceGroup -Name $ResourceGroupName -Location $Location }
+New-AzResourceGroup -Name $ResourceGroupName -Location $LocationForNetworkSecurityGroup }
 
 #creates the network security group
-New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFileAbsolutePath 
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFilePath 
