@@ -27,37 +27,19 @@
 Param(
     [Parameter(Mandatory=$true)]
     [string]
-    $RGName,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $Location,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $VNetName,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $VNetPrefix,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $SubNetName,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $SubVNetPrefix
+    $RGName
    )
 
 #Login into Azure
 Connect-AzAccount | Out-Null
 
 # parameters
+$virtualNetworkParameters= @{
+    vnetName = "testhardcodedvalues";
+    vnetAddressPrefix = "172.18.0.0/16";
+    subnet1Prefix = "172.18.0.0/24";
+    subnet1Name ="public";
+    location = "westus2";
+} 
 
-$virtualNetwork= @{
-    RGName= "";
-    Location=" ";
-    
-}
-
-#New-AzResourceGroupDeployment -ResourceGroupName <resource-group-name> -TemplateFile <path-to-template>
-New-AzResourceGroupDeployment `
-  -Name ExampleDeployment `
-  -ResourceGroupName ExampleGroup `
-  -TemplateFile './vnet/template.json'
+New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile "./template.json" -TemplateParameterObject $virtualNetworkParameters
