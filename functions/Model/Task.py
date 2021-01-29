@@ -2,6 +2,7 @@ from typing import Dict
 
 # This creates a json model to convert sql queries.
 
+
 class Task():
     def __init__(
         self,

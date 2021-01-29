@@ -2,15 +2,16 @@ from typing import Dict
 
 # This creates a json model to convert sql queries.
 
+
 class User():
     def __init__(
         self,
-        userId,
-        email,
-        userPassword,
-        firstName,
-        lastName,
-        joinDate,
+        userId: int = None,
+        email: str,
+        userPassword: str,
+        firstName: str,
+        lastName: str,
+        joinDate: str,
     ):
         self.userId = userId
         self.email = email
@@ -27,7 +28,7 @@ class User():
             "userId": self.userId,
             "email": self.email,
             "userPassword": self.userPassword,
-            "firstName": self.firstName,
-            "lastName": self.lastName,
+            "firstName": self.firstName
+            "lastName": self.lastName
             "joinDate": self.joinDate
         }

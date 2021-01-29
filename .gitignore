@@ -110,7 +110,6 @@ dist
 *.code-workspace
 .venv/
 .vscode/
-__pycache__
 
 # Mac window config files
 **/.DS_Store
