@@ -27,19 +27,29 @@
 Param(
     [Parameter(Mandatory=$true)]
     [string]
-    $RGName
+    $ResourceGroupName
    )
 
 #Login into Azure
 Connect-AzAccount | Out-Null
 
+# Get existing resource group
+$loc = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+$rgloc= $loc.location
 # parameters
+#("nsc-vnet-{0}-test" -f $Enviornment).ToLower(); 
+#[Parameter(Mandatory=$true,HelpMessage='The geo location to store the Resource Group in')]
+#    [string]
+#    $Enviornment
+
+
+
 $virtualNetworkParameters= @{
-    vnetName = "testhardcodedvalues";
+    vnetName = "testtwo12";
     vnetAddressPrefix = "172.18.0.0/16";
     subnet1Prefix = "172.18.0.0/24";
     subnet1Name ="public";
-    location = "westus2";
+    location = $rgloc;
 } 
 
-New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile "./template.json" -TemplateParameterObject $virtualNetworkParameters
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile "./template.json" -TemplateParameterObject $virtualNetworkParameters
