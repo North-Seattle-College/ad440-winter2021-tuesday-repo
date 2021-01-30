@@ -33,6 +33,6 @@ jobs:
       uses: Azure/functions-action@v1.3.1
       id: fa
       with:
-        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        app-name: 'nsc-functionsapp-team1'
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
