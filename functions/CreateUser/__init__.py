@@ -1,10 +1,15 @@
 import logging
 
+import logging.config
+
 import azure.functions as func
 
 from ..Utils.RequestHandler import RequestHandler
 from ..Utils.dbHandler import dbHandler
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
+
+logging.config.fileConfig('../logging.conf')
+log = logging.getLogger('httpTriggers')
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function for create user processed a request.')
