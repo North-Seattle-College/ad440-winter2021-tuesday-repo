@@ -13,9 +13,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest 
     steps:
-
-    - run: |
-        az webapp list --query "[?state=='Running']"
     - name: 'Checkout Repository GitHub Action'
       uses: actions/checkout@main 
 
