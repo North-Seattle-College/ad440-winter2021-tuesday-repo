@@ -103,14 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
-<<<<<<< Updated upstream
-.python_packages
-__pycache__
-.venv/
+# VSCode files
 *.vscode
 .vscode/
 .gitignore
-=======
+.venv/
 # VS Code Workspace config files
 *.code-workspace
 
@@ -121,4 +118,3 @@ __pycache__
 # Python
 .python_packages
 __pycache__ 
->>>>>>> Stashed changes
