@@ -13,6 +13,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest 
     steps:
+
+    - run: |
+        az webapp list --query "[?state=='Running']"
     - name: 'Checkout Repository GitHub Action'
       uses: actions/checkout@main 
 
@@ -35,4 +38,4 @@ jobs:
       with:
         app-name: 'nsc-functionsapp-team1'
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ env.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
