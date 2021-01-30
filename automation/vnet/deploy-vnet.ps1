@@ -40,20 +40,22 @@ Param(
 Connect-AzAccount | Out-Null
 
 # Get existing resource group
-$loc = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+$Location = Get-AzResourceGroup -Name $ResourceGroupName
 
 #location selected resource group
-$rgloc= $loc.location
+$RGLocation= $Location.location
 
+#file path for -TemplateFile
+$FilePath = "./template.json"
 
 #Hashtable containing parameters for virtual network template
-$virtualNetworkParameters= @{
+$VirtualNetworkParameters= @{
     vnetName = ($VirtualNetworkName).ToLower();
     vnetAddressPrefix = "172.18.0.0/16";
     subnet1Prefix = "172.18.0.0/24";
     subnet1Name = ($SubNetworkName).ToLower();
-    location = $rgloc;
+    location = $RGLocation;
 } 
 
 # Creates Virutal Network 
-New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile "./template.json" -TemplateParameterObject $virtualNetworkParameters
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $VirtualNetworkParameters
