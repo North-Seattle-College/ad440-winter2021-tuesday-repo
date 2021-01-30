@@ -1,3 +1,6 @@
+#npm
+$APPDATA
+
 # Logs
 logs
 *.log
@@ -103,18 +106,14 @@ dist
 # TernJS port file
 .tern-port
 
-# VSCode files
-*.vscode
-.vscode/
-.gitignore
-.venv/
 # VS Code Workspace config files
 *.code-workspace
-
+.venv/
+.vscode/
 
 # Mac window config files
 **/.DS_Store
 
 # Python
 .python_packages
-__pycache__ 
+__pycache__
