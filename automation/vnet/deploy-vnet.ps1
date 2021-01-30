@@ -25,9 +25,15 @@
 
 [cmdletbinding()]
 Param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$true,HelpMessage='The name of your existing Resource group name')]
     [string]
-    $ResourceGroupName
+    $ResourceGroupName,
+    [Parameter(Mandatory=$true,HelpMessage='The name of your new virtual network')]
+    [string]
+    $VirtualNetworkName,
+    [Parameter(Mandatory=$true,HelpMessage='The name of the subnet virtual network eg: deault or public')]
+    [string]
+    $SubNetworkName
    )
 
 #Login into Azure
@@ -35,21 +41,19 @@ Connect-AzAccount | Out-Null
 
 # Get existing resource group
 $loc = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
+
+#location selected resource group
 $rgloc= $loc.location
-# parameters
-#("nsc-vnet-{0}-test" -f $Enviornment).ToLower(); 
-#[Parameter(Mandatory=$true,HelpMessage='The geo location to store the Resource Group in')]
-#    [string]
-#    $Enviornment
 
 
-
+#Hashtable containing parameters for virtual network template
 $virtualNetworkParameters= @{
-    vnetName = "testtwo12";
+    vnetName = ($VirtualNetworkName).ToLower();
     vnetAddressPrefix = "172.18.0.0/16";
     subnet1Prefix = "172.18.0.0/24";
-    subnet1Name ="public";
+    subnet1Name = ($SubNetworkName).ToLower();
     location = $rgloc;
 } 
 
+# Creates Virutal Network 
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile "./template.json" -TemplateParameterObject $virtualNetworkParameters
