@@ -29,10 +29,10 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
 
-    - name: Azure Functions Action
+    - name: 'Azure Functions Action'
       uses: Azure/functions-action@v1.3.1
       id: fa
       with:
-        app-name: 'nsc-functionsapp-team1'
+        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }} 
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ env.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }
