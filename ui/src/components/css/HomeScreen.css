@@ -1,0 +1,14 @@
+.homepage-header {
+    font-size: x-large;
+}
+
+.divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 13rem;
+    border-bottom: 1px solid black;
+}
+
+.homepage-body {
+    margin-top: 10px;
+}
