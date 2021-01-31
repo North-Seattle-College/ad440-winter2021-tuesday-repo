@@ -4,18 +4,13 @@
 .DESCRIPTION
   This script will deploy a virtual network. 
   This script  requires an existing Azure subscription and Resource group.
-.PARAMETER RGName
-    Required. Name of existing Resource  
-.PARAMETER Location
-    Required. Name of location of Resource eg: westus2     
-.PARAMETER VNetName
-    Required. Name of desired Virtual Network Name Eg: [project]-[resource-type]-[environment]-[location]-[other-stuff]
-.PARAMETER VNetPrefix
-    Required. Desired address space for Virtual Network eg: eg: 10.0.0.0/16
+.PARAMETER ResourceGroupName
+    Required. Name of existing Resource      
+.PARAMETER VirtualNetworkName
+    Required. Name of desired Virtual Network Name 
+    Eg: [project]-[resource-type]-[environment]-[location]-[$VirutalNetworkName]
 .PARAMETER SubNetName
     Required. Name of desired SubNet
-.PARAMETER SubVNetPrefix
-    Required. Desired address space for SubNet eg: 10.0.0.0/24
 .NOTES
   Version:        2
   Author:         Jennifer Villacis
@@ -40,7 +35,15 @@ Param(
 Connect-AzAccount | Out-Null
 
 # Get existing resource group
-$Location = Get-AzResourceGroup -Name $ResourceGroupName
+$Location= Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+
+#if errorVariable is notPresent VNet will not be created
+if ($notPresent)
+{
+    Write-Output "Existing resource group not found"
+}
+else
+{
 
 #location selected resource group
 $RGLocation= $Location.location
@@ -50,12 +53,13 @@ $FilePath = "./template.json"
 
 #Hashtable containing parameters for virtual network template
 $VirtualNetworkParameters= @{
-    vnetName = ($VirtualNetworkName).ToLower();
-    vnetAddressPrefix = "172.18.0.0/16";
-    subnet1Prefix = "172.18.0.0/24";
+    vnetName = ("nsc-vnet-dev-{0}-{1}-test" -f $RGLocation,$VirtualNetworkName).ToLower();
     subnet1Name = ($SubNetworkName).ToLower();
     location = $RGLocation;
 } 
 
 # Creates Virutal Network 
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $VirtualNetworkParameters
+
+}
+
