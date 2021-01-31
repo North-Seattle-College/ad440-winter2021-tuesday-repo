@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 
-function App() {
+import NavScreen from "./components/navigation/NavScreen";
+import HomeScreen from "./components/pages/HomeScreen";
+import UsersScreen from "./components/pages/UsersScreen";
+import TasksScreen from "./components/pages/TasksScreen";
+import TaskDetailsScreen from "./components/pages/TaskDetailsScreen";
+
+import "./components/css/App.css";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavScreen>
+        <Switch>
+          <Route path="/" exact>
+            <HomeScreen />
+          </Route>
+          <Route path="/users" exact>
+            <UsersScreen />
+          </Route>
+          <Route path="/users/:userId/tasks" exact>
+            <TasksScreen />
+          </Route>
+          <Route path="/users/:userId/tasks/:taskId" exact>
+            <TaskDetailsScreen />
+          </Route>
+          <Redirect to="/" exact />
+        </Switch>
+      </NavScreen>
+    </Router>
   );
-}
+};
 
 export default App;
