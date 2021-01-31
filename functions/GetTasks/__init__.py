@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     conn_string = dbHandler().getConnString()
 
     try:
-        id = req.params.get('userId')
+        id = req.params.get(':userId')
 
         with pyodbc.connect(conn_string) as conn:
             return getTasks(conn, id)

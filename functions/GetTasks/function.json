@@ -9,7 +9,7 @@
       "methods": [
         "get"
       ],
-      "route": "users/{userId}/tasks"
+      "route": "{userId:int?}/tasks"
     },
     {
       "type": "http",
