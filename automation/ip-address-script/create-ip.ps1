@@ -2,10 +2,6 @@
 .DESCRIPTION
   This script will create a public IPv4 address.
   This script  requires an existing azure subscription and resource group.
-.PARAMETER SubscriptionId
-    The ID of the subscription, found in the vault
-.PARAMETER TenantId
-    The ID of the tenant, found in Azure Active Directory
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
 .PARAMETER Location
@@ -13,37 +9,38 @@
 .PARAMETER IpName
     Required. Desired name of the IP address
 .NOTES
-  Version:        1.0
+  Version:        2.0
   Author:         Derek Hendrick
-  Creation Date:  01/18/21
+  Creation Date:  01/30/21
   Purpose: IP Address Automation
 #>
 
 [CmdletBinding()]
 param (
-    [Parameter(Mandatory=$True)]
-    [string]
-    $SubscriptionId,
-
-    [Parameter(Mandatory=$True)]
-    [string]
-    $TenantId,
-
-    [Parameter(Mandatory=$True)]
+    [Parameter(Mandatory=$True, HelpMessage='The name of the resource group this is being added to.')]
     [string]
     $ResourceGroupName,
 
-    [Parameter(Mandatory=$True)]
+    [Parameter(Mandatory=$True, HelpMessage='The name of the IP address.')]
     [string]
     $IpName,
 
-    [Parameter(Mandatory=$True)]
+    [Parameter(Mandatory=$True, HelpMessage='The location the IP address will be in.')]
     [string]
     $Location
 )
 
 #To login to azure from powershell use the following
-Connect-AzAccount 
+#Connect-AzAccount | Out-Null
+
+# Get existing resource group
+#$Location = Get-AzResourceGroup -Name $ResourceGroupName
+
+#location selected resource group
+#$RGLocation= $Location.location
+
+#file path for -TemplateFile
+$FilePath = "./template.json"
 
 #deploying IP address
 New-AzPublicIpAddress -Name $IpName -ResourceGroupName $ResourceGroupName -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
