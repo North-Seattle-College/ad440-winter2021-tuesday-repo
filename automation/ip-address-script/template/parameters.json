@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westus2"
+        },
+        "sku": {
+            "value": "Basic"
+        },
+        "name": {
+            "value": "test_ip_address"
+        },
+        "publicIPAllocationMethod": {
+            "value": "Dynamic"
+        },
+        "idleTimeoutInMinutes": {
+            "value": 4
+        },
+        "publicIpAddressVersion": {
+            "value": "IPv4"
+        },
+        "tier": {
+            "value": "Regional"
+        }
+    }
+}
