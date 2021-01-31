@@ -17,6 +17,14 @@
 
 [CmdletBinding()]
 param (
+    [Parameter(Mandatory=$True)]
+    [string]
+    $SubscriptionId,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $TenantId,
+
     [Parameter(Mandatory=$True, HelpMessage='The name of the resource group this is being added to.')]
     [string]
     $ResourceGroupName,
@@ -30,6 +38,14 @@ param (
     $Location
 )
 
+
+#$Credential = Get-Credential
+#Connect-AzAccount -Tenant $TenantId -Subscription $SubscriptionId -ServicePrincipal $ServicePrincipal -Credential $Credential
+
+$Credential = Get-Credential
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+
+#Connect-AzAccount -Tenant $TenantId -Subscription $SubscriptionId -Credential $Credential
 #To login to azure from powershell use the following
 #Connect-AzAccount | Out-Null
 
