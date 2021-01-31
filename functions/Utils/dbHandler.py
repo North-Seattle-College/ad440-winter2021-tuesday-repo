@@ -12,8 +12,10 @@ DRIVER = os.environ.get('DRIVER')
 
 class dbHandler():
     def getConnString(self):
+        logging.debug('Compiling database connection string')
         self.conn_string = "Driver={};Server={};Database={};Uid={};Pwd={};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;".format(
         DRIVER, SERVER, DATABASE, USERNAME, PASSWORD)
+        logging.debug('Connection string created')
 
 
    # [Task # 3] Query and return all tasks
