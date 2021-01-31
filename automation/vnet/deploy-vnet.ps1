@@ -20,6 +20,9 @@
 
 [cmdletbinding()]
 Param(
+    [Parameter(Mandatory=$true,HelpMessage='Enter your TenantId')]
+    [string]
+    $TenantId,
     [Parameter(Mandatory=$true,HelpMessage='The name of your existing Resource group name')]
     [string]
     $ResourceGroupName,
@@ -31,8 +34,11 @@ Param(
     $SubNetworkName
    )
 
+
+
 #Login into Azure
-Connect-AzAccount | Out-Null
+$Credential = Get-Credential
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
 # Get existing resource group
 $Location= Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
