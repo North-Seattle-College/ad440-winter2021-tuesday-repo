@@ -4,7 +4,9 @@
 .DESCRIPTION
   This script will deploy a virtual network. 
   This script  requires an existing Azure subscription and Resource group.
-.PARAMETER ResourceGroupName
+.PARAMETER TenantId
+    Required. Tenant ID ( you will also need username/password found in key vault)
+  .PARAMETER ResourceGroupName
     Required. Name of existing Resource      
 .PARAMETER VirtualNetworkName
     Required. Name of desired Virtual Network Name 
