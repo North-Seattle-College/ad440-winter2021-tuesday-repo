@@ -6,8 +6,6 @@ on:
       - development
 
 env:
-  TEST_AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-  TEST_AZURE_FUNCTIONAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  
   PYTHON_VERSION: '3.8'         
 
@@ -33,6 +31,9 @@ jobs:
 
     - name: 'Azure Functions Action'
       uses: Azure/functions-action@v1.3.1
+      env:
+        TEST_AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        TEST_AZURE_FUNCTIONAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
