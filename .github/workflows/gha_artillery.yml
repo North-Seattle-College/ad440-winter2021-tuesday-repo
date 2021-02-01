@@ -35,7 +35,7 @@ jobs:
       - name: Sleep
         run: sleep 30s
       - name: version test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery dino
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery ./testing/artillery/vm_url_performance.yml
 
     # once a folder with slsart script.yml and serverless.yml are created and in the repo
     # we can copy them into the working dir to run those specific tests with those configurations
