@@ -37,10 +37,10 @@ jobs:
       #- run: cp ./slsart/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
       
-      - name: Testing
+      - name: Script
       #, invoke, remove functions
         run: |
-          ~/.npm-global/bin/slsart testing --stage $STAGE_NAME --region=us-west-2
+          ~/.npm-global/bin/slsart script--stage $STAGE_NAME --region=us-west-2
 
          # ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME --region=us-west-2
 
