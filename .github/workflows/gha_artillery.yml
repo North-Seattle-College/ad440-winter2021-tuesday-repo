@@ -26,7 +26,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
-      - name: Install serverless and serverless-artillery
+      - name: nodeJS and npm version
+        run: npm -v
+      - name: Install artillery
         run: npm install -g artillery
 
       - name: Run Artillery dino
