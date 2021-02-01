@@ -1,69 +1,111 @@
 <#
 .SYNOPSIS
-  Creates a virtual machine with one line cmdlet.
+  Creates a virtual machine and network interfase with one line cmdlet.
 .DESCRIPTION
-  This script will deploy a virtual machine. 
+  This script will deploy a virtual machine and network interfase. 
   This script  requires an existing Azure subscription and Resource group.
 .PARAMETER ResourceGroupName
     Required. Name of Resource group, if already exists will ask if add VM to it   
 .PARAMETER Location
     Required. Name of location of Resource eg: westus2     
-.PARAMETER VNetName
-    Required. Name of desired Virtual Network Name Eg: [project]-[resource-type]-[environment]-[location]-[other-stuff]
+.PARAMETER VirtualNetworkName
+    Required. Existing name of desired Virtual Network Name Eg: [project]-[resource-type]-[environment]-[location]-[other-stuff]
 .PARAMETER SubNetName
-    Required. Name of desired SubNet
-.PARAMETER VMname
+    Required. Existing Name of desired SubNet
+.PARAMETER VirtualMachineName
     Required. Desired name for virtual machine
-.PARAMETER SecurityGroupName
-    Required. Desired name for security group
-.PARAMETER PublicIpAddressName
-    Required. Desired name for public Ip address
+.PARAMETER NetworkInterfaceName
+    Required. Desired name for network interface
+.PARAMETER PublicIpName
+    Required. Existing public Ip address
 .NOTES
-  Version:        1.0
+  Version:        2.0
   Author:         Joanna Gromadzka
-  Creation Date:  01/17/21
+  Creation Date:  01/31/21
   Purpose: VM creation Script
 
-  This script requires to obtain administrator's name and strong password (newly made is ok)
 #>
-[cmdletbinding()]
-Param(
+[CmdletBinding()]
+param (
     [Parameter(Mandatory=$True)]
     [string]
     $SubscriptionId,
+
     [Parameter(Mandatory=$True)]
     [string]
     $TenantId,
-    [Parameter(Mandatory=$true)]
+
+    [Parameter(Mandatory=$False)]
+    [string]
+    $ServicePrincipalId,
+
+    [Parameter(Mandatory=$False)]
+    [SecureString]
+    $ServicePrincipalPassword,
+
+    [Parameter(Mandatory=$True)]
     [string]
     $ResourceGroupName,
-    [Parameter(Mandatory=$true)]
-    [string]
-    $VMName,
-    [Parameter(Mandatory=$true)]
+    
+    [Parameter(Mandatory=$True)]
     [string]
     $Location,
-    [Parameter(Mandatory=$true)]
+
+    [Parameter(Mandatory=$False)]
     [string]
-    $VNetName,
-    [Parameter(Mandatory=$true)]
+    $TemplatePath,
+
+    [Parameter(Mandatory=$False)]
+    [string]
+    $ParamFilePath,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $VirtualMachineName,
+
+    [Parameter(Mandatory=$False)]
+    [string]
+    $NetworkInterfaceName,  
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $VirtualNetworkName,
+
+    [Parameter(Mandatory=$True)]
     [string]
     $SubNetName,
-    [Parameter(Mandatory=$true)]
+
+    [Parameter(Mandatory=$False)]
     [string]
     $SecurityGroupName,
-    [Parameter(Mandatory=$true)]
+
+    [Parameter(Mandatory=$True)]
     [string]
-    $PublicIpAddressName
-   )
-#Login into Azure
-Connect-AzAccount 
+    $PublicIpName,
 
-#Display existing typed resource group
-Get-AzResourceGroup -ResourceGroupName $ResourceGroupName
+    [Parameter(Mandatory=$False)]
+    [string]
+    $PublicIpAddress,
 
-#creates new resource group if needed
-#New-AzResourceGroup -Name $ResourceGroupName -Location $Location
+    [Parameter(Mandatory=$True)]
+    [string]
+    $StorageName
+    
+    
+)
 
-#creates VM
-New-AzVm -ResourceGroupName $ResourceGroupName -Name $VMName -Location $Location -VirtualNetworkName $VNetName -SubnetName $SubNetName -SecurityGroupName $SecurityGroupName -PublicIpAddressName $PublicIpAddressName -OpenPorts 80,3389
+#To login to azure from powershell use the following
+Connect-AzAccount | Out-Null
+
+
+$vmparameters = @{
+    publicIpName = ($PublicIpName).ToLower();  
+    VMName = ($VirtualMachineName).ToLower();
+    networkInterfaceName = ($NetworkInterfaceName).ToLower();
+    virtualNetworkName = ($VirtualNetworkName).ToLower(); 
+    subnetName = ($SubNetName).ToLower();
+    # storageName = 
+}
+$today = Get-Date -Format "MM-dd-yyyy"
+$templatePath = "./template.json"
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templatePath -Location $location -TemplateParameterObject $vmparameters
