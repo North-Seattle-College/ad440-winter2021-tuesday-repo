@@ -38,7 +38,7 @@ jobs:
       # - run: cp ./slsart/serverless.yml ./
       - name: Deploy, invoke, remove functions
         run: |
-          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region=us-west-2
+          ~/.npm-global/bin/slsart deploy --stage TEST_SW --region=us-west-2
 
          # ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME --region=us-west-2
 
