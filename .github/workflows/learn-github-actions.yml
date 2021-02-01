@@ -34,8 +34,7 @@ jobs:
       # we can copy them into the working dir to run those specific tests with those configurations
       # - currently this just runs the defaults
       # examples for future:
-      - run: slsart --version
-
+      - run: cp ./Serverless-Artillery/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
       - name: Deploy, invoke, remove functions
         run: |
