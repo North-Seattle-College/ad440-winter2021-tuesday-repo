@@ -7,3 +7,4 @@ tale 6
 take 7
 take 8
 tale 9
+take 10
