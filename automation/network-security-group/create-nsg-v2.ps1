@@ -49,5 +49,17 @@ if(!$resourceGroup) {
 Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
 New-AzResourceGroup -Name $ResourceGroupName -Location $LocationForNetworkSecurityGroup }
 
+$testPath = Test-Path -Path $TemplateJsonFilePath
+
+#checks the file path and asks again until the path is correct
+while (!$testPath) {
+Write-Host “File path ‘$TemplateJsonFilePath’ is not correct. Please try again"
+$TemplateJsonFilePath = Read-Host "Please enter a valid template.json path: "
+$testPath = Test-Path -Path $TemplateJsonFilePath
+}
+
 #creates the network security group
-New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFilePath 
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFilePath
+
+
+
