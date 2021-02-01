@@ -33,7 +33,8 @@ jobs:
       - name: Install artillery
         run: npm install -g artillery
   test:
-    name: slsart Performance Test
+    name: Artillery Test
+    runs-on: ubuntu-latest
     steps:
       - name: Run Artillery dino
         run: artillery dino
