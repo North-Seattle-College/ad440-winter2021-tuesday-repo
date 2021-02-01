@@ -27,8 +27,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       - name: Install serverless and serverless-artillery
-        run: |
-          npm install -g artillery
+        run: npm install -g artillery
+
+      - name: Run Artillery Test
+        run: artillery run testing/artillery/vm_url_performance.yml
       # once a folder with slsart script.yml and serverless.yml are created and in the repo
       # we can copy them into the working dir to run those specific tests with those configurations
       # - currently this just runs the defaults
