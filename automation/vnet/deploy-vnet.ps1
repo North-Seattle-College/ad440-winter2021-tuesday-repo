@@ -22,19 +22,23 @@
 
 [cmdletbinding()]
 Param(
-    [Parameter(Mandatory=$true,HelpMessage='Enter your TenantId')]
-    [string]
-    $TenantId,
-    [Parameter(Mandatory=$true,HelpMessage='The name of your existing Resource group name')]
-    [string]
-    $ResourceGroupName,
-    [Parameter(Mandatory=$true,HelpMessage='The name of your new virtual network')]
-    [string]
-    $VirtualNetworkName,
-    [Parameter(Mandatory=$true,HelpMessage='The name of the subnet virtual network eg: deault or public')]
-    [string]
-    $SubNetworkName
-   )
+  [Parameter(Mandatory = $true, HelpMessage = 'Enter your TenantId')]
+  [ValidateNotNullOrEmpty()]
+  [string]
+  $TenantId,
+  [Parameter(Mandatory = $true, HelpMessage = 'The name of your existing Resource group name')]
+  [ValidateNotNullOrEmpty()]
+  [string]
+  $ResourceGroupName,
+  [Parameter(Mandatory = $true, HelpMessage = 'The name of your new virtual network')]
+  [ValidateNotNullOrEmpty()]
+  [string]
+  $VirtualNetworkName,
+  [Parameter(Mandatory = $true, HelpMessage = 'The name of the subnet virtual network eg: deault or public')]
+  [ValidateNotNullOrEmpty()]
+  [string]
+  $SubNetworkName
+)
 
 
 
@@ -43,31 +47,42 @@ $Credential = Get-Credential
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
 # Get existing resource group
-$Location= Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+$Location = Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
 
-#if errorVariable is notPresent VNet will not be created
-if ($notPresent)
-{
-    Write-Output "Existing resource group not found"
+#function to create a New Resource Group if needed
+function CreateNewRG {
+  [cmdletbinding()]
+  param (
+    [Parameter(Mandatory = $true, HelpMessage = 'Desired Location of Resource group')]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Location
+  )
+  New-AzResourceGroup -Name $ResourceGroupName -Location $Location  
 }
-else
-{
 
-#location selected resource group
-$RGLocation= $Location.location
+#if errorVariable is notPresent VNet will not be created, and will prompt user 
+#to create a new resource group
+if ($notPresent) {
+  Write-Output "Existing resource group not found, creating new"
+  CreateNewRG
+}
+else {
 
-#file path for -TemplateFile
-$FilePath = "./template.json"
+  #location selected resource group
+  $RGLocation = $Location.location
 
-#Hashtable containing parameters for virtual network template
-$VirtualNetworkParameters= @{
-    vnetName = ("nsc-vnet-dev-{0}-{1}-test" -f $RGLocation,$VirtualNetworkName).ToLower();
+  #file path for -TemplateFile
+  $FilePath = "./template.json"
+
+  #Hashtable containing parameters for virtual network template
+  $VirtualNetworkParameters = @{
+    vnetName    = ("nsc-vnet-dev-{0}-{1}-test" -f $RGLocation, $VirtualNetworkName).ToLower();
     subnet1Name = ($SubNetworkName).ToLower();
-    location = $RGLocation;
-} 
+    location    = $RGLocation;
+  } 
 
-# Creates Virutal Network 
-New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $VirtualNetworkParameters
+  # Creates Virutal Network 
+  New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $VirtualNetworkParameters
 
 }
-
