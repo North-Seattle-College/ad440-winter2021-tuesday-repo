@@ -28,11 +28,13 @@ jobs:
           aws-region: us-west-2
       - name: nodeJS and npm version
         run: npm -v
+        run: npm init
       - name: Install artillery
         run: npm install -g artillery
 
       - name: Run Artillery dino
-        run: $(npm bin)/artillery dino
+      
+        run: artillery dino
       # once a folder with slsart script.yml and serverless.yml are created and in the repo
       # we can copy them into the working dir to run those specific tests with those configurations
       # - currently this just runs the defaults
