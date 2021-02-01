@@ -32,12 +32,7 @@ jobs:
         run: npm init -y
       - name: Install artillery
         run: npm install -g artillery
-  test:
-    name: Artillery Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Artillery dino
-        run: artillery dino
+
     # once a folder with slsart script.yml and serverless.yml are created and in the repo
     # we can copy them into the working dir to run those specific tests with those configurations
     # - currently this just runs the defaults
