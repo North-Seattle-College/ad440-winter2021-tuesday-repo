@@ -33,9 +33,9 @@ jobs:
       - name: Install artillery
         run: npm install -g artillery
       - name: Sleep
-        run: sleep 30s
+        run: sleep 10s
       - name: version test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run ./testing/artillery/vm_url_performance.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run ./testing/artillery/githubaction_url_performance.yml
 
     # once a folder with slsart script.yml and serverless.yml are created and in the repo
     # we can copy them into the working dir to run those specific tests with those configurations
