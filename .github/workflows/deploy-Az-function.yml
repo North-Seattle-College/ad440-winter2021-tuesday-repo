@@ -1,4 +1,4 @@
-name: Deploy Python project to function app
+name: Deploy Azure functions from NSC branch
 
 on:
   push:
