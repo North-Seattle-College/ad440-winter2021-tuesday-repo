@@ -37,9 +37,10 @@ const TasksScreen = (props) => {
         return (
           <Button
             className="task-Button"
-            key={task.id}
-            to={`/users/${params.userId}/tasks/${task.id}`}>
-            {task.name}
+            key={task.taskId}
+            to={`/users/${params.userId}/tasks/${task.taskId}`}>
+            {task.title}<br />
+            {task.dateCreated}
           </Button>
         );
       })}
