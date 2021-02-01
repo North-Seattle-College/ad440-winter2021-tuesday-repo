@@ -5,8 +5,7 @@ on:
     branches:
       - development
 
-env:
-  AZURE_FUNCTIONAPP_NAME: nsc-functionsapp-team1 # set this to your application's name
+env: 
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'   # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: '3.8'                 # set this to the python version to use (supports 3.6, 3.7, 3.8)
 
@@ -33,6 +32,6 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
