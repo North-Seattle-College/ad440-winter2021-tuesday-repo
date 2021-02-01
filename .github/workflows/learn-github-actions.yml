@@ -37,8 +37,8 @@ jobs:
       # examples for future:
       # - run: cp ./slsart/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
-      - name: Deploy, invoke, remove functions
-        run: |
-          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME
-          ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME
-          ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
+     # - name: Deploy, invoke, remove functions
+       # run: |
+         # ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME
+         # ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME
+         # ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
