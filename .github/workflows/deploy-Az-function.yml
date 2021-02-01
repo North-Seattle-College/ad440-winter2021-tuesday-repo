@@ -1,7 +1,9 @@
 name: Deploy Python project to function app
 
 on:
-  [push]
+  push:
+    branches:
+      - development
 
 env:
   AZURE_FUNCTIONAPP_NAME: nsc-functionsapp-team1 # set this to your application's name
