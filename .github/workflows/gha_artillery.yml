@@ -1,10 +1,9 @@
 name: Performance-Test
 
 on:
-  push:
-    [push]
-    #branches:
-    #  - development
+  [push]
+  #branches:
+  #  - development
 
 jobs:
   slsart-perf:
