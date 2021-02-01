@@ -6,7 +6,7 @@ on:
   #  - development
 
 jobs:
-  slsart-perf:
+  setup:
     name: slsart Performance Test
     runs-on: ubuntu-latest
     env:
@@ -30,20 +30,20 @@ jobs:
         run: npm -v
       - name: npm init
         run: npm init -y
-      - name: Install artillery
-        run: npm install -g artillery
-
-      - name: Run Artillery dino
-
-        run: artillery dino
-      # once a folder with slsart script.yml and serverless.yml are created and in the repo
-      # we can copy them into the working dir to run those specific tests with those configurations
-      # - currently this just runs the defaults
-      # examples for future:
-      # - run: cp ./slsart/script.yml ./
-      #    run: cp ./slsart/serverless.yml ./
-      #- name: Deploy, invoke, remove functions
-      #  run: |
-      #    ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME
-      #    ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME
-      #    ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
+  build:
+    - name: Install artillery
+      run: npm install -g artillery
+  test:
+    - name: Run Artillery dino
+      run: artillery dino
+    # once a folder with slsart script.yml and serverless.yml are created and in the repo
+    # we can copy them into the working dir to run those specific tests with those configurations
+    # - currently this just runs the defaults
+    # examples for future:
+    # - run: cp ./slsart/script.yml ./
+    #    run: cp ./slsart/serverless.yml ./
+    #- name: Deploy, invoke, remove functions
+    #  run: |
+    #    ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME
+    #    ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME
+    #    ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
