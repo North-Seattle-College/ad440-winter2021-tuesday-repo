@@ -5,6 +5,7 @@ import DUMMY_TASKS from "../data/dummy-tasks.json";
 
 import "../css/TasksDetailsScreen.css";
 
+// Displays close "details" view of a user's individual Task from their list;
 const TaskDetailsScreen = (props) => {
   const [task, setTask] = useState();
   const params = useParams();
@@ -15,14 +16,17 @@ const TaskDetailsScreen = (props) => {
   const completedHandler = () => {
     setCompleted(!completed);
     task.completed = !task.completed;
+    console.log(task.completed);
   };
 
+  // Gets the selected task by id;
   useEffect(() => {
     DUMMY_TASKS.map((item) => {
       return item.taskId === parseInt(params.taskId) && setTask(item);
     });
   }, [params.taskId, params.completed]);
 
+  // Render the component;
   return (
     <React.Fragment>
       {task === undefined ? (
