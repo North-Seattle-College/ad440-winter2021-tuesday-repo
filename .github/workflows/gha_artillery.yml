@@ -29,7 +29,7 @@ jobs:
       - name: nodeJS and npm version
         run: npm -v
       - name: npm init
-        run: npm init
+        run: npm init -y
       - name: Install artillery
         run: npm install -g artillery
 
