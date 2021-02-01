@@ -30,9 +30,8 @@ jobs:
         run: npm -v
       - name: npm init
         run: npm init -y
-  build:
-    - name: Install artillery
-      run: npm install -g artillery
+      - name: Install artillery
+        run: npm install -g artillery
   test:
     - name: Run Artillery dino
       run: artillery dino
