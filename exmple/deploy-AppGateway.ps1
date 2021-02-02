@@ -27,6 +27,10 @@ param(
 
     [Parameter(Mandatory=$true)]
     [string]
+    $AppName,
+
+    [Parameter(Mandatory=$true)]
+    [string]
     $ResourceGroupName,
 
     [Parameter(Mandatory=$true)]
@@ -39,5 +43,5 @@ param(
 Connect-AzAccount 
 
 # Create Application Gateway
-New-AzApplicationGateway -Subscription $SubscriptionID -ResourceGroupName $ResourceGroupName  -Location  $Location 
+New-AzApplicationGateway -AppName $AppName -ResourceGroupName $ResourceGroupName  -Location  $Location 
 
