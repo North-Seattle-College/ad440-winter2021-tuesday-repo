@@ -52,8 +52,7 @@ jobs:
 
     # Azure logout 
       - name: logout
-        run: |
-            az logout 
+        run:  az logout 
 
     
     # examples for future:
