@@ -33,7 +33,7 @@ jobs:
       - name: Running Artillery Test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/githubaction_url_performance.yml
       - name: Copy single file to remote
-        uses: /home/runner/.npm-global/lib/node_modules/artillery/bin/
+        uses: ./
         with:
           local: artilleryReport.json
           remote: scp/artilleryReport.json
