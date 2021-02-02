@@ -1,0 +1,47 @@
+name: Copy via ssh
+author: garygrossgarten
+description: Github Action to copy a folder to a remote server using SSH
+inputs:
+  local:
+    description: "Path to the local folder you want to copy."
+    required: true
+  remote:
+    description: "Path on the remote server to copy to."
+    required: true
+  verbose:
+    description: "Log status of every file copy"
+    required: false
+    default: true
+  host:
+    description: "Hostname or IP address of the server."
+    required: false
+    default: "localhost"
+  username:
+    description: "Username for authentication."
+    required: false
+  port:
+    description: "Port number of the server."
+    required: false
+    default: "22"
+  privateKey:
+    description: "File Location or string that contains a private key for either key-based or hostbased user authentication (OpenSSH format)"
+    required: false
+  password:
+    description: "Password for password-based user authentication."
+    required: false
+  passphrase:
+    description: "For an encrypted private key, this is the passphrase used to decrypt it."
+    required: false
+  tryKeyboard:
+    description: "Try keyboard-interactive user authentication if primary user authentication method fails."
+    required: false
+  atomicPut:
+    description: "Upload files to temporary file first, then rename once upload completed"
+    required: false
+    default: false
+runs:
+  using: "node12"
+  main: "dist/index.js"
+branding:
+  color: "purple"
+  icon: "copy"

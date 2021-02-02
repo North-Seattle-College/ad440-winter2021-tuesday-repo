@@ -7,7 +7,7 @@ on:
 
 jobs:
   setup:
-    name: slsart Performance Test
+    name: Artillery Performance Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -15,9 +15,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v2
         with:
           node-version: "14"
           check-latest: true
