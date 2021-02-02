@@ -170,7 +170,7 @@
       //"subnet1Ref": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet1Name'))]",
       //"vnetId": //"[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
        // "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'),parameters('subnetName'))]",
-      "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+      "subnetRef": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
           //"[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
@@ -200,11 +200,10 @@
               "name": "ipconfig1",
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
-                "publicIPAddress": {
-                  //"id": "[variables('pipRef')]"
-                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
-                  
-                },
+                // "publicIPAddress": {
+                //   //"id": "[variables('pipRef')]"
+                //   "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"  
+                // },
                 "subnet": { 
                   //"id": "[variables('subnetRef')]"
                   "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
@@ -282,18 +281,18 @@
       //   "type": "object",
       //   "value": "[reference(parameters('networkInterfaceName'))]"
       // },
-      "ExistingIPA": {
-        "type": "string",
-        "value": "[reference(resourceId(parameters('publicIpName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName')), '2020-07-01')]"
-      },
-      "ExistingVirtualNetworkName": {
-        "type": "string",
-        "value": "[reference(resourceId(parameters('virtualNetworkName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
-      },
-      "ExistingSubnet": {
-        "type": "string",
-        "value": "[reference(resourceId(parameters('subnetName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
-      }
+      // "ExistingIPA": {
+      //   "type": "string",
+      //   "value": "[reference(resourceId(parameters('publicIpName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName')), '2020-07-01')]"
+      // },
+      // "ExistingVirtualNetworkName": {
+      //   "type": "string",
+      //   "value": "[reference(resourceId(parameters('virtualNetworkName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
+      // },
+      // "ExistingSubnet": {
+      //   "type": "string",
+      //   "value": "[reference(resourceId(parameters('subnetName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
+      // }
 
     }
   }
