@@ -8,9 +8,7 @@
                 "description": "This is the name of the network security group"
             }
         },
-        "location": {
-            "type": "string",
-	    "location": {
+      "location": {
         "type": "string",
         "defaultValue": "[resourceGroup().location]",
         "allowedValues": ["centralus",
@@ -49,11 +47,11 @@
                 "australiacentral2"
           
         ],
-            "metadata": {
-                "description": "Location where the network security group resource will be created."
-            }
-        }
-    },
+        	"metadata": {
+          	"description": "Location for all resources."
+        	}
+	}
+      },
     "resources": [
         {
             "apiVersion": "2019-02-01",

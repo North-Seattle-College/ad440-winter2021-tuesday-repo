@@ -2,6 +2,8 @@
 .DESCRIPTION
   This script will network security group to the given resource group. 
   This script  requires an existing azure subscription and resource group.
+.PARAMETER SubscriptionId
+    Required. Subscription Id of Azure
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
 .PARAMETER Location
