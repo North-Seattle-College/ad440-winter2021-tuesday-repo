@@ -1,13 +1,21 @@
 <#
 .DESCRIPTION
   This script will create a public IPv4 address.
-  This script  requires an existing azure subscription and resource group.
+  This script requires an existing azure subscription.
+.PARAMETER SubscriptionId
+    Required. A subscription ID
+.PARAMETER TenantId
+    Required. A tenant ID
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
 .PARAMETER Location
-    Required. Location of the IP to be created
+    Suggested. Location of the IP to be created
 .PARAMETER IpName
-    Required. Desired name of the IP address
+    Suggested. Desired name of the IP address
+.PARAMETER IpVersion
+    Required. The type of IP, such as IPv4 or IPv6
+.PARAMETER IpMethod
+    Required. The allocation method, static or dynamic
 .NOTES
   Version:        2.0
   Author:         Derek Hendrick
@@ -15,6 +23,7 @@
   Purpose: IP Address Automation
 #>
 
+#These are the different inputs for the command. Not all are required.
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$True)]
@@ -46,6 +55,7 @@ param (
     $IpMethod
 )
 
+#Logs into the AZ account
 $Credential = Get-Credential
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
@@ -83,6 +93,7 @@ else {
     serverLocation    = $RGLocation;
   }
 
+#These set the parameters as required if they are set.
 if ($IpName){
   $IpParameters = @{
     ipName      = $ipName;
