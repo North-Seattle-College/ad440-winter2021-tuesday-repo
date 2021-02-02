@@ -43,5 +43,5 @@ param(
 Connect-AzAccount 
 
 # Create Application Gateway
-New-AzApplicationGateway -ResourceGroupName $ResourceGroupName  -Location  $Location -NameAppGatewayName $AppGatewayName
+New-AzApplicationGateway -ResourceGroupName $ResourceGroupName  -Location  $Location -AppGatewayName $AppGatewayName
 
