@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           #privateKey: ${{ secrets.PRIVATE_KEY}}
 
-    # examples for future:
+    #examples for future:
     # - run: cp ./slsart/script.yml ./
     #    run: cp ./slsart/serverless.yml ./
     #- name: Deploy, invoke, remove functions
