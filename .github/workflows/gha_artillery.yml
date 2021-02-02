@@ -32,12 +32,13 @@ jobs:
         run: sleep 10s
       - name: Running Artillery Test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/githubaction_url_performance.yml
-      - name: Copy single file to remote
-        uses: ./
-        with:
-          local: artilleryReport.json
-          remote: scp/artilleryReport.json
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.PASSWORD }}
-          #privateKey: ${{ secrets.PRIVATE_KEY}}
+## Future Code to copy the file to remote server
+#     - name: Copy single file to remote
+#       uses: ./
+#       with:
+#         local: artilleryReport.json
+#         remote: scp/artilleryReport.json
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.SSH_USER }}
+#         password: ${{ secrets.PASSWORD }}
+#         #privateKey: ${{ secrets.PRIVATE_KEY}}
