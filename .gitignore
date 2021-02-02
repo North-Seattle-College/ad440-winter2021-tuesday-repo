@@ -109,8 +109,10 @@ dist
 # VS Code Workspace config files
 *.code-workspace
 .venv/
-.vscode/
-__pycache__
 
 # Mac window config files
 **/.DS_Store
+
+# Python
+.python_packages
+__pycache__
