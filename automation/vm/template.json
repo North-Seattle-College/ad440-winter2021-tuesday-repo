@@ -15,6 +15,19 @@
           "description": "Password for the Virtual Machine."
         }
       },
+      "resourceGroupName": {
+        "type": "string",
+        //"defaultValue": "[resourceGroup().publicIpName]",
+        "metadata": {
+          "description": "Name for the resource Group Name."
+        }
+      },
+      "subscriptionId": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the subscription Id."
+        }
+      },
       "publicIpName": {
         "type": "string",
         "defaultValue": "[resourceGroup().publicIpName]",
@@ -119,7 +132,7 @@
         "type": "string",
         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
         "metadata": {
-          "description": "Name of the virtual machine."
+          "description": "Name of the network interface."
         }
       },
       "virtualNetworkName": {
@@ -178,8 +191,8 @@
         "name": "[parameters('networkInterfaceName')]",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
         ],
         "properties": {
           "ipConfigurations": [
@@ -188,13 +201,13 @@
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
                 "publicIPAddress": {
-                  "id": "[variables('pipRef')]"
-                  //"id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
+                  //"id": "[variables('pipRef')]"
+                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
                   
                 },
                 "subnet": { 
-                  "id": "[variables('subnetRef')]"
-                  //"id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+                  //"id": "[variables('subnetRef')]"
+                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
                   //"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'), parameters('subnetName'))]"
                 }
               }
@@ -255,21 +268,20 @@
           "diagnosticsProfile": {
             "bootDiagnostics": {
               "enabled": true
-              //"storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))).primaryEndpoints.blob]"
             }
           }
         }
       }
     ],
     "outputs": {
-      "virtualMachine": {
-        "type": "object",
-        "value": "[reference(parameters('VMName'))]"
-      },
-      "netInterfaceName": {
-        "type": "object",
-        "value": "[reference(parameters('networkInterfaceName'))]"
-      },
+      // "virtualMachine": {
+      //   "type": "object",
+      //   "value": "[reference(parameters('VMName'))]"
+      // },
+      // "netInterfaceName": {
+      //   "type": "object",
+      //   "value": "[reference(parameters('networkInterfaceName'))]"
+      // },
       "ExistingIPA": {
         "type": "string",
         "value": "[reference(resourceId(parameters('publicIpName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName')), '2020-07-01')]"
