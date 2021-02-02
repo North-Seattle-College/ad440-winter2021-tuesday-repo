@@ -32,24 +32,15 @@ jobs:
         run: sleep 10s
       - name: Running Artillery Test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/githubaction_url_performance.yml
-      - uses: actions/checkout@v2
-      - uses: azure/login@v1
+      - name: Copy single file to remote
+        uses: ./
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> -d '$web' -s .
-      - name: Purge CDN endpoint
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
-
-      - name: logout
-        run: az logout
+          local: /home/runner/.npm-global/lib/node_modules/artillery/bin/artilleryReport.json
+          remote: scp/artilleryReport.json
+          host: ${{ secrets.HOST }}
+          #username: ${{ secrets.SSH_USER }}
+          #password: ${{ secrets.PASSWORD }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
 
     # examples for future:
     # - run: cp ./slsart/script.yml ./
