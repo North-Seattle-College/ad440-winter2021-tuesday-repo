@@ -1,10 +1,43 @@
-Connect-AzAccount
+param(
 
-$resourceGroupName = Read-Host -Prompt "Enter a resource group name to create a new resource group"
-$location = Read-Host -Prompt "Enter the location (like 'eastus' or 'westus2')"
-$templateUri = "https://raw.githubusercontent.com/RayWu222/ad440-winter2021-tuesday-repo/Task4/automation/function-automation/Task4Script/azuredeploy.json"
 
-New-AzResourceGroup -Name $resourceGroupName -Location "$location"
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri
+    [Parameter(Mandatory=$True)]
+    [string]
+    $resourceGroupName,   #Enter resource group name
 
-Read-Host -Prompt "Press [ENTER] to continue ..."
+    [Parameter(Mandatory=$True)]
+    [string]
+    $appName,
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $storageName,   #Enter storage name
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $location,     #Enter resource group location('westus2', 'westus')
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $templateFile  #Path of the template.json file
+
+
+
+)
+# $securePassword = ConvertTo-SecureString -String $servicePrincipalPassword -AsPlainText -Force;
+# $credentials = New-Object -TypeName System.Management.Automation.PSCredential($servicePrincipalId, $securePassword);
+
+#Redirects the user to sign in to the Azure portal -Credential $credentials -ServicePrincipal -Tenant $tenantId -SubscriptionId $subscriptionId;
+Connect-AzAccount  
+
+#retrieve the given resource group
+#$resourceGroup = Get-AzResourceGroup -Name $resourceGroupName 
+Get-AzResourceGroup -Name $resourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
+
+if ($notPresent)
+{
+    New-AzResourceGroup -Name $resourceGroupName -Location $location 
+}
+
+#creates the azure function group
+New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFile -Location $location
