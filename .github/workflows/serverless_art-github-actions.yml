@@ -1,10 +1,9 @@
 name: Performance-Test
 
-on:  [push]
-
- 
-   # branches:
-    #  - development
+on:  
+  push:
+    branches:
+      - development
 
 jobs:
   slsart-perf:
@@ -40,7 +39,7 @@ jobs:
       - name: Deploy, invoke, remove functions
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region=us-west-2
-
+        # Authorization error on Deploy, invoke, remove functions
          # ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME --region=us-west-2
 
-         # ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
+         #~/.npm-global/bin/slsart remove --stage $STAGE_NAME
