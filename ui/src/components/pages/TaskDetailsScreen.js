@@ -16,10 +16,9 @@ const TaskDetailsScreen = (props) => {
   const completedHandler = () => {
     setCompleted(!completed);
     task.completed = !task.completed;
-    console.log(task.completed);
   };
 
-  // Gets the selected task by id;
+  // Gets the selected task by its id;
   useEffect(() => {
     DUMMY_TASKS.map((item) => {
       return item.taskId === parseInt(params.taskId) && setTask(item);
@@ -34,19 +33,21 @@ const TaskDetailsScreen = (props) => {
       ) : (
         <div>
           <div className="task-Header">Task: {task.title}</div>
-          <div className="divider" />
-          <div className="task-description">
-            Description: {task.taskDescription}<br />
-            Date created: {task.dateCreated}
-          </div>
-          Done?
-          <input
-            type="checkbox"
-            name="completed"
-            value={task.completed}
-            checked={task.completed ? "checked" : ""}
-            onChange={completedHandler}
-          />
+            <div className="divider" />
+          <ol>
+            <div className="task-description">
+              Description: {task.taskDescription}<br />
+              Date created: {task.dateCreated}
+            </div>
+            Done?
+            <input
+              type="checkbox"
+              name="completed"
+              value={task.completed}
+              checked={task.completed ? "checked" : ""}
+              onChange={completedHandler}
+            />
+        </ol>
         </div>
       )}
     </React.Fragment>
