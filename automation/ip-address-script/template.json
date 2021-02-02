@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ipName": {
+            "defaultValue": "nsc-rg-dev-usw2-ip",
+            "type": "String"
+        },
+        "serverLocation": {
+            "defaultValue": "westus2",
+            "type": "string"
+        },
+        "IpVersion": {
+            "defaultValue": "IPv4",
+            "type": "string"
+        },
+        "IpMethod": {
+            "defaultValue": "Dynamic",
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-05-01",
+            "name": "[parameters('ipName')]",
+            "location": "[parameters('serverLocation')]",
+            "sku": {
+                "name": "Basic"
+            },
+            "properties": {
+                "publicIPAddressVersion": "[parameters('IpVersion')]",
+                "publicIPAllocationMethod": "[parameters('IpMethod')]",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        }
+    ]
+}

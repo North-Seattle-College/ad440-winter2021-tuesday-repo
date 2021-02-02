@@ -29,36 +29,75 @@ param (
     [string]
     $ResourceGroupName,
 
-    [Parameter(Mandatory=$True, HelpMessage='The name of the IP address.')]
+    [Parameter(Mandatory=$False, HelpMessage='The name of the IP address.')]
     [string]
     $IpName,
 
-    [Parameter(Mandatory=$True, HelpMessage='The location the IP address will be in.')]
+    [Parameter(Mandatory=$False, HelpMessage='The location the IP address will be in.')]
     [string]
-    $Location
+    $ServerLocation,
+
+    [Parameter(Mandatory=$False, HelpMessage='IPv4 or IPv6.')]
+    [string]
+    $IpVersion,
+
+    [Parameter(Mandatory=$False, HelpMessage='The allocation method, static or dynamic.')]
+    [string]
+    $IpMethod
 )
-
-
-#$Credential = Get-Credential
-#Connect-AzAccount -Tenant $TenantId -Subscription $SubscriptionId -ServicePrincipal $ServicePrincipal -Credential $Credential
 
 $Credential = Get-Credential
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
-#Connect-AzAccount -Tenant $TenantId -Subscription $SubscriptionId -Credential $Credential
-#To login to azure from powershell use the following
-#Connect-AzAccount | Out-Null
-
 # Get existing resource group
-#$Location = Get-AzResourceGroup -Name $ResourceGroupName
+$Location = Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
 
-#location selected resource group
-#$RGLocation= $Location.location
+#function to create a New Resource Group if needed
+function CreateNewRG {
+  [cmdletbinding()]
+  param (
+    [Parameter(Mandatory = $true, HelpMessage = 'Desired Location of Resource group')]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $Location
+  )
+  New-AzResourceGroup -Name $ResourceGroupName -Location $ServerLocation  
+}
 
-#file path for -TemplateFile
-$FilePath = "./template.json"
+#if errorVariable is notPresent VNet will not be created, and will prompt user 
+#to create a new resource group
+if ($notPresent) {
+  Write-Output "Existing resource group not found, creating new"
+  CreateNewRG
+}
+else {
 
+  #location selected resource group
+  $RGLocation = $Location.location
+
+  #file path for -TemplateFile
+  $FilePath = "./template.json"
+
+  #Hashtable containing parameters for virtual network template
+  $IpParameters = @{
+    serverLocation    = $RGLocation;
+  }
+
+if ($IpName){
+  $IpParameters = @{
+    ipName      = $ipName;
+  }
+}
+if ($IpVersion){
+  $IpParameters = @{
+    ipVersion      = $ipVersion;
+  }
+}
+if ($IpMethod){
+  $IpParameters = @{
+    ipMethod      = $ipMethod;
+  }
+}
 #deploying IP address
-New-AzPublicIpAddress -Name $IpName -ResourceGroupName $ResourceGroupName -Location $Location -AllocationMethod Dynamic -IpAddressVersion IPv4
-
-#For the most part, few things need to be dynamically set by the user for this, so far.
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $IpParameters
+}
