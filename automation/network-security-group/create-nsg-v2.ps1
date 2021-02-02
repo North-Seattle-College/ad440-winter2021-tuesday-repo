@@ -4,6 +4,8 @@
   This script  requires an existing azure subscription and resource group.
 .PARAMETER SubscriptionId
     Required. Subscription Id of Azure
+.PARAMETER TenantId
+    Required. Tenant Id of Azure
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
 .PARAMETER Location
@@ -22,7 +24,11 @@
 param(
     [Parameter(Mandatory=$True)]
     [string]
-    $SubscriptionId,     #Subscription ID to use
+    $SubscriptionId,     #Subscription ID to use from Azure
+
+    [Parameter(Mandatory=$True)]
+    [string]
+    $TenantId,     #Tenant ID to use from Azure
 
     [Parameter(Mandatory=$True)]
     [string]
@@ -37,8 +43,9 @@ param(
     $TemplateJsonFilePath  #Path of the template.json file, either absolute or relative
 
 )
-#Redirects the user to sign in to the Azure portal
-Connect-AzAccount
+#Signs in the user to Azure with credentials
+$Credential = Get-Credential
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
 #Sets the subscription ID correct so the resource group can be searched from the correct place
 Set-AzContext -SubscriptionId $SubscriptionId
