@@ -24,14 +24,11 @@ param(
 
 
 )
-# $securePassword = ConvertTo-SecureString -String $servicePrincipalPassword -AsPlainText -Force;
-# $credentials = New-Object -TypeName System.Management.Automation.PSCredential($servicePrincipalId, $securePassword);
 
-#Redirects the user to sign in to the Azure portal -Credential $credentials -ServicePrincipal -Tenant $tenantId -SubscriptionId $subscriptionId;
+#Redirects the user to sign in to the Azure portal 
 Connect-AzAccount  
 
 #retrieve the given resource group
-#$resourceGroup = Get-AzResourceGroup -Name $resourceGroupName 
 Get-AzResourceGroup -Name $resourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
 
 if ($notPresent)
@@ -40,4 +37,4 @@ if ($notPresent)
 }
 
 #creates the azure function group
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFile -Location $location
+New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFile 
