@@ -38,9 +38,9 @@ jobs:
           local: artilleryReport.json
           remote: scp/artilleryReport.json
           host: ${{ secrets.HOST }}
-          #username: ${{ secrets.SSH_USER }}
-          #password: ${{ secrets.PASSWORD }}
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.PASSWORD }}
+          #privateKey: ${{ secrets.PRIVATE_KEY}}
 
     # examples for future:
     # - run: cp ./slsart/script.yml ./
