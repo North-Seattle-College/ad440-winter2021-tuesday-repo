@@ -50,9 +50,8 @@ jobs:
           inlineScript: |
           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
 
-      - name: logout
-        run:  az logout 
-
+     # - name: logout
+    #  run:  az logout
     
     # examples for future:
     # - run: cp ./slsart/script.yml ./
