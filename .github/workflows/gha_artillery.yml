@@ -12,6 +12,7 @@ jobs:
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,12 +21,7 @@ jobs:
         with:
           node-version: "14"
           check-latest: true
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+      
       - name: nodeJS and npm version
         run: npm -v
       - name: npm init
@@ -35,16 +31,33 @@ jobs:
       - name: Sleep
         run: sleep 10s
       - name: version test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run ./testing/artillery/githubaction_url_performance.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json./testing/artillery/githubaction_url_performance.yml
+          - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # once a folder with slsart script.yml and serverless.yml are created and in the repo
-    # we can copy them into the working dir to run those specific tests with those configurations
-    # - currently this just runs the defaults
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> -d '$web' -s .
+      - name: Purge CDN endpoint
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+          az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+
+    # Azure logout 
+      - name: logout
+        run: |
+            az logout 
+
+    
     # examples for future:
     # - run: cp ./slsart/script.yml ./
     #    run: cp ./slsart/serverless.yml ./
     #- name: Deploy, invoke, remove functions
-    #  run: |
-    #    ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME
-    #    ~/.npm-global/bin/slsart invoke --stage $STAGE_NAME
-    #    ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
+    
