@@ -30,7 +30,7 @@ jobs:
         run: npm install -g artillery
       - name: Sleep
         run: sleep 10s
-      - name: version test
+      - name: Running Artillery Test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/githubaction_url_performance.yml
       - uses: actions/checkout@v2
       - uses: azure/login@v1
