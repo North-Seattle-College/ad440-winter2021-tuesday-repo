@@ -32,7 +32,7 @@ jobs:
         run: sleep 10s
       - name: version test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json./testing/artillery/githubaction_url_performance.yml
-          - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
