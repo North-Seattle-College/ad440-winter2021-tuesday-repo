@@ -6,8 +6,8 @@ on:
       - development
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'   # set this to the path to your web app project, defaults to the repository root
-  PYTHON_VERSION: '3.8'                 # set this to the python version to use (supports 3.6, 3.7, 3.8)
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  
+  PYTHON_VERSION: '3.8'               
 
 jobs:
   build-and-deploy:
