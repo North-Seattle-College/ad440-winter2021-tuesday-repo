@@ -1,9 +1,9 @@
 name: Performance-Test
 
 on:
-  [push]
-  #branches:
-  # - development
+  push:
+    branches:
+      - development
 
 jobs:
   setup:
@@ -41,8 +41,3 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.PASSWORD }}
           #privateKey: ${{ secrets.PRIVATE_KEY}}
-
-    #examples for future:
-    # - run: cp ./slsart/script.yml ./
-    #    run: cp ./slsart/serverless.yml ./
-    #- name: Deploy, invoke, remove functions
