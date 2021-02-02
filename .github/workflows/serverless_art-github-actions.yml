@@ -33,7 +33,7 @@ jobs:
       # we can copy them into the working dir to run those specific tests with those configurations
       # - currently this just runs the defaults
       # examples for future:
-      # - run: cp ./slsart/script.yml ./
+       #- run: cp ./slsart/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
       
       - name: Deploy, invoke, remove functions
