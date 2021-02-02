@@ -63,7 +63,7 @@ param (
     [string]
     $VirtualMachineName,
 
-    [Parameter(Mandatory=$False)]
+    [Parameter(Mandatory=$True)]
     [string]
     $NetworkInterfaceName,  
 
@@ -96,6 +96,8 @@ param (
 
 #To login to azure from powershell use the following
 Connect-AzAccount | Out-Null
+
+
 
 
 $vmparameters = @{
