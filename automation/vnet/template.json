@@ -10,14 +10,14 @@
     },
     "vnetAddressPrefix": {
       "type": "string",
-      "defaultValue":"172.18.0.0/16",
+      "defaultValue": "172.18.0.0/16",
       "metadata": {
         "description": "Address prefix"
       }
     },
     "subnet1Prefix": {
       "type": "string",
-      "defaultValue":"172.18.0.0/24",
+      "defaultValue": "172.18.0.0/24",
       "metadata": {
         "description": "Subnet 1 Prefix"
       }
@@ -30,6 +30,42 @@
     },
     "location": {
       "type": "string",
+      "allowedValues": [
+        "centralus",
+        "eastasia",
+        "southeastasia",
+        "eastus",
+        "eastus2",
+        "westus",
+        "westus2",
+        "northcentralus",
+        "southcentralus",
+        "westcentralus",
+        "northeurope",
+        "westeurope",
+        "japaneast",
+        "japanwest",
+        "brazilsouth",
+        "australiasoutheast",
+        "australiaeast",
+        "westindia",
+        "southindia",
+        "centralindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "southafricanorth",
+        "uaenorth",
+        "australiacentral",
+        "switzerlandnorth",
+        "germanywestcentral",
+        "norwayeast",
+        "australiacentral2"
+      ],
       "metadata": {
         "description": "Location for all resources."
       }
