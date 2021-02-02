@@ -1,0 +1,13 @@
+config:
+  target: "https://nsc-fun-dev-usw2-tsmtestfunction.azurewebsites.net"
+  phases:
+    - duration: 900
+      arrivalRate: 100
+      name: "Performance Test"
+
+scenarios:
+  - flow:
+      - get:
+          url: "/api/HttpTriggerLoadTest"
+          json:
+            name: "test_name"
