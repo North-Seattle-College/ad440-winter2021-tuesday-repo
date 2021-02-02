@@ -16,17 +16,18 @@
     # Loan Pham
     
 param(
-    [Parameter(Mandatory=$true)]
-    [string]
-    $SubcriptionID,
 
     [Parameter(Mandatory=$true)]
     [string]
-    $tenantID,
+    $SubscriptionID,
 
     [Parameter(Mandatory=$true)]
     [string]
-    $ResourGroupName,
+    $TenantID,
+
+    [Parameter(Mandatory=$true)]
+    [string]
+    $ResourceGroupName,
 
     [Parameter(Mandatory=$true)]
     [string]
@@ -34,7 +35,7 @@ param(
 
     [Parameter(Mandatory=$true)]
     [string]
-    $ApplicationGatewayName
+    $AppGatewayName
 
 )
 
@@ -42,5 +43,5 @@ param(
 Connect-AzAccount 
 
 # Create Application Gateway
-New-AzApplicationGateway -Name $ApplicationGatewayName -ResourceGroupName $ResourceGroupName  -Location  $Location
+New-AzApplicationGateway -ResourceGroupName $ResourceGroupName  -Location  $Location -NameAppGatewayName $AppGatewayName
 
