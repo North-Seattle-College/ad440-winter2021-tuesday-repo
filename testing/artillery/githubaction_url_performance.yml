@@ -1,5 +1,5 @@
 config:
-  target: "https://nsc-fun-dev-usw2-tsmtestfunction.azurewebsites.net/api/HttpTriggerLoadTest"
+  target: "https://margarita-test.azurewebsites.net"
   phases:
     - duration: 10
       arrivalRate: 10
@@ -8,4 +8,5 @@ config:
 scenarios:
   - flow:
       - get:
-          url: "/"
+          url: "/api/HttpTriggerUserTest?code=0uquUaoNYv1JZppM0qZacU5m3esAf3aj3s4G1zehSUm8U/bQUgoxDw=="
+            name : "name"
