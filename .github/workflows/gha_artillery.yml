@@ -12,7 +12,7 @@ jobs:
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "14"
           check-latest: true
-      
+
       - name: nodeJS and npm version
         run: npm -v
       - name: npm init
@@ -41,20 +41,17 @@ jobs:
         uses: azure/CLI@v1
         with:
           azcliversion: 2.0.72
-          inlineScript: |
-            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> -d '$web' -s .
+          inlineScript: az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> -d '$web' -s .
       - name: Purge CDN endpoint
         uses: azure/CLI@v1
         with:
           azcliversion: 2.0.72
-          inlineScript: |
-          az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+          inlineScript: az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
 
-     # - name: logout
-    #  run:  az logout
-    
+      - name: logout
+        run: az logout
+
     # examples for future:
     # - run: cp ./slsart/script.yml ./
     #    run: cp ./slsart/serverless.yml ./
     #- name: Deploy, invoke, remove functions
-    
