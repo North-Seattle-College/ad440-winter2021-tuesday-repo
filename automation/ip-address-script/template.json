@@ -8,15 +8,59 @@
         },
         "serverLocation": {
             "defaultValue": "westus2",
-            "type": "string"
+            "type": "string",
+            "allowedValues": [
+                "centralus",
+                "eastasia",
+                "southeastasia",
+                "eastus",
+                "eastus2",
+                "westus",
+                "westus2",
+                "northcentralus",
+                "southcentralus",
+                "westcentralus",
+                "northeurope",
+                "westeurope",
+                "japaneast",
+                "japanwest",
+                "brazilsouth",
+                "australiasoutheast",
+                "australiaeast",
+                "westindia",
+                "southindia",
+                "centralindia",
+                "canadacentral",
+                "canadaeast",
+                "uksouth",
+                "ukwest",
+                "koreacentral",
+                "koreasouth",
+                "francecentral",
+                "southafricanorth",
+                "uaenorth",
+                "australiacentral",
+                "switzerlandnorth",
+                "germanywestcentral",
+                "norwayeast",
+                "australiacentral2"
+            ]
         },
         "IpVersion": {
             "defaultValue": "IPv4",
-            "type": "string"
+            "type": "string",
+            "allowedValues": [
+                "IPv4",
+                "IPv6"
+            ],
         },
         "IpMethod": {
             "defaultValue": "Dynamic",
-            "type": "string"
+            "type": "string",
+            "allowedValues": [
+                "Dynamic",
+                "Static"
+            ],
         }
     },
     "variables": {},

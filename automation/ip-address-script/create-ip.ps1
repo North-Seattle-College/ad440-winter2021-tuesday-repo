@@ -8,8 +8,6 @@
     Required. A tenant ID
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
-.PARAMETER Location
-    Suggested. Location of the IP to be created
 .PARAMETER IpName
     Suggested. Desired name of the IP address
 .PARAMETER IpVersion
@@ -42,10 +40,6 @@ param (
     [string]
     $IpName,
 
-    [Parameter(Mandatory=$False, HelpMessage='The location the IP address will be in.')]
-    [string]
-    $ServerLocation,
-
     [Parameter(Mandatory=$False, HelpMessage='IPv4 or IPv6.')]
     [string]
     $IpVersion,
@@ -71,27 +65,28 @@ function CreateNewRG {
     [string]
     $Location
   )
-  New-AzResourceGroup -Name $ResourceGroupName -Location $ServerLocation  
+  New-AzResourceGroup -Name $ResourceGroupName -Location $Location
 }
 
 #if errorVariable is notPresent VNet will not be created, and will prompt user 
 #to create a new resource group
-if ($notPresent) {
+while ($notPresent) {
   Write-Output "Existing resource group not found, creating new"
   CreateNewRG
+  # Get existing resource group
+  $Location = Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
 }
-else {
 
-  #location selected resource group
-  $RGLocation = $Location.location
+#location selected resource group
+$RGLocation = $Location.location
 
-  #file path for -TemplateFile
-  $FilePath = "./template.json"
+#file path for -TemplateFile
+$FilePath = "./template.json"
 
-  #Hashtable containing parameters for virtual network template
-  $IpParameters = @{
-    serverLocation    = $RGLocation;
-  }
+#Hashtable containing parameters for virtual network template
+$IpParameters = @{
+  serverLocation    = $RGLocation;
+}
 
 #These set the parameters as required if they are set.
 if ($IpName){
@@ -109,6 +104,6 @@ if ($IpMethod){
     ipMethod      = $ipMethod;
   }
 }
+
 #deploying IP address
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $IpParameters
-}
