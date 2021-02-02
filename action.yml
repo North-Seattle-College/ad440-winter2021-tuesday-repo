@@ -41,7 +41,7 @@ inputs:
     default: false
 runs:
   using: "node12"
-  main: "dist/index.js"
+  main: "dist1/index.js"
 branding:
   color: "purple"
   icon: "copy"
