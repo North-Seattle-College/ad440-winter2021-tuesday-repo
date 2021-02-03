@@ -11,9 +11,9 @@
 .PARAMETER IpName
     Suggested. Desired name of the IP address
 .PARAMETER IpVersion
-    Required. The type of IP, such as IPv4 or IPv6
+    Suggested. The type of IP, such as IPv4 or IPv6
 .PARAMETER IpMethod
-    Required. The allocation method, static or dynamic
+    Suggested. The allocation method, static or dynamic
 .NOTES
   Version:        2.0
   Author:         Derek Hendrick
@@ -50,6 +50,7 @@ param (
 )
 
 #Logs into the AZ account
+Clear-AzContext -Force 
 $Credential = Get-Credential
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 
@@ -70,7 +71,7 @@ function CreateNewRG {
 
 #if errorVariable is notPresent VNet will not be created, and will prompt user 
 #to create a new resource group
-while ($notPresent) {
+if ($notPresent) {
   Write-Output "Existing resource group not found, creating new"
   CreateNewRG
   # Get existing resource group
@@ -107,3 +108,6 @@ if ($IpMethod){
 
 #deploying IP address
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $FilePath -TemplateParameterObject $IpParameters
+
+#Clearing the account after
+Clear-AzContext -Force 
