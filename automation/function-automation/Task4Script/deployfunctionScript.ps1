@@ -55,4 +55,4 @@ if ($notPresent)
 }
 
 #creates the azure function group
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri  $templateFile 
+New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri  $templateUri 
