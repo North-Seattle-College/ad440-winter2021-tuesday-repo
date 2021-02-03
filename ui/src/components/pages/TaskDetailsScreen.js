@@ -5,27 +5,49 @@ import DUMMY_TASKS from "../data/dummy-tasks.json";
 
 import "../css/TasksDetailsScreen.css";
 
+// Displays close "details" view of a user's individual Task from their list;
 const TaskDetailsScreen = (props) => {
   const [task, setTask] = useState();
   const params = useParams();
+  const [completed, setCompleted] = useState(false);
 
+  // This handles changes to the "Done?" checkbox
+  // and updates the value of "task.completed"
+  const completedHandler = () => {
+    setCompleted(!completed);
+    task.completed = !task.completed;
+  };
+
+  // Gets the selected task by its id;
   useEffect(() => {
     DUMMY_TASKS.map((item) => {
-      return item.id === parseInt(params.taskId) && setTask(item);
+      return item.taskId === parseInt(params.taskId) && setTask(item);
     });
-  }, [params.taskId]);
+  }, [params.taskId, params.completed]);
 
+  // Render the component;
   return (
     <React.Fragment>
       {task === undefined ? (
         <div>Nothing loaded!</div>
       ) : (
         <div>
-          <div className="task-Header">Name: {task.name}</div>
-          <div className="divider" />
-          <div className="task-description">
-            Description: {task.description}
-          </div>
+          <div className="task-Header">Task: {task.title}</div>
+            <div className="divider" />
+          <ol>
+            <div className="task-description">
+              Description: {task.taskDescription}<br />
+              Date created: {task.dateCreated}
+            </div>
+            Done?
+            <input
+              type="checkbox"
+              name="completed"
+              value={task.completed}
+              checked={task.completed ? "checked" : ""}
+              onChange={completedHandler}
+            />
+        </ol>
         </div>
       )}
     </React.Fragment>

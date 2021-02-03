@@ -1,12 +1,11 @@
 .container {
-    display: flex; 
-    
+    display: flex;
     background-color: #282c34;
     flex-direction: column;
 }
 
 .header {
-    width: 85%;
+    width: 100%;
     min-height: 8vh;
     border-bottom-right-radius: 10px;
     background-color: #450045;
@@ -18,9 +17,9 @@
 }
 
 .body {
-    background-color: #282c34;
+    background-color: #dce2ec;
     min-height: 90vh;
-    width: 85%;
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
@@ -34,5 +33,5 @@
     border-width: 5px;
     border-color: #450045;
     border-radius: 5px;
-    background-color: grey;
+    background-color: rgb(32, 150, 158);
 }
