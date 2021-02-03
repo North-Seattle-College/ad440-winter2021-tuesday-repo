@@ -56,7 +56,7 @@ def get_users(conn):
     with conn.cursor() as cursor:
         logging.debug(
             "Using connection cursor to execute query (select all from users)")
-        cursor.execute("SELECT * FROM users")
+        cursor.execute("SELECT userId, email, userPassword, firstName, lastName FROM users")
 
         # Get users
         logging.debug("Fetching all queried information")
@@ -72,7 +72,7 @@ def get_users(conn):
         for user in users_data:
             users.append(dict(zip(users_columns, user)))
 
-        # users = dict(zip(columns, rows))
+        #users = dict(zip(columns, rows))
         logging.debug(
             "User data retrieved and processed, returning information from get_users function")
         return func.HttpResponse(json.dumps(users), status_code=200, mimetype="application/json")

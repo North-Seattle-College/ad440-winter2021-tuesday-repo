@@ -69,29 +69,31 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.debug('Connection to DB closed')
 
 def getUserTasks(conn, userId):
-    logging.debug('Inside def: getUsersTasks')
-    cursor.execute(
-        "SELECT * FROM tasks WHERE taskUserId={}".format(userId)
-    )
-    tasks = list(cursor.fetchall())
+    with conn.cursor() as cursor:
+        logging.debug('Inside def: getUsersTasks')
+        cursor.execute(
+            "SELECT taskId, taskUserId, title, taskDescription FROM tasks WHERE taskUserId={}".format(userId)
+        )
+        logging.debug('Fetching all tasks for user: ' + userId)
+        tasks = list(cursor.fetchall())
 
-    # Clean up for json format
-    task_data = [tuple(task) for task in tasks]
+        # Clean up for json format
+        task_data = [tuple(task) for task in tasks]
 
-    # Empty data list
-    tasks = []
-    columns = [column[0] for column in cursor.description]
+        # Empty data list
+        tasks = []
+        columns = [column[0] for column in cursor.description]
 
-    for task in task_data:
-        tasks.append(dict(zip(columns, task)))
+        for task in task_data:
+            tasks.append(dict(zip(columns, task)))
 
-    logging.debug('Tasks retrieved')
+        logging.debug('Tasks retrieved')
 
-    return func.HttpResponse(
-        body=tasks,
-        status_code=200,
-        mimetype='application/json'
-    )
+        return func.HttpResponse(
+            json.dumps(tasks),
+            status_code=200,
+            mimetype='application/json'
+        )
 
 def addUserTask(conn, task_req_body, userId):
     # Verify required fields
@@ -108,15 +110,15 @@ def addUserTask(conn, task_req_body, userId):
         taskUserId = userId
         title = task_req_body['title']
         description = task_req_body['description']
-        dateCreated = datetime.datetime.now()
-        task_params = (userId, title, description, dateCreated)
+        #dateCreated = datetime.datetime.now()
+        task_params = (userId, title, description)
         # query DB to create task
         task_query = """
                         SET NOCOUNT ON;
                         DECLARE @NEWID TABLE(ID INT);
-                        INSERT INTO tasks (userId, title, description, createdDate)
+                        INSERT INTO tasks (userId, title, description)
                         OUTPUT inserted.taskId INTO @NEWID(ID)
-                        VALUES(?, ?, ?, ?);
+                        VALUES(?, ?, ?);
                         SELECT ID FROM @NEWID
                         """
         logging.debug('execute query')

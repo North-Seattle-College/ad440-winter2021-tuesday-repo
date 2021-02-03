@@ -8,9 +8,11 @@
       "name": "req",
       "methods": [
         "get",
-        "post"
+        "put",
+        "patch",
+        "delete"
       ],
-      "route": "users/{userId}/tasks"
+      "route": "users/{userId}/tasks/{taskId}"
     },
     {
       "type": "http",

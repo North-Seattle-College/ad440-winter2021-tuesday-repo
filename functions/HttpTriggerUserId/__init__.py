@@ -42,21 +42,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     status_code=404
                 )
             
-        # Return results according to the method
-        if method == "GET":
-            logging.debug("Attempting to retrieve users...")
-            getUser = getUserById(cursor, row)
-            logging.debug("Users retrieved successfully!")
-            return getUser
+            # Return results according to the method
+            if method == "GET":
+                logging.debug("Attempting to retrieve users...")
+                getUser = getUserById(cursor, row)
+                logging.debug("Users retrieved successfully!")
+                return getUser
 
-        elif method == "PUT":
-            logging.debug("Attempting to update user...")
-            return updateUser(req, cursor, userId)
-            logging.debug("User added successfully!")
+            elif method == "PUT":
+                logging.debug("Attempting to update user...")
+                return updateUser(req, cursor, userId)
+                logging.debug("User added successfully!")
 
-        else:
-            logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
-            return func.HttpResponse(status_code=405)
+            else:
+                logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
+                return func.HttpResponse(status_code=405)
 
     #displays errors encountered when API methods were called
     except ExceptionWithStatusCode as err:
@@ -76,7 +76,7 @@ def getUserById(cursor, row):
 
     logging.debug("Users retrieved successfully!")
     return func.HttpResponse(
-        body=data,
+        json.dumps(data),
         status_code=200,
         mimetype="application/json"
     )
@@ -125,7 +125,7 @@ def updateUser(req, cursor, userId):
 
 def deleteUser(cursor, user_id):
     logging.debug("Attempting to retrieve user by ID and delete the user...")
-    delete_user_query = "DELETE FROM users  WHERE userId= ?"
+    delete_user_query = "DELETE FROM users  WHERE userId={}".format(userId)
     logging.debug("Executing query: " + delete_user_query)
     cursor.execute(delete_user_query, (user_id,))
     logging.debug("User was deleted successfully!.")
@@ -136,5 +136,6 @@ def deleteUser(cursor, user_id):
 
 def get_user_row(cursor, userId):
     cursor.execute(
-        'SELECT * FROM users WHERE userId={}'.format(userId))
+        'SELECT userId, email, userPassword, firstName, lastName FROM users WHERE userId={}'.format(userId)
+    )
     return cursor.fetchone()
