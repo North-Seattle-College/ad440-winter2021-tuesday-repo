@@ -1,24 +1,118 @@
 import logging
-
+import json
+import os
+import pyodbc
 import azure.functions as func
+from ..Utils.dbHandler import dbHandler
+from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+    logging.info('Python HTTP trigger for /users/:userId/task processed a request.')
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
+    # Check request method
+    method = req.method
+    if not method:
+        logging.critical('No method available')
+        raise Exception('No method passed')
+
+    # Get userId from params
+    userId = req.route_params.get('userId')
+
+    # Create a new connection
+    logging.debug("Attempting DB connection!")
+    try:
+        conn = dbHandler.getConnectionString()
+    except ExceptionWithStatusCode as err:
+        return func.HttpResponse(str(err), status_code=err.status_code)
+    except Exception as err:
+        return func.HttpResponse(str(err), status_code=500)
+    logging.debug("Connection to DB successful!")
+
+    try:
+        # Return results according to the method
+        if method == "GET":
+            logging.debug("trying to get one user with id {} all tasks".format(userId)
+            return getUserTasks(conn, userId)
+            logging.debug("Users retrieved successfully!")
+
+        elif method == "POST":
+            logging.debug("trying to add one task to tasks")
+            task_req_body = req.get_json()
+            new_task_id = add_tasks(conn, task_req_body, user_id)
+            logging.debug("task added successfully!")
+            return new_task_id
+
         else:
-            name = req_body.get('name')
+            logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
+            return func.HttpResponse(status_code=405)
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
+    #displays errors encountered when API methods were called
+    except ExceptionWithStatusCode as err:
+        return func.HttpResponse(str(err), status_code=err.status_code)
+    finally:
+        conn.close()
+        logging.debug('Connection to DB closed')
+
+    def getUserTasks(conn, userId):
+        logging.debug('Inside def: getUsersTasks')
+        cursor.execute(
+            "SELECT * FROM tasks WHERE taskUserId={}".format(userId)
         )
+        tasks = list(cursor.fetchall())
+
+        # Clean up for json format
+        task_data = [tuple(task) fro task in tasks]
+
+        # Empty data list
+        tasks = []
+        columns = [column[0] for column in cursor.description]
+
+        for task in task_data:
+            tasks.append(dict(zip(columns, task)))
+
+        logging.debug('Tasks retrieved')
+
+        return func.HttpResponse(
+            body=tasks,
+            status_code=200,
+            mimetype='application/json'
+        )
+
+    def addUserTask(conn, task_req_body, userId):
+        # Verify required fields
+        logging.debug('Verifying required fields')
+        try:
+            assert "title" in task_req_body, "New user request body did not contain field: 'title'"
+            assert "description" in task_req_body, "New user request body did not contain field: 'description'"
+        except AssertionError as err:
+            logging.error("New user request body did not contain the necessary fields!")
+            return func.HttpResponse(err.args[0], status_code=400)
+        logging.debug("New task request body contains all the necessary fields!")
+
+        with conn.cursor() as cursor:
+            taskUserId = userId
+            title = task_req_body['title']
+            description = task_req_body['description']
+            dateCreated = datetime.datetime.now()
+            task_params = (userId, title, description, dateCreated)
+            # query DB to create task
+            task_query = """
+                         SET NOCOUNT ON;
+                         DECLARE @NEWID TABLE(ID INT);
+                         INSERT INTO tasks (userId, title, description, createdDate)
+                         OUTPUT inserted.taskId INTO @NEWID(ID)
+                         VALUES(?, ?, ?, ?);
+                         SELECT ID FROM @NEWID
+                         """
+            logging.debug('execute query')
+            cursor.execute(task_query, task_params)
+            # Get the user id from cursor 
+            taskId = cursor.fetchval()
+            logging.info(taskId)
+            logging.debug('task with id {} added'.format(taskId))
+            return func.HttpResponse(
+                body=taskId,
+                status_code=200,
+                mimetype='application/json'
+            )

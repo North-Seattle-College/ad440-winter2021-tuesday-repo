@@ -9,7 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
+      ],
+      "route": "users/{userId:int?}/tasks"
     },
     {
       "type": "http",

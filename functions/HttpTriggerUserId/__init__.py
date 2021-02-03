@@ -45,16 +45,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Return results according to the method
         if method == "GET":
             logging.debug("Attempting to retrieve users...")
-            all_users_http_response = get_users(conn)
+            getUser = getUserById(cursor, row)
             logging.debug("Users retrieved successfully!")
-            return all_users_http_response
+            return getUser
 
-        elif method == "POST":
-            logging.debug("Attempting to add user...")
-            user_req_body = req.get_json()
-            new_user_id_http_response = add_user(conn, user_req_body)
+        elif method == "PUT":
+            logging.debug("Attempting to update user...")
+            return updateUser(req, cursor, userId)
             logging.debug("User added successfully!")
-            return new_user_id_http_response
 
         else:
             logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
@@ -93,7 +91,7 @@ def methodNotAllowed():
     )
 
 
-def updateUser(req, cursor, user_id):
+def updateUser(req, cursor, userId):
     user_req_body = req.get_json()
 
     # Validate request body
