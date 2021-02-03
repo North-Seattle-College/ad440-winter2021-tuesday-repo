@@ -1,0 +1,44 @@
+name: Performance-Test
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  setup:
+    name: Artillery Performance Test
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          check-latest: true
+
+      - name: nodeJS and npm version
+        run: npm -v
+      - name: npm init
+        run: npm init -y
+      - name: Install artillery
+        run: npm install -g artillery
+      - name: Sleep
+        run: sleep 10s
+      - name: Running Artillery Test
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/githubaction_url_performance.yml
+## Future Code to copy the file to remote server
+#     - name: Copy single file to remote
+#       uses: ./
+#       with:
+#         local: artilleryReport.json
+#         remote: scp/artilleryReport.json
+#         host: ${{ secrets.HOST }}
+#         username: ${{ secrets.SSH_USER }}
+#         password: ${{ secrets.PASSWORD }}
+#         #privateKey: ${{ secrets.PRIVATE_KEY}}
