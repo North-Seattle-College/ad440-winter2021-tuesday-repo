@@ -113,3 +113,7 @@ dist
 
 # Mac window config files
 **/.DS_Store
+
+# Python
+.python_packages
+__pycache__

@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ipName": {
+            "defaultValue": "nsc-rg-dev-usw2-ip",
+            "type": "String"
+        },
+        "serverLocation": {
+            "defaultValue": "westus2",
+            "type": "string",
+            "allowedValues": [
+                "centralus",
+                "eastasia",
+                "southeastasia",
+                "eastus",
+                "eastus2",
+                "westus",
+                "westus2",
+                "northcentralus",
+                "southcentralus",
+                "westcentralus",
+                "northeurope",
+                "westeurope",
+                "japaneast",
+                "japanwest",
+                "brazilsouth",
+                "australiasoutheast",
+                "australiaeast",
+                "westindia",
+                "southindia",
+                "centralindia",
+                "canadacentral",
+                "canadaeast",
+                "uksouth",
+                "ukwest",
+                "koreacentral",
+                "koreasouth",
+                "francecentral",
+                "southafricanorth",
+                "uaenorth",
+                "australiacentral",
+                "switzerlandnorth",
+                "germanywestcentral",
+                "norwayeast",
+                "australiacentral2"
+            ]
+        },
+        "IpVersion": {
+            "defaultValue": "IPv4",
+            "type": "string",
+            "allowedValues": [
+                "IPv4",
+                "IPv6"
+            ],
+        },
+        "IpMethod": {
+            "defaultValue": "Dynamic",
+            "type": "string",
+            "allowedValues": [
+                "Dynamic",
+                "Static"
+            ],
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-05-01",
+            "name": "[parameters('ipName')]",
+            "location": "[parameters('serverLocation')]",
+            "sku": {
+                "name": "Basic"
+            },
+            "properties": {
+                "publicIPAddressVersion": "[parameters('IpVersion')]",
+                "publicIPAllocationMethod": "[parameters('IpMethod')]",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        }
+    ]
+}
