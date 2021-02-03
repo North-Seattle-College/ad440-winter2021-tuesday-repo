@@ -7,9 +7,13 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "post"
+        "get",
+        "post",
+        "put",
+        "patch",
+        "delete"
       ],
-      "route": "users/{userid}"
+      "route": "users/{userId}"
     },
     {
       "type": "http",

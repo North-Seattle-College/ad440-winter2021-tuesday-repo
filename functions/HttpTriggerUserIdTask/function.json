@@ -7,8 +7,10 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "delete"
-      ]
+        "get",
+        "post"
+      ],
+      "route": "users/{userId}/tasks"
     },
     {
       "type": "http",

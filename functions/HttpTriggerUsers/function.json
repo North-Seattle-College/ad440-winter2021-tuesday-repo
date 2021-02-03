@@ -8,8 +8,11 @@
       "name": "req",
       "methods": [
         "get",
-        "put"
-      ]
+        "post",
+        "put",
+        "delete"
+      ],
+      "route": "users"
     },
     {
       "type": "http",

@@ -7,9 +7,12 @@
       "direction": "in",
       "name": "req",
       "methods": [
+        "get",
+        "put",
+        "patch",
         "delete"
       ],
-      "route": "users/{userid}"
+      "route": "users/{userId}/tasks/{taskId}"
     },
     {
       "type": "http",
