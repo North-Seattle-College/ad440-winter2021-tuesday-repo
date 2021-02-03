@@ -127,7 +127,7 @@ def deleteUser(cursor, user_id):
     logging.debug("Attempting to retrieve user by ID and delete the user...")
     delete_user_query = "DELETE FROM users  WHERE userId={}".format(userId)
     logging.debug("Executing query: " + delete_user_query)
-    cursor.execute(delete_user_query, (user_id,))
+    cursor.execute(delete_user_query, (user_id))
     logging.debug("User was deleted successfully!.")
     return func.HttpResponse(
         "User deleted",
