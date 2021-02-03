@@ -80,7 +80,7 @@
       },
       "location": {
         "type": "string",
-        "defaultValue": "[resourceGroup().location]",
+        "defaultValue": "westus2",
         "allowedValues": ["centralus",
                 "eastasia",
                 "southeastasia",
@@ -142,6 +142,13 @@
           "description": "Name of the virtual network."
         }
       },
+      "securityGroupName": {
+        "type": "string",
+         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "metadata": {
+          "description": "Name of the security Group."
+        }
+      },
       "osDiskType": {
         "type": "string",
          "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
@@ -166,11 +173,13 @@
       
     },
     "variables": {
-      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+      //"pipRef1": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+      "pipRef": "[concat('/subscriptions/',parameters('subscriptionId'), '/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
       //"subnet1Ref": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet1Name'))]",
       //"vnetId": //"[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
        // "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'),parameters('subnetName'))]",
-      "subnetRef": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/', parameters('subnetName'))]"
+        //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
           //"[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
@@ -192,7 +201,8 @@
         "location": "[parameters('location')]",
         "dependsOn": [
           "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
         ],
         "properties": {
           "ipConfigurations": [
@@ -200,13 +210,13 @@
               "name": "ipconfig1",
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
-                // "publicIPAddress": {
-                //   //"id": "[variables('pipRef')]"
-                //   "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"  
-                // },
-                "subnet": { 
-                  //"id": "[variables('subnetRef')]"
-                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+                "publicIPAddress": {
+                  //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+                  "id": "[variables('pipRef')]"
+                },
+                "subnet": {
+                  //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+                  "id": "[variables('subnetRef')]"
                   //"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'), parameters('subnetName'))]"
                 }
               }

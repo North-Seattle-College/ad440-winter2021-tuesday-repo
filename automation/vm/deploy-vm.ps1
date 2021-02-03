@@ -75,7 +75,7 @@ param (
     [string]
     $SubNetName,
 
-    [Parameter(Mandatory=$False)]
+    [Parameter(Mandatory=$True)]
     [string]
     $SecurityGroupName,
 
@@ -122,8 +122,6 @@ Connect-AzAccount | Out-Null
 # }
 
 
-    
-
 
 
     
@@ -135,6 +133,7 @@ $vmparameters = @{
     networkInterfaceName = ($NetworkInterfaceName).ToLower();
     virtualNetworkName = ($VirtualNetworkName).ToLower(); 
     subnetName = ($SubNetName).ToLower();
+    securityGroupName = ($SecurityGroupName).ToLower();
     resourceGroupName = ($ResourceGroupName).ToLower();
     subscriptionId = ($SubscriptionId).ToLower();
 
