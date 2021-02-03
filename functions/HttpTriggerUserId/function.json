@@ -13,7 +13,7 @@
         "patch",
         "delete"
       ],
-      "route": "users/{userId:int?}"
+      "route": "users/{userId}"
     },
     {
       "type": "http",

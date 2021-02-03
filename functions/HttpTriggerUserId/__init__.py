@@ -33,8 +33,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         userId = req.route_params.get('userId')
         with conn.cursor() as cursor:
-            logging.debug('Checking for user in database: ' + userId)
-            row = cursor.execute('SELECT * FROM users WHERE userId= ?', (userId))
+            #logging.debug('Checking for user in database: ' + userId)
+            row = get_user_row(cursor, userId)
             if not row:
                 logging.debug('User not found')
                 return func.HttpResponse(
@@ -76,7 +76,7 @@ def getUserById(cursor, row):
 
     logging.debug("Users retrieved successfully!")
     return func.HttpResponse(
-        json.dumps(data),
+        body=data,
         status_code=200,
         mimetype="application/json"
     )
@@ -133,3 +133,8 @@ def deleteUser(cursor, user_id):
         "User deleted",
         status_code=200
     )
+
+def get_user_row(cursor, userId):
+    cursor.execute(
+        'SELECT * FROM users WHERE userId={}'.format(userId))
+    return cursor.fetchone()

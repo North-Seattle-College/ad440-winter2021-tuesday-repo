@@ -5,6 +5,19 @@ import pyodbc
 import azure.functions as func
 from ..Utils.dbHandler import dbHandler
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
+import datetime
+
+# to handle datetime with JSON
+# It serialize datetime by converting it into string
+def default(dateHandle):
+  if isinstance(dateHandle, (datetime.datetime, datetime.date)):
+    return dateHandle.isoformat()
+
+# to handle datetime with JSON
+# It serialize datetime by converting it into string
+def default(o):
+  if isinstance(o, (datetime.datetime, datetime.date)):
+    return o.isoformat()
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -32,9 +45,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         # Return results according to the method
         if method == "GET":
-            logging.debug("trying to get one user with id {} all tasks".format(userId)
-            return getUserTasks(conn, userId)
+            logging.debug("trying to get one user with id {} all tasks".format(userId))
+            all_tasks_by_userId = getUserTasks(conn, userId)
             logging.debug("Users retrieved successfully!")
+            return all_tasks_by_userId
 
         elif method == "POST":
             logging.debug("trying to add one task to tasks")
@@ -54,65 +68,65 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         conn.close()
         logging.debug('Connection to DB closed')
 
-    def getUserTasks(conn, userId):
-        logging.debug('Inside def: getUsersTasks')
-        cursor.execute(
-            "SELECT * FROM tasks WHERE taskUserId={}".format(userId)
-        )
-        tasks = list(cursor.fetchall())
+def getUserTasks(conn, userId):
+    logging.debug('Inside def: getUsersTasks')
+    cursor.execute(
+        "SELECT * FROM tasks WHERE taskUserId={}".format(userId)
+    )
+    tasks = list(cursor.fetchall())
 
-        # Clean up for json format
-        task_data = [tuple(task) fro task in tasks]
+    # Clean up for json format
+    task_data = [tuple(task) for task in tasks]
 
-        # Empty data list
-        tasks = []
-        columns = [column[0] for column in cursor.description]
+    # Empty data list
+    tasks = []
+    columns = [column[0] for column in cursor.description]
 
-        for task in task_data:
-            tasks.append(dict(zip(columns, task)))
+    for task in task_data:
+        tasks.append(dict(zip(columns, task)))
 
-        logging.debug('Tasks retrieved')
+    logging.debug('Tasks retrieved')
 
+    return func.HttpResponse(
+        body=tasks,
+        status_code=200,
+        mimetype='application/json'
+    )
+
+def addUserTask(conn, task_req_body, userId):
+    # Verify required fields
+    logging.debug('Verifying required fields')
+    try:
+        assert "title" in task_req_body, "New user request body did not contain field: 'title'"
+        assert "description" in task_req_body, "New user request body did not contain field: 'description'"
+    except AssertionError as err:
+        logging.error("New user request body did not contain the necessary fields!")
+        return func.HttpResponse(err.args[0], status_code=400)
+    logging.debug("New task request body contains all the necessary fields!")
+
+    with conn.cursor() as cursor:
+        taskUserId = userId
+        title = task_req_body['title']
+        description = task_req_body['description']
+        dateCreated = datetime.datetime.now()
+        task_params = (userId, title, description, dateCreated)
+        # query DB to create task
+        task_query = """
+                        SET NOCOUNT ON;
+                        DECLARE @NEWID TABLE(ID INT);
+                        INSERT INTO tasks (userId, title, description, createdDate)
+                        OUTPUT inserted.taskId INTO @NEWID(ID)
+                        VALUES(?, ?, ?, ?);
+                        SELECT ID FROM @NEWID
+                        """
+        logging.debug('execute query')
+        cursor.execute(task_query, task_params)
+        # Get the user id from cursor 
+        taskId = cursor.fetchval()
+        logging.info(taskId)
+        logging.debug('task with id {} added'.format(taskId))
         return func.HttpResponse(
-            body=tasks,
+            body=taskId,
             status_code=200,
             mimetype='application/json'
         )
-
-    def addUserTask(conn, task_req_body, userId):
-        # Verify required fields
-        logging.debug('Verifying required fields')
-        try:
-            assert "title" in task_req_body, "New user request body did not contain field: 'title'"
-            assert "description" in task_req_body, "New user request body did not contain field: 'description'"
-        except AssertionError as err:
-            logging.error("New user request body did not contain the necessary fields!")
-            return func.HttpResponse(err.args[0], status_code=400)
-        logging.debug("New task request body contains all the necessary fields!")
-
-        with conn.cursor() as cursor:
-            taskUserId = userId
-            title = task_req_body['title']
-            description = task_req_body['description']
-            dateCreated = datetime.datetime.now()
-            task_params = (userId, title, description, dateCreated)
-            # query DB to create task
-            task_query = """
-                         SET NOCOUNT ON;
-                         DECLARE @NEWID TABLE(ID INT);
-                         INSERT INTO tasks (userId, title, description, createdDate)
-                         OUTPUT inserted.taskId INTO @NEWID(ID)
-                         VALUES(?, ?, ?, ?);
-                         SELECT ID FROM @NEWID
-                         """
-            logging.debug('execute query')
-            cursor.execute(task_query, task_params)
-            # Get the user id from cursor 
-            taskId = cursor.fetchval()
-            logging.info(taskId)
-            logging.debug('task with id {} added'.format(taskId))
-            return func.HttpResponse(
-                body=taskId,
-                status_code=200,
-                mimetype='application/json'
-            )
