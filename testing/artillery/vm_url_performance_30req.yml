@@ -1,0 +1,12 @@
+config:
+  target: "https://margarita-test.azurewebsites.net"
+  phases:
+    - duration: 900
+      arrivalRate: 30
+      name: "Performance Test"
+scenarios:
+  - flow:
+      - get:
+          url: "/api/HttpTriggerUserTest?code=0uquUaoNYv1JZppM0qZacU5m3esAf3aj3s4G1zehSUm8U/bQUgoxDw=="
+          json:
+            name : "name"
