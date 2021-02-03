@@ -1,5 +1,5 @@
 import logging
-import pypyodbc
+import pyodbc
 import os
 import azure.functions as func
 import json
@@ -31,16 +31,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.debug("Connection to DB successful!")
 
     try:
-        with conn.cursor() as cursor:
         userId = req.route_params.get('userId')
-        logging.debug('Checking for user in database: ' + userId)
-        row = cursor.execute('SELECT * FROM users WHERE userId= ?', (userId))
-        if not row:
-            logging.debug('User not found')
-            return func.HttpResponse(
-                'User not found',
-                status_code=404
-            )
+        with conn.cursor() as cursor:
+            logging.debug('Checking for user in database: ' + userId)
+            row = cursor.execute('SELECT * FROM users WHERE userId= ?', (userId))
+            if not row:
+                logging.debug('User not found')
+                return func.HttpResponse(
+                    'User not found',
+                    status_code=404
+                )
             
         # Return results according to the method
         if method == "GET":

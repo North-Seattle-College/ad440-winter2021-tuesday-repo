@@ -1,21 +1,19 @@
 import os
 import pyodbc
-from ..Model.User import User
-from ..Model.Task import Task
 from typing import List
 
-SERVER = os.environ.get('SERVER')
-DATABASE = os.environ.get('DATABASE')
-USERNAME = os.environ.get('USER')
-PASSWORD = os.environ.get('PASSWORD')
-DRIVER = os.environ.get('DRIVER')
+SERVER = os.environ.get('API_SERVER')
+DATABASE = os.environ.get('API_DATABASE')
+USERNAME = os.environ.get('API_USER')
+PASSWORD = os.environ.get('API_PASSWORD')
+DRIVER = '{ODBC Driver 17 for SQL Server}'
 
 
 
 class dbHandler():
     def getConnectionString():
-    # Define the connection string
-    connection_string = "Driver={};Server={};Database={};Uid={};Pwd={};Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;".format(
+        # Define the connection string
+        conn_string = "Driver={};Server={}PORT=1433;Database={};Uid={};Pwd={};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;".format(
         DRIVER, SERVER, DATABASE, USERNAME, PASSWORD)
 
-    return pyodbc.connect(connection_string)
+        return pyodbc.connect(conn_string)
