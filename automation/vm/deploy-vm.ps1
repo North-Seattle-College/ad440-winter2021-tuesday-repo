@@ -122,8 +122,6 @@ Connect-AzAccount | Out-Null
 # }
 
 
-
-
     
     
 
@@ -136,6 +134,7 @@ $vmparameters = @{
     securityGroupName = ($SecurityGroupName).ToLower();
     resourceGroupName = ($ResourceGroupName).ToLower();
     subscriptionId = ($SubscriptionId).ToLower();
+    #location = ($Location).ToLower();
 
     # storageName = 
 }

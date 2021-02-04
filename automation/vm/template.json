@@ -1,4 +1,4 @@
-{
+{ 
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
@@ -173,14 +173,20 @@
       
     },
     "variables": {
-      //"pipRef1": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-      "pipRef": "[concat('/subscriptions/',parameters('subscriptionId'), '/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",
-      //"subnet1Ref": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet1Name'))]",
-      //"vnetId": //"[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-       // "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'),parameters('subnetName'))]",
-      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/', parameters('subnetName'))]"
+      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+        //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+        //"[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+        //"/subscriptions/9f4dcf43-aa06-457b-b975-f0216baef20d/resourceGroups/nsc-rg-dev-usw2-joanna/providers/Microsoft.Network/publicIPAddresses/nsc-aut-dev-usw2-joanna-ip",
+        //"[concat('/subscriptions/',parameters('subscriptionId'), '/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",               
+      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]"
+        //"/subscriptions/9f4dcf43-aa06-457b-b975-f0216baef20d/resourceGroups/nsc-rg-dev-usw2-joanna/providers/Microsoft.Network/virtualNetworks/nsc-vnet-dev-westus2-joanna-test/subnets/joanna"
+        //"[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'), parameters('subnetName'))]"
+        //"[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/', parameters('subnetName'))]"
         //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
-          //"[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+        //"[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'),parameters('subnetName'))]"
+        //"[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet1Name'))]"
+        //"vnetId": //"[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+        //"[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
       {
@@ -196,29 +202,27 @@
       },
       {
         "type": "Microsoft.Network/networkInterfaces",
-        "apiVersion": "2020-06-01",
         "name": "[parameters('networkInterfaceName')]",
+        "apiVersion": "2020-06-01",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-          "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
+          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+          //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
         ],
         "properties": {
           "ipConfigurations": [
             {
-              "name": "ipconfig1",
+              "name": "ipConfig1",
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
-                "publicIPAddress": {
-                  //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-                  "id": "[variables('pipRef')]"
+                "publicIPAddresses": {
+                  "publicIPAddressId": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
+                  //"[variables('pipRef')]"
                 },
                 "subnet": {
-                  //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
-                  "id": "[variables('subnetRef')]"
-                  //"id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'), parameters('subnetName'))]"
-                }
+                  "subnetId": "[variables('subnetRef')]"                  
+                }                
               }
             }
           ]
@@ -230,6 +234,7 @@
         "name": "[parameters('VMName')]",
         "location": "[parameters('location')]",
         "dependsOn": [
+          "[reference(parameters('storageName'))]",
           "[reference(parameters('networkInterfaceName'))]"
         ],
         "properties": {
@@ -303,6 +308,5 @@
       //   "type": "string",
       //   "value": "[reference(resourceId(parameters('subnetName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
       // }
-
     }
   }
