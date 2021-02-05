@@ -2,13 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "adminUsername": {
+      "adminUsernameVM": {
         "type": "string",
         "metadata": {
           "description": "Username for the Virtual Machine."
         }
       },
-      "adminPassword": {
+      "adminPasswordVM": {
         "type": "securestring",
         "minLength": 12,
         "metadata": {
@@ -17,7 +17,6 @@
       },
       "resourceGroupName": {
         "type": "string",
-        //"defaultValue": "[resourceGroup().publicIpName]",
         "metadata": {
           "description": "Name for the resource Group Name."
         }
@@ -35,18 +34,6 @@
           "description": "Name for the Public IP used to access the Virtual Machine."
         }
       },
-      "publicIpSku": {
-        "type": "string",
-        "defaultValue": "Basic",
-        "allowedValues": [
-          "Basic",
-          "Standard"
-        ],
-        "metadata": {
-          "description": "SKU for the Public IP used to access the Virtual Machine."
-        }
-      },
-  
       "OSVersion": {
         "type": "string",
         "defaultValue": "2019-Datacenter",
@@ -73,7 +60,6 @@
       "vmSize": {
         "type": "string",
         "defaultValue": "Standard_B1s",
-        // "allowedValues": [],
         "metadata": {
           "description": "Size of the virtual machine."
         }
@@ -81,47 +67,22 @@
       "location": {
         "type": "string",
         "defaultValue": "westus2",
-        "allowedValues": ["centralus",
-                "eastasia",
-                "southeastasia",
-                "eastus",
-                "eastus2",
-                "westus",
-                "westus2",
-                "northcentralus",
-                "southcentralus",
-                "westcentralus",
-                "northeurope",
-                "westeurope",
-                "japaneast",
-                "japanwest",
-                "brazilsouth",
-                "australiasoutheast",
-                "australiaeast",
-                "westindia",
-                "southindia",
-                "centralindia",
-                "canadacentral",
-                "canadaeast",
-                "uksouth",
-                "ukwest",
-                "koreacentral",
-                "koreasouth",
-                "francecentral",
-                "southafricanorth",
-                "uaenorth",
-                "australiacentral",
-                "switzerlandnorth",
-                "germanywestcentral",
-                "norwayeast",
-                "australiacentral2"
-          
+        "allowedValues": [
+          "centralus",
+          "eastus",
+          "eastus2",
+          "westus",
+          "westus2",
+          "northcentralus",
+          "southcentralus",
+          "westcentralus",
+          "northeurope"     
         ],
         "metadata": {
           "description": "Location for all resources."
         }
       },
-      "VMName": {
+      "VmName": {
         "type": "string",
         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
         "metadata": {
@@ -142,20 +103,6 @@
           "description": "Name of the virtual network."
         }
       },
-      "securityGroupName": {
-        "type": "string",
-         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
-        "metadata": {
-          "description": "Name of the security Group."
-        }
-      },
-      "osDiskType": {
-        "type": "string",
-         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
-        "metadata": {
-          "description": "Name of the disk type."
-        }
-      },
       "subnetName": {
         "type": "string",
         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
@@ -172,57 +119,31 @@
       }
       
     },
-    "variables": {
-      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-        //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-        //"[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-        //"/subscriptions/9f4dcf43-aa06-457b-b975-f0216baef20d/resourceGroups/nsc-rg-dev-usw2-joanna/providers/Microsoft.Network/publicIPAddresses/nsc-aut-dev-usw2-joanna-ip",
-        //"[concat('/subscriptions/',parameters('subscriptionId'), '/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/publicIPAddresses/', parameters('publicIpName'))]",               
-      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]"
-        //"/subscriptions/9f4dcf43-aa06-457b-b975-f0216baef20d/resourceGroups/nsc-rg-dev-usw2-joanna/providers/Microsoft.Network/virtualNetworks/nsc-vnet-dev-westus2-joanna-test/subnets/joanna"
-        //"[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'), parameters('subnetName'))]"
-        //"[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/', parameters('subnetName'))]"
-        //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
-        //"[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'),parameters('subnetName'))]"
-        //"[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnet1Name'))]"
-        //"vnetId": //"[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-        //"[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+    "variables": {  
+      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",           
+      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]",
+      "intfRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+
     },
     "resources": [
-      {
-        "type": "Microsoft.Storage/storageAccounts",
-        "apiVersion": "2019-06-01",
-        "name": "[parameters('StorageName')]",
-        "location": "[parameters('location')]",
-        "sku": {
-          "name": "Standard_LRS"
-        },
-        "kind": "Storage",
-        "properties": {}
-      },
       {
         "type": "Microsoft.Network/networkInterfaces",
         "name": "[parameters('networkInterfaceName')]",
         "apiVersion": "2020-06-01",
         "location": "[parameters('location')]",
-        "dependsOn": [
-          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",
-          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-          //"[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
-        ],
+        "dependsOn": [],
         "properties": {
           "ipConfigurations": [
             {
               "name": "ipConfig1",
               "properties": {
                 "privateIPAllocationMethod": "Dynamic",
-                "publicIPAddresses": {
-                  "publicIPAddressId": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
-                  //"[variables('pipRef')]"
+                "publicIPAddress": {
+                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
                 },
                 "subnet": {
-                  "subnetId": "[variables('subnetRef')]"                  
-                }                
+                  "id": "[variables('subnetRef')]"                 
+                }               
               }
             }
           ]
@@ -231,51 +152,37 @@
       {
         "type": "Microsoft.Compute/virtualMachines",
         "apiVersion": "2020-06-01",
-        "name": "[parameters('VMName')]",
+        "name": "[parameters('VmName')]",
         "location": "[parameters('location')]",
-        "dependsOn": [
-          "[reference(parameters('storageName'))]",
-          "[reference(parameters('networkInterfaceName'))]"
-        ],
+        "dependsOn": [],
         "properties": {
           "hardwareProfile": {
             "vmSize": "[parameters('vmSize')]"
           },
           "osProfile": {
-            "computerName": "[parameters('VMName')]",
-            "adminUsername": "[parameters('adminUsername')]",
-            "adminPassword": "[parameters('adminPassword')]"
+            "computerName": "[parameters('VmName')]",
+            "adminUsername": "[parameters('adminUsernameVM')]",
+            "adminPassword": "[parameters('adminPasswordVM')]"
           },
           "storageProfile": {
             "imageReference": {
                 "publisher": "Canonical",
                 "offer": "UbuntuServer",
                 "sku": "18.04-LTS",
-                //"publisher": "MicrosoftWindowsServer",
-                //"offer": "WindowsServer",
-                //"sku": "[parameters('OSVersion')]",
                 "version": "latest"
             },
             "osDisk": {
               "createOption": "FromImage",
               "managedDisk": {
                 "storageAccountType": "StandardSSD_LRS"
-                //"storageAccountType": "[parameters('osDiskType')]"
               },
               "diskSizeGB": 30
             }
-            // "dataDisks": [
-            //   {
-            //     "diskSizeGB": 1023,
-            //     "lun": 0,
-            //     "createOption": "Empty"
-            //   }
-            // ]
           },
           "networkProfile": {
             "networkInterfaces": [
-              { 
-                "id": "[reference(parameters('networkInterfaceName'))]"
+              {
+                "id": "[variables('intfRef')]"
               }
             ]
           },
@@ -285,28 +192,8 @@
             }
           }
         }
-      }
+      }      
     ],
     "outputs": {
-      // "virtualMachine": {
-      //   "type": "object",
-      //   "value": "[reference(parameters('VMName'))]"
-      // },
-      // "netInterfaceName": {
-      //   "type": "object",
-      //   "value": "[reference(parameters('networkInterfaceName'))]"
-      // },
-      // "ExistingIPA": {
-      //   "type": "string",
-      //   "value": "[reference(resourceId(parameters('publicIpName'), 'Microsoft.Network/publicIPAddresses', parameters('publicIpName')), '2020-07-01')]"
-      // },
-      // "ExistingVirtualNetworkName": {
-      //   "type": "string",
-      //   "value": "[reference(resourceId(parameters('virtualNetworkName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
-      // },
-      // "ExistingSubnet": {
-      //   "type": "string",
-      //   "value": "[reference(resourceId(parameters('subnetName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName')), '2020-05-01')]"
-      // }
     }
   }

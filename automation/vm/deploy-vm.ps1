@@ -44,6 +44,14 @@ param (
     $ServicePrincipalPassword,
 
     [Parameter(Mandatory=$True)]
+    [securestring]
+    $AdminUserNameVM,
+
+    [Parameter(Mandatory=$True)]
+    [securestring]
+    $AdminStrongPasswordVM,
+
+    [Parameter(Mandatory=$True)]
     [string]
     $ResourceGroupName,
     
@@ -75,7 +83,7 @@ param (
     [string]
     $SubNetName,
 
-    [Parameter(Mandatory=$True)]
+    [Parameter(Mandatory=$False)]
     [string]
     $SecurityGroupName,
 
@@ -87,7 +95,7 @@ param (
     [string]
     $PublicIpAddress,
 
-    [Parameter(Mandatory=$True)]
+    [Parameter(Mandatory=$False)]
     [string]
     $StorageName
     
@@ -127,18 +135,17 @@ Connect-AzAccount | Out-Null
 
 $vmparameters = @{
     publicIpName = ($PublicIpName).ToLower();  
-    VMName = ($VirtualMachineName).ToLower();
+    VmName = ($VirtualMachineName).ToLower();
     networkInterfaceName = ($NetworkInterfaceName).ToLower();
     virtualNetworkName = ($VirtualNetworkName).ToLower(); 
     subnetName = ($SubNetName).ToLower();
-    securityGroupName = ($SecurityGroupName).ToLower();
     resourceGroupName = ($ResourceGroupName).ToLower();
     subscriptionId = ($SubscriptionId).ToLower();
-    #location = ($Location).ToLower();
-
-    # storageName = 
+    adminUsernameVM = $AdminUserNameVM;
+    adminPasswordVM = $AdminStrongPasswordVM;  
+    storageName =  ($StorageName).ToLower();
 }
-$today = Get-Date -Format "MM-dd-yyyy"
+
 $templatePath = "./template.json"
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templatePath -Location $location -TemplateParameterObject $vmparameters
 #   }
