@@ -4,14 +4,18 @@
 .DESCRIPTION
   This script will deploy a virtual machine and network interface. 
   This script  requires an existing Azure subscription and Resource group.
+.PARAMETER SubscriptionId
+    Required. A subscription ID
+.PARAMETER TenantId
+    Required. A tenant ID
 .PARAMETER ResourceGroupName
     Required. Name of Resource group, if already exists will ask if add VM to it   
 .PARAMETER Location
     Required. Name of location of Resource eg: westus2     
 .PARAMETER VirtualNetworkName
-    Required. Existing name of desired Virtual Network Name Eg: [project]-[resource-type]-[environment]-[location]-[other-stuff]
+    Required. Existing name of desired Virtual Network Name 
 .PARAMETER SubNetName
-    Required. Existing Name of desired SubNet
+    Required. Existing Name of SubNet
 .PARAMETER VirtualMachineName
     Required. Desired name for virtual machine
 .PARAMETER NetworkInterfaceName
@@ -35,20 +39,20 @@ param (
     [string]
     $TenantId,
 
-    [Parameter(Mandatory=$False)]
+    [Parameter(Mandatory=$True)]
     [string]
     $ServicePrincipalId,
 
-    [Parameter(Mandatory=$False)]
-    [SecureString]
+    [Parameter(Mandatory=$True)]
+    [string]
     $ServicePrincipalPassword,
 
     [Parameter(Mandatory=$True)]
-    [securestring]
+    [string]
     $AdminUserNameVM,
 
     [Parameter(Mandatory=$True)]
-    [securestring]
+    [string]
     $AdminStrongPasswordVM,
 
     [Parameter(Mandatory=$True)]
@@ -58,14 +62,6 @@ param (
     [Parameter(Mandatory=$True)]
     [string]
     $Location,
-
-    [Parameter(Mandatory=$False)]
-    [string]
-    $TemplatePath,
-
-    [Parameter(Mandatory=$False)]
-    [string]
-    $ParamFilePath,
 
     [Parameter(Mandatory=$True)]
     [string]
@@ -83,47 +79,45 @@ param (
     [string]
     $SubNetName,
 
-    [Parameter(Mandatory=$False)]
-    [string]
-    $SecurityGroupName,
-
     [Parameter(Mandatory=$True)]
     [string]
-    $PublicIpName,
-
-    [Parameter(Mandatory=$False)]
-    [string]
-    $PublicIpAddress,
-
-    [Parameter(Mandatory=$False)]
-    [string]
-    $StorageName
-    
+    $PublicIpName
     
 )
 
-#To login to azure from powershell use the following
-Connect-AzAccount | Out-Null
+#Clears all prior sign ins
+Clear-AzContext -Force 
 
-# $Credential = Get-Credential
-# Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+#Signs in the user to Azure with service principal credential
+$securePassword = ConvertTo-SecureString -String $ServicePrincipalPassword -AsPlainText -Force;
+#$securePassword = $ServicePrincipalPassword
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalId, $securePassword);
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+
+#Sets the subscription ID correct so the resource group can be searched from the correct place
+Set-AzContext -SubscriptionId $SubscriptionId
+
+
+#attempts to retrieve the given resource group
+$resourceGroup = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
 
 # #checks if the resource group provided is valid
-# if(!$ResourceGroupName) {
-#     Write-Host “Resource group ‘$ResourceGroupName’ does not exist. Creating a resource group with given name and location"
-#     New-AzResourceGroup -Name $ResourceGroupName -Location $location 
-# } 
-# ##checks if the VirtualNetworkName provided is valid
+# if(!$resourceGroup) {
+#     Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
+#     New-AzResourceGroup -Name $ResourceGroupName -Location $location }
+ 
+
+# #checks if the VirtualNetworkName provided is valid
 # if(!$VirtualNetworkName) {
 #     Write-Host “Given Virtual Network Name ‘$VirtualNetworkName’ does not exist. Creating a Virtual Network Name with given name and location"
 #     ../vnet/deploy-vnet.ps1
 # }
-# ##checks if the Public Ip Name provided is valid
+# #checks if the Public Ip Name provided is valid
 # if(!$PublicIpName) {
 #     Write-Host “Given Public Ip Name ‘$PublicIpName’ does not exist. Creating a Public Ip Name with given name and location"
 #     ../ip-address-script/create-ip.ps1
 # }
-# ##checks if the Storage Name provided is valid
+# #checks if the Storage Name provided is valid
 # if(!$StorageName) {
 #     Write-Host “Given Storage Name ‘$StorageName’ does not exist. Creating a Storage Name with given name and location"
 #     ../functions/create_azure_storageacct.ps1
@@ -143,7 +137,7 @@ $vmparameters = @{
     subscriptionId = ($SubscriptionId).ToLower();
     adminUsernameVM = $AdminUserNameVM;
     adminPasswordVM = $AdminStrongPasswordVM;  
-    storageName =  ($StorageName).ToLower();
+    
 }
 
 $templatePath = "./template.json"

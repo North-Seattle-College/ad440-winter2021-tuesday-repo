@@ -109,20 +109,12 @@
         "metadata": {
           "description": "subnet."
         }
-      },
-      "storageName": {
-        "type": "string",
-        "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
-        "metadata": {
-          "description": "storage."
-        }
       }
-      
     },
     "variables": {  
       "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",           
-      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]",
-      "intfRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]"
+      
 
     },
     "resources": [
@@ -182,7 +174,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "[variables('intfRef')]"
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
               }
             ]
           },
@@ -195,5 +187,9 @@
       }      
     ],
     "outputs": {
+      "virtualMachine": {
+        "type": "object",
+        "value": "[reference(parameters('VmName'))]"
+      }
     }
   }
