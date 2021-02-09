@@ -4,7 +4,7 @@
     "parameters": {
         "virtualNetworks_VN_team02_name": {
             "defaultValue": "VN-team02",
-            "type": "String"
+            "type": "string"
         }
     },
     "variables": {},
