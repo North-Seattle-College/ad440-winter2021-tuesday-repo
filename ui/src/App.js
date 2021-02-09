@@ -6,11 +6,16 @@ import {
   Switch,
 } from "react-router-dom";
 
-import NavScreen from "./components/navigation/NavScreen";
 import HomeScreen from "./components/pages/HomeScreen";
-import UsersScreen from "./components/pages/UsersScreen";
-import TasksScreen from "./components/pages/TasksScreen";
-import TaskDetailsScreen from "./components/pages/TaskDetailsScreen";
+import UserScreen from "./components/pages/UserScreen";
+import TaskScreen from "./components/pages/TaskScreen";
+import NavScreen from "./components/navigation/NavScreen";
+import TaskListScreen from "./components/pages/TaskListScreen";
+import UsersListScreen from "./components/pages/UserListScreen";
+import ArtilleryListScreen from "./components/pages/ArtilleryListScreen";
+import ServerlessListScreen from "./components/pages/ServerlessListScreen";
+import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
+import ServerlessDetailScreen from "./components/pages/ServerlessDetailScreen";
 
 import "./components/css/App.css";
 
@@ -23,13 +28,28 @@ const App = () => {
             <HomeScreen />
           </Route>
           <Route path="/users" exact>
-            <UsersScreen />
+            <UsersListScreen />
+          </Route>
+          <Route path="/users/:userId" exact>
+            <UserScreen />
           </Route>
           <Route path="/users/:userId/tasks" exact>
-            <TasksScreen />
+            <TaskListScreen />
           </Route>
           <Route path="/users/:userId/tasks/:taskId" exact>
-            <TaskDetailsScreen />
+            <TaskScreen />
+          </Route>
+          <Route path="/artillery" exact>
+            <ArtilleryListScreen />
+          </Route>
+          <Route path="/artillery/:testId" exact>
+            <ArtilleryDetailScreen />
+          </Route>
+          <Route path="/serverless" exact>
+            <ServerlessListScreen />
+          </Route>
+          <Route path="/serverless/:testId" exact>
+            <ServerlessDetailScreen />
           </Route>
           <Redirect to="/" exact />
         </Switch>

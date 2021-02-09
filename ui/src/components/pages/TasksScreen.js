@@ -1,51 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import Button from "../uiElements/Button";
 import DUMMY_TASKS from "../data/dummy-tasks.json";
-import { useAxiosClient } from "../hooks/axios-hook";
 
 import "../css/TaskScreen.css";
 
-const TasksScreen = (props) => {
-  const [tasksList, setTasksList] = useState([]);
-  const { sendRequest } = useAxiosClient();
+// Displays close "details" view of a user's individual Task from their list;
+const TaskDetailsScreen = (props) => {
+  const [task, setTask] = useState();
   const params = useParams();
+  const [completed, setCompleted] = useState(false);
 
+  // This handles changes to the "Done?" checkbox
+  // and updates the value of "task.completed"
+  const completedHandler = () => {
+    setCompleted(!completed);
+    task.completed = !task.completed;
+  };
+
+  // Gets the selected task by its id;
   useEffect(() => {
-    setTasksList(DUMMY_TASKS); // TESTING ONLY
-    // Just need the URL put in place, uncomment this
-    // const fetchUsers = async () => {
-    //   try {
-    //     const responseData = await sendRequest(
-    //       `GET`,
-    //       `http://URLHERE/api/users`,
-    //       null,
-    //       { Authorization: `Bearer token` }
-    //     );
-    //     setUsersList(responseData.users);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchUsers();
-  }, [sendRequest]);
+    DUMMY_TASKS.map((item) => {
+      return item.taskId === parseInt(params.taskId) && setTask(item);
+    });
+  }, [params.taskId, params.completed]);
 
+  // Render the component;
   return (
-    <div className="task-List">
-      {tasksList.map((task) => {
-        return (
-          <Button
-            className="task-Button"
-            key={task.taskId}
-            to={`/users/${params.userId}/tasks/${task.taskId}`}>
-            {task.title}<br />
-            {task.dateCreated}
-          </Button>
-        );
-      })}
-    </div>
+    <React.Fragment>
+      {task === undefined ? (
+        <div>Nothing loaded!</div>
+      ) : (
+        <div>
+          <div className="task-Header">Task: {task.title}</div>
+          <div className="divider" />
+          <ol>
+            <div className="task-description">
+              Description: {task.taskDescription}
+              <br />
+              Date created: {task.dateCreated}
+            </div>
+            Done?
+            <input
+              type="checkbox"
+              name="completed"
+              value={task.completed}
+              checked={task.completed ? "checked" : ""}
+              onChange={completedHandler}
+            />
+          </ol>
+        </div>
+      )}
+    </React.Fragment>
   );
 };
 
-export default TasksScreen;
+export default TaskDetailsScreen;
