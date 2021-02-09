@@ -89,57 +89,71 @@ param (
 Clear-AzContext -Force 
 
 #Signs in the user to Azure with service principal credential
+Write-Host Signing in using service principal
 $securePassword = ConvertTo-SecureString -String $ServicePrincipalPassword -AsPlainText -Force;
-#$securePassword = $ServicePrincipalPassword
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalId, $securePassword);
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+
 
 #Sets the subscription ID correct so the resource group can be searched from the correct place
 Set-AzContext -SubscriptionId $SubscriptionId
 
 
 #attempts to retrieve the given resource group
-$resourceGroup = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
-
-# #checks if the resource group provided is valid
-# if(!$resourceGroup) {
-#     Write-Host “Resource group ‘$resourceGroupName’ does not exist. Creating a resource group with given name and location"
-#     New-AzResourceGroup -Name $ResourceGroupName -Location $location }
- 
-
-# #checks if the VirtualNetworkName provided is valid
-# if(!$VirtualNetworkName) {
-#     Write-Host “Given Virtual Network Name ‘$VirtualNetworkName’ does not exist. Creating a Virtual Network Name with given name and location"
-#     ../vnet/deploy-vnet.ps1
-# }
-# #checks if the Public Ip Name provided is valid
-# if(!$PublicIpName) {
-#     Write-Host “Given Public Ip Name ‘$PublicIpName’ does not exist. Creating a Public Ip Name with given name and location"
-#     ../ip-address-script/create-ip.ps1
-# }
-# #checks if the Storage Name provided is valid
-# if(!$StorageName) {
-#     Write-Host “Given Storage Name ‘$StorageName’ does not exist. Creating a Storage Name with given name and location"
-#     ../functions/create_azure_storageacct.ps1
-# }
+#$ResourceGroupName = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
 
 
+Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresentRG -ErrorAction SilentlyContinue
+#checks if provided resources are existing if not create a new group or other resources by running scripts from the same directory
+if($notPresentRG){
+    Write-Host 'Resource group "$ResourceGroupName" does not exist. Creating a resource group with given name and location'
+    New-AzResourceGroup -ResourceGroupName "$ResourceGroupName" -Location $location
+    Write-Host $ResourceGroupName
+
+    #create  vnet
+    Write-Host 'Creating a "$VirtualNetworkName" in new group with given name and location'
+    Get-Item -Path "../vnet/deploy-vnet.ps1" 
+    Write-Host $VirtualNetworkName
     
-    
+    #create public Ip 
+    Write-Host 'Creating a "$PublicIpName" in new group with given name and location'
+    Get-Item -Path "../ip-address-script/create-ip.ps1" 
+    Write-Host $PublicIpName
 
-$vmparameters = @{
-    publicIpName = ($PublicIpName).ToLower();  
-    VmName = ($VirtualMachineName).ToLower();
-    networkInterfaceName = ($NetworkInterfaceName).ToLower();
-    virtualNetworkName = ($VirtualNetworkName).ToLower(); 
-    subnetName = ($SubNetName).ToLower();
-    resourceGroupName = ($ResourceGroupName).ToLower();
-    subscriptionId = ($SubscriptionId).ToLower();
-    adminUsernameVM = $AdminUserNameVM;
-    adminPasswordVM = $AdminStrongPasswordVM;  
-    
+    #create network interface
+    Write-Host 'Creating a "$NetworkInterfaceName" in new group with given name and location'
+    Get-Item -Path "./deploy-vm.ps1" 
+    Write-Host $NetworkInterfaceName
+} elseif (!$VirtualNetworkName) {
+    #checks if the VirtualNetworkName provided is valid
+    Write-Host 'Given Virtual Network Name ‘$VirtualNetworkName’ does not exist. Creating a Virtual Network Name with given name and location'
+    Get-ChildItem -Path "../vnet/deploy-vnet.ps1"
+    Write-Host $VirtualNetworkName
+} elseif (!$PublicIpName) {
+    Write-Host 'Given Public Ip Name ‘$PublicIpName’ does not exist. Creating a Public Ip Name with given name and location'
+    $PublicIpName = $IpName
+    Get-Item  -Path "../ip-address-script/create-ip.ps1" 
+    Write-Host $PublicIpName
+} elseif(!$NetworkInterfaceName) {
+    #checks if the NetworkInterface Name provided is valid
+    Write-Host 'Given Public Ip Name ‘$NetworkInterfaceName’ does not exist. Creating a Public Ip Name with given name and location'
+    Get-Item  -Path "./deploy-vm.ps1" 
+    Write-Host $NetworkInterfaceName
+} else {  
+       $vmparameters = @{
+        publicIpName = ($PublicIpName).ToLower();  
+        VmName = ($VirtualMachineName).ToLower();
+        networkInterfaceName = ($NetworkInterfaceName).ToLower();
+        virtualNetworkName = ($VirtualNetworkName).ToLower(); 
+        subnetName = ($SubNetName).ToLower();
+        resourceGroupName = ($ResourceGroupName).ToLower();
+        subscriptionId = ($SubscriptionId).ToLower();
+        adminUsernameVM = $AdminUserNameVM;
+        adminPasswordVM = $AdminStrongPasswordVM;  
+        
+    }
+
+    $templatePath = "./template.json"
+    Write-Host 'Creating VM ...'
+    New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templatePath -Location $location -TemplateParameterObject $vmparameters
 }
-
-$templatePath = "./template.json"
-New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templatePath -Location $location -TemplateParameterObject $vmparameters
-#   }
