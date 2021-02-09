@@ -99,10 +99,6 @@ Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
 Set-AzContext -SubscriptionId $SubscriptionId
 
 
-#attempts to retrieve the given resource group
-#$ResourceGroupName = Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue
-
-
 Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresentRG -ErrorAction SilentlyContinue
 #checks if provided resources are existing if not create a new group or other resources by running scripts from the same directory
 if($notPresentRG){
@@ -112,32 +108,33 @@ if($notPresentRG){
 
     #create  vnet
     Write-Host 'Creating a "$VirtualNetworkName" in new group with given name and location'
-    Get-Item -Path "../vnet/deploy-vnet.ps1" 
+    & "../vnet/deploy-vnet.ps1"
+    #Import-PowerShellDataFile -Path "../vnet/deploy-vnet.ps1" 
     Write-Host $VirtualNetworkName
     
     #create public Ip 
     Write-Host 'Creating a "$PublicIpName" in new group with given name and location'
-    Get-Item -Path "../ip-address-script/create-ip.ps1" 
+    & "../ip-address-script/create-ip.ps1" 
     Write-Host $PublicIpName
 
     #create network interface
     Write-Host 'Creating a "$NetworkInterfaceName" in new group with given name and location'
-    Get-Item -Path "./deploy-vm.ps1" 
+    & "./deploy-vm.ps1" 
     Write-Host $NetworkInterfaceName
 } elseif (!$VirtualNetworkName) {
     #checks if the VirtualNetworkName provided is valid
     Write-Host 'Given Virtual Network Name ‘$VirtualNetworkName’ does not exist. Creating a Virtual Network Name with given name and location'
-    Get-ChildItem -Path "../vnet/deploy-vnet.ps1"
+    & "../vnet/deploy-vnet.ps1"
     Write-Host $VirtualNetworkName
 } elseif (!$PublicIpName) {
     Write-Host 'Given Public Ip Name ‘$PublicIpName’ does not exist. Creating a Public Ip Name with given name and location'
     $PublicIpName = $IpName
-    Get-Item  -Path "../ip-address-script/create-ip.ps1" 
+    & "../ip-address-script/create-ip.ps1" 
     Write-Host $PublicIpName
 } elseif(!$NetworkInterfaceName) {
     #checks if the NetworkInterface Name provided is valid
     Write-Host 'Given Public Ip Name ‘$NetworkInterfaceName’ does not exist. Creating a Public Ip Name with given name and location'
-    Get-Item  -Path "./deploy-vm.ps1" 
+    & "./deploy-vm.ps1" 
     Write-Host $NetworkInterfaceName
 } else {  
        $vmparameters = @{
