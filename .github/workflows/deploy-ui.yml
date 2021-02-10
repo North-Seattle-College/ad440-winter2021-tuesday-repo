@@ -1,4 +1,4 @@
-name: UI Update Automation
+name: Deploy UI
 
 on:
   push:
