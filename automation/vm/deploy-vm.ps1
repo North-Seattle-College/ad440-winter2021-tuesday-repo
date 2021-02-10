@@ -22,6 +22,7 @@
     Required. Desired name for network interface
 .PARAMETER PublicIpName
     Required. Existing public Ip address
+
 .NOTES
   Version:        2.0
   Author:         Joanna Gromadzka
@@ -83,6 +84,7 @@ param (
     [string]
     $PublicIpName
     
+    
 )
 
 #Clears all prior sign ins
@@ -92,11 +94,8 @@ Clear-AzContext -Force
 Write-Host Signing in using service principal
 $securePassword = ConvertTo-SecureString -String $ServicePrincipalPassword -AsPlainText -Force;
 $Credential = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalId, $securePassword);
-Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal -SubscriptionId $SubscriptionId
 
-
-#Sets the subscription ID correct so the resource group can be searched from the correct place
-Set-AzContext -SubscriptionId $SubscriptionId
 
 
 Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresentRG -ErrorAction SilentlyContinue

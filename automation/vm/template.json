@@ -112,7 +112,8 @@
       }
     },
     "variables": {  
-      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",           
+      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",    
+      "intfName": "nsc-aut-dev-usw2-joanna-intfc",        
       "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]"
       
 
@@ -146,7 +147,7 @@
         "apiVersion": "2020-06-01",
         "name": "[parameters('VmName')]",
         "location": "[parameters('location')]",
-        "dependsOn": [],
+        "dependsOn": ["[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"],
         "properties": {
           "hardwareProfile": {
             "vmSize": "[parameters('vmSize')]"
