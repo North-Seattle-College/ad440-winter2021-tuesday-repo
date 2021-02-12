@@ -49,10 +49,14 @@ param (
     $IpMethod
 )
 
-#Logs into the AZ account
+#Clears all prior sign ins
 Clear-AzContext -Force 
-$Credential = Get-Credential
-Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
+
+#Signs in the user to Azure with service principal credential
+Write-Host Signing in using service principal
+$securePassword = ConvertTo-SecureString -String $ServicePrincipalPassword -AsPlainText -Force;
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalId, $securePassword);
+Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal -SubscriptionId $SubscriptionId
 
 # Get existing resource group
 $Location = Get-AzResourceGroup -Name $ResourceGroupName -ErrorVariable notPresent -ErrorAction SilentlyContinue
