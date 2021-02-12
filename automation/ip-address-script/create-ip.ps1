@@ -8,6 +8,10 @@
     Required. A tenant ID
 .PARAMETER ResourceGroupName
     Required. Name of existing Resource group
+.PARAMETER ServicePrincipalId
+    Required. ID for the service principal
+.PARAMETER ServicePrincipalPassword
+    Required. Password for the service principal
 .PARAMETER IpName
     Suggested. Desired name of the IP address
 .PARAMETER IpVersion
@@ -35,6 +39,14 @@ param (
     [Parameter(Mandatory=$True, HelpMessage='The name of the resource group this is being added to.')]
     [string]
     $ResourceGroupName,
+
+    [Parameter(Mandatory=$False, HelpMessage='The service principal ID')]
+    [string]
+    $ServicePrincipalId,
+
+    [Parameter(Mandatory=$False, HelpMessage='The service principal password')]
+    [string]
+    $ServicePrincipalPassword,
 
     [Parameter(Mandatory=$False, HelpMessage='The name of the IP address.')]
     [string]
