@@ -4,25 +4,15 @@
   "parameters": {
     "appName": {
       "type": "string",
-      "defaultValue": "[concat('azfunspn-', uniqueString(resourceGroup().id))]",
+      "defaultValue": "[string('nsc-fun-dev-usw2-tuesday')]",
       "metadata": {
         "description": "The name of your app."
       }
     },
-    "webKind": {
-      "type": "string",
-      "defaultValue": "functionapp",
-      "metadata": {
-        "description": "Kind of site"
-      }
-    },
-    "storageAccountName": {
-      "type": "String",
-      "defaultValue": "[concat('stor', uniqueString(resourceGroup().id))]"
-    },
     "storageSku": {
       "type": "string",
       "defaultValue": "Standard_LRS",
+      "allowedValues": ["Standard_LRS", "Standard_GRS", "Standard_RAGRS"],
       "metadata": {
         "description": "Storage type"
       }
@@ -34,83 +24,125 @@
         "description": "Location for all resources."
       }
     },
-    "storageKind": {
+  "appService": {
       "type": "string",
-      "defaultValue": "StorageV2",
+      "defaultValue": "[string('nsc-asp-dev-usw2-tuesday')]",
       "metadata": {
-        "description": "Kind of storage"
+        "description": "Location for all resources."
       }
     },
-    "sku": {
+    "applicationInsight": {
+      "defaultValue": "[string('nsc-appins-dev-usw2-Tuesday')]",
       "type": "string",
-      "defaultValue": "Standard"
+      "metadata": {
+        "description": "Name of Application Insights resource."
+      }
     },
-    "skucode": {
+    "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "S1"
+      "metadata": {
+        "description": "Location for Application Insights"
+      }
+    },
+    "runtime": {
+      "type": "string",
+      "defaultValue": "node",
+      "allowedValues": ["node", "dotnet", "java"],
+      "metadata": {
+        "description": "The language worker runtime to load in the function app."
+      }
     }
   },
   "variables": {
-    "hostingPlanName": "[concat('hostspn-', resourceGroup().name)]",
-    "storageAccountid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+    "functionAppName": "[parameters('appName')]",
+    "hostingPlanName": "[parameters('appService')]",
+    "applicationInsightsName": "[parameters('applicationInsight')]",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'nscstrdevusw2tuefun')]",
+    "functionWorkerRuntime": "[parameters('runtime')]"
   },
   "resources": [
     {
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "2019-08-01",
-      "name": "[parameters('appName')]",
-      "kind": "[parameters('webKind')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('storageSku')]"
+      },
+      "kind": "Storage"
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic"
+      },
+      "properties": {
+        "name": "[variables('hostingPlanName')]",
+        "computeMode": "Dynamic"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('functionAppName')]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "properties": {
-        "name": "[parameters('appName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
           "appSettings": [
             {
-              "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "python"
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
+            },
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]"
+            },
+            {
+              "name": "WEBSITE_CONTENTSHARE",
+              "value": "[toLower(variables('functionAppName'))]"
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
               "value": "~2"
             },
             {
-              "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2019-06-01').keys[0].value)]"
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~10"
+            },
+            {
+              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "[variables('functionWorkerRuntime')]"
             }
           ]
-        },
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "clientAffinityEnabled": false
+        }
       }
     },
     {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2019-08-01",
-      "name": "[variables('hostingPlanName')]",
-      "location": "[parameters('location')]",
-      "kind": "[parameters('webKind')]",
-      "properties": {
-        "reserved": true
+      "type": "microsoft.insights/components",
+      "apiVersion": "2020-02-02-preview",
+      "name": "[variables('applicationInsightsName')]",
+      "location": "[parameters('appInsightsLocation')]",
+      "tags": {
+        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
       },
-      "sku": {
-        "Tier": "[parameters('sku')]",
-        "Name": "[parameters('skuCode')]"
-      }
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[parameters('storageAccountName')]",
-      "apiVersion": "2019-06-01",
-      "location": "[parameters('location')]",
-      "kind": "[parameters('storageKind')]",
-      "sku": {
-        "name": "[parameters('storageSku')]"
+      "properties": {
+        "ApplicationId": "[variables('applicationInsightsName')]",
+        "Request_Source": "IbizaWebAppExtensionCreate"
       }
     }
   ]
 }
-
