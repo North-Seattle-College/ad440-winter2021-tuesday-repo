@@ -40,6 +40,6 @@ jobs:
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
 
-          ~/.npm-global/bin/slsart invoke -s ../../testing/serverless-artillery/serverless-artillery-test-users-is-tasks-id-api.yml --stage $STAGE_NAME --region us-west-2
+          ~/.npm-global/bin/slsart invoke -p ../../testing/serverless-artillery/serverless-artillery-test-users-is-tasks-id-api.yml --stage $STAGE_NAME --region us-west-2
 
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
