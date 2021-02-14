@@ -10,6 +10,6 @@ config:
 scenarios:
   - flow:
       - get:
-          url: "/users/{userId}/tasks"
+          url: "/api/users/1/tasks"
           json:
             name: "name" 
