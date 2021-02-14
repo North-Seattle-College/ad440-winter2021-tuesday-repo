@@ -5,7 +5,7 @@
 # https://artillery.io/docs/  ########
 config:
   # this hostname will be used as a prefix for each URI in the flow unless a complete URI is specified
-  target: "https://nsc-fun-dev-usw2-tsmtestfunction.azurewebsites.net/api/HttpTriggerLoadTest"
+  target: "https://nsc-fun-dev-usw2-tsmtestfunction.azurewebsites.net/api/"
   phases:
     -
       duration: 3600
