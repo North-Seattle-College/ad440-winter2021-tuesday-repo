@@ -14,4 +14,4 @@ scenarios:
   - name: "Load Test"
     flow:
       - get:
-          url: "/users"
+          url: "/task"
