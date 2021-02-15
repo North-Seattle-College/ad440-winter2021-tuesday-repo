@@ -1,4 +1,4 @@
-name: Upload artillery performance test for user api to Azure Storage
+name: Upload artillery perf test for user api to Azure Storage
 
 on: [push]
   #push:
