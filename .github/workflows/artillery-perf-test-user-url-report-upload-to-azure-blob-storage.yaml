@@ -1,4 +1,4 @@
-name: Performance-Test
+name: Upload artillery performance test for user api to Azure Storage
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       - name: Create Test Directory
         run: mkdir -p /home/runner/work/_temp/artilleryTestReportsDir
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output /home/runner/work/_temp/artilleryTestReportsDir/artilleryReport_$(date '+%Y-%m-%d-%H-%M-%S').json ./testing/artillery/githubaction_url_performance.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output /home/runner/work/_temp/artilleryTestReportsDir/artilleryReport_$(date '+%Y-%m-%d-%H-%M-%S').json ./testing/artillery/artillery-perf-test-user-api-test.yaml.yml
       - name: uploading to Azure Blob Storage 
         uses: bacongobbler/azure-blob-storage-upload@v1.1.1
         with:
