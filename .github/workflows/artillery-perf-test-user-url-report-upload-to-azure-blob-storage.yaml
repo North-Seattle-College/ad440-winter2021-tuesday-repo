@@ -1,0 +1,62 @@
+name: Performance-Test-Artillery-Upload-To-AZ_Blob_Storage
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  setup:
+    name: Artillery Performance Test
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          check-latest: true
+
+      - name: nodeJS and npm version
+        run: npm -v
+
+      - name: npm init
+        run: npm init -y
+
+      - name: Install artillery
+        run: npm install -g artillery
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
+
+      - name: Running Artillery Test
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-perf-test-user-api.yaml
+
+      - name: Check Artillery Performance test file
+        run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
+        
+        #Azure Login 
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            
+        #Upload File
+      - name: uploading to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.19.1
+          inlineScript: |
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+        
+        # Azure logout
+      - name: logout
+        run: |
+          az logout

@@ -43,6 +43,10 @@ param(
     $TemplateJsonFilePath  #Path of the template.json file, either absolute or relative
 
 )
+
+#clears azure contaxt to ensure proper authentication
+Clear-AzContext -Force 
+
 #Signs in the user to Azure with credentials
 $Credential = Get-Credential
 Connect-AzAccount -Credential $Credential -Tenant $TenantId -ServicePrincipal
@@ -69,6 +73,9 @@ $testPath = Test-Path -Path $TemplateJsonFilePath
 
 #creates the network security group
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateJsonFilePath
+
+#clears azure contaxt to ensure proper authentication
+Clear-AzContext -Force 
 
 
 
