@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import Button from "../uiElements/Button";
-import DUMMY_USERS from "../data/dummy-users.json";
+import DUMMY_TESTS from "../data/dummy-tests.json";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/UsersScreen.css";
+import "../css/TestListScreen.css";
 
-const UsersScreen = (props) => {
-  const [usersList, setUsersList] = useState([]);
+const ServerlessTests = (props) => {
+  const [tests, setTestsList] = useState([]);
   const { sendRequest } = useAxiosClient();
 
   useEffect(() => {
-    setUsersList(DUMMY_USERS); // TESTING ONLY
+    setTestsList(DUMMY_TESTS); // TESTING ONLY
     // Just need the URL put in place, uncomment this
     // const fetchUsers = async () => {
     //   try {
@@ -30,16 +30,22 @@ const UsersScreen = (props) => {
   }, [sendRequest]);
 
   return (
-    <div className="user-List">
-      {usersList.map((user) => {
-        return (
-          <Button key={user.id} to={`users/${user.id}/tasks`}>
-            {user.username}
-          </Button>
-        );
-      })}
-    </div>
+    <React.Fragment>
+      Serverless Artillery Tests Taken:
+      <div className="divider" />
+      <div className="tests-List">
+        {tests.map((test) => {
+          return (
+            <Button key={test.id} to={`serverless/${test.id}`}>
+              ID: {test.id}
+              <br />
+              {test.date}
+            </Button>
+          );
+        })}
+      </div>
+    </React.Fragment>
   );
 };
 
-export default UsersScreen;
+export default ServerlessTests;
