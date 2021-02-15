@@ -36,9 +36,14 @@ jobs:
       # examples for future:
       #- run: cp ./slsart/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
-
-      - name: Deploy, invoke, remove functions
+      - name: Sleep
+        run: sleep 30s
+      - name: Deploy
+        run: | 
+        ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
+      - name: Invocation
         run: |
-          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME > ../../testing/results/users-userid-tasks.json
-          ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
+        ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME > ../../testing/results/users-userid-tasks.json
+      - name: Remove 
+        run: |
+        ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
