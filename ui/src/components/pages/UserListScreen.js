@@ -12,12 +12,12 @@ const UsersScreen = (props) => {
 
   useEffect(() => {
     setUsersList(DUMMY_USERS); // TESTING ONLY
-    // Just need the URL put in place, uncomment this
+    // umcomment when endpoint is live.
     // const fetchUsers = async () => {
     //   try {
     //     const responseData = await sendRequest(
     //       `GET`,
-    //       `http://URLHERE/api/users`,
+    //       `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users`,
     //       null,
     //       { Authorization: `Bearer token` }
     //     );
