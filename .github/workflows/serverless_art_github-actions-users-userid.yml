@@ -3,7 +3,7 @@ name: Performance-Test
 on:  
   push:
     branches:
-      - development
+      - derek-task4-sprint3
 
 jobs:
   slsart-perf:
@@ -41,3 +41,18 @@ jobs:
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
           ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/results/users_id_api_script.json
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
+
+- uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az storage blob upload-batch --account-name nscad440uistoragetues -d '$web' -s .
+      # Azure logout
+      - name: logout
+        run: |
+          az logout
