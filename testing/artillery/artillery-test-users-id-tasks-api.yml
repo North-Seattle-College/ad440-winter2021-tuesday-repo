@@ -1,12 +1,9 @@
-#Artillery test for /users/{user_id}/tasks- 10 concurrent requests per second for 5 mins
-
-
 config:
   target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net"
   phases:
-    - duration: 5
+    - duration: 300
       arrivalRate: 10
-      name: "Performance Jen Test"
+      name: "Artillery Test for /users/{user_id}/tasks - 10 concurrent requests per second for 5 min"
 scenarios:
   - flow:
       - get:
