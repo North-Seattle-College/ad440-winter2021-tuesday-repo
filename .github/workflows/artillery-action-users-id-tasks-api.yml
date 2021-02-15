@@ -1,9 +1,9 @@
 name: Artillery Performance Test
 
-on:
-  push:
-    branches:
-      - development
+on: [push]
+  #push:
+    #branches:
+      #- development
 
 jobs:
   setup:
@@ -53,7 +53,7 @@ jobs:
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+            az storage blob upload  --account-name  --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
         
         # Azure logout
       - name: logout
