@@ -1,10 +1,10 @@
-name: Performance-Test
+name: Serverless Performance-Test
 
-on:  [push]
-  #push:
-   # branches:
-    #  - development
-
+on:  
+   push:
+    branches:
+     - development
+ 
 jobs:
   slsart-perf:
     name: slsart Performance Test
@@ -38,6 +38,9 @@ jobs:
       
       - name: Deploy, invoke, remove functions
         run: |
-          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke -s ../../testing/serverless-artillery/users_api_script.yaml --stage $STAGE_NAME > ../../testing/results/users_api_script.json
+          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
+
+          ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-test-users-is-tasks-id-api.yml --stage $STAGE_NAME --region us-west-2
+
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
+        # trying to fix the invoke

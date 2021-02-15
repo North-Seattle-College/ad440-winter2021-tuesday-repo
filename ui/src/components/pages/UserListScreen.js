@@ -4,7 +4,7 @@ import Button from "../uiElements/Button";
 import DUMMY_USERS from "../data/dummy-users.json";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/UsersScreen.css";
+import "../css/UserListScreen.css";
 
 const UsersScreen = (props) => {
   const [usersList, setUsersList] = useState([]);
@@ -33,7 +33,7 @@ const UsersScreen = (props) => {
     <div className="user-List">
       {usersList.map((user) => {
         return (
-          <Button key={user.id} to={`users/${user.id}/tasks`}>
+          <Button key={user.id} to={`users/${user.id}`}>
             {user.username}
           </Button>
         );
