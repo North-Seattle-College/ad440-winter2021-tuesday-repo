@@ -1,7 +1,6 @@
 name: Serverless Artillery Load testing endpoint users/{user_id}/tasks
 
-on:
-  [push]
+on: [push]
   #push:
   # branches:
   #  - development
