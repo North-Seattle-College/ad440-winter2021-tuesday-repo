@@ -17,7 +17,7 @@
 }
 
 .body {
-    background-color: #474747;
+    background-color: #dce2ec;
     min-height: 90vh;
     width: 100%;
     display: flex;
@@ -26,12 +26,12 @@
 
 .viewPort {
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     max-height: 85%;
     margin: 25px;
     padding: 25px;
     border-width: 5px;
     border-color: #450045;
     border-radius: 5px;
-    background-color: rgb(163, 163, 163);
+    background-color: rgb(32, 150, 158);
 }
