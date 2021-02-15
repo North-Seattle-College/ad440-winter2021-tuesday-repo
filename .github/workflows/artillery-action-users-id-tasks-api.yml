@@ -1,9 +1,9 @@
 name: Artillery Performance Test
 
-on:
-  push:
-    branches:
-      - development
+on: [push]
+  #push:
+    #branches:
+      #- development
 
 jobs:
   setup:
