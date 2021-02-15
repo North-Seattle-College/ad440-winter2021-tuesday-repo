@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import Button from "../uiElements/Button";
 import DUMMY_USERS from "../data/dummy-users.json";
 
-import "../css/UserScreen.css";
+import "../css/UserDetailScreen.css";
 
-const UserScreen = (props) => {
+const UserDetailScreen = (props) => {
   const [user, setUser] = useState();
   const params = useParams();
 
@@ -41,4 +41,4 @@ const UserScreen = (props) => {
   );
 };
 
-export default UserScreen;
+export default UserDetailScreen;
