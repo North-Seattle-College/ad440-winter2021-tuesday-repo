@@ -37,7 +37,7 @@ jobs:
 
       - name: Running Artillery Test
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output /home/runner/work/_temp/artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-perf-test-user-api.yaml
-	  
+
       - name: Check Artillery Performance test file
         run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
         
