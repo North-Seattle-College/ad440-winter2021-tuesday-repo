@@ -42,17 +42,22 @@ jobs:
           ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/results/users_id_api_script.json
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
 
-- uses: actions/checkout@v2
-      - uses: azure/login@v1
+        #Azure Login 
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
-      - name: Upload to blob storage
+            creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            
+        #Upload File
+      - name: uploading to Azure Blob Storage
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.0.72
+          azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload-batch --account-name nscad440uistoragetues -d '$web' -s .
-      # Azure logout
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+        
+        # Azure logout
       - name: logout
         run: |
           az logout
