@@ -1,8 +1,10 @@
 name: Load testing endpoint users/{user_id}/tasks
 
 on:
-  push:
-    branches: developement
+  [push]
+  #push:
+  # branches:
+  #  - development
 
 jobs:
   slsart-perf:
