@@ -1,4 +1,4 @@
-name: Performance-Test
+name: Artillery Performance Test
 
 on:
   push:
