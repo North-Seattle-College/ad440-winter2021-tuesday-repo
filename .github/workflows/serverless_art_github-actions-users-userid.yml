@@ -7,7 +7,7 @@ on:
 
 jobs:
   slsart-perf:
-    name: slsart Performance Test
+    name: Serverless Artillery Performance Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -20,21 +20,17 @@ jobs:
         with:
           node-version: '14'
           check-latest: true
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
+
       - name: Install serverless and serverless-artillery
         run: |
           npm install -g serverless@1.38.0 serverless-artillery
-      # once a folder with slsart script.yml and serverless.yml are created and in the repo
-      # we can copy them into the working dir to run those specific tests with those configurations
-      # - currently this just runs the defaults
-      # examples for future:
-      #- run: cp ./slsart/script.yml ./
-      # - run: cp ./slsart/serverless.yml ./
       
       - name: Deploy, invoke, remove functions
         run: |
