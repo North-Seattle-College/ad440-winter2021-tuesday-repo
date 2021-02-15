@@ -1,9 +1,9 @@
 name: Performance-Test
 
-on: [push]
-  #push:
-    #branches:
-      #- development
+on:
+  push:
+    branches:
+      - development
 
 jobs:
   setup:
