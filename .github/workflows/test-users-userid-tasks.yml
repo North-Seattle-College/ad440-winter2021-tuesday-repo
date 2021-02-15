@@ -38,12 +38,8 @@ jobs:
       # - run: cp ./slsart/serverless.yml ./
       - name: Sleep
         run: sleep 30s
-      - name: Deploy
+      - name: Deploy, Invocation, Remove
         run: | 
         ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-      - name: Invocation
-        run: |
         ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME > ../../testing/results/users-userid-tasks.json
-      - name: Remove 
-        run: |
         ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
