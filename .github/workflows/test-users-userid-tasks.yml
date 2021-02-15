@@ -1,4 +1,4 @@
-name: Load testing endpoint users/{user_id}/tasks
+name: Serverless Artillery Load testing endpoint users/{user_id}/tasks
 
 on:
   [push]
