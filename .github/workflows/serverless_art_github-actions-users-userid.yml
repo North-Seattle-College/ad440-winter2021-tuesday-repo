@@ -3,6 +3,7 @@ name: Performance-Test
 on:  
   push:
     branches:
+      - development
       - derek-task4-sprint3
 
 jobs:
