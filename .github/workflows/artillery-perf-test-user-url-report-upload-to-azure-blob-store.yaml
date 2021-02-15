@@ -31,13 +31,13 @@ jobs:
       - name: Sleep
         run: sleep 10s
       - name: Create Test Directory
-        run: mkdir artilleryTestReports 
+        run: mkdir artilleryTestReportsDir
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryTestReports/artilleryReport_$(date '+%Y-%m-%d-%H-%M-%S').json ./testing/artillery/githubaction_url_performance.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryTestReportsDir/artilleryReport_$(date '+%Y-%m-%d-%H-%M-%S').json ./testing/artillery/githubaction_url_performance.yml
       - name: uploading to Azure Blob Storage 
         uses: bacongobbler/azure-blob-storage-upload@v1.1.1
         with:
-          source_dir: 'artilleryTestReports'
+          source_dir: 'artilleryTestReportsDir'
           container_name: 'artillery'
           connection_string: ${{ secrets.AZ_BLOB_CONNECTION_STRING_ARTILLERY }}
           extra_args: '--pattern *.json'
