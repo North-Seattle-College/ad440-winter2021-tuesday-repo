@@ -26,7 +26,7 @@ const UsersScreen = (props) => {
          console.log(err);
        }
      };
-     fetchUsers();
+    // fetchUsers();
   }, [sendRequest]);
 
   return (
