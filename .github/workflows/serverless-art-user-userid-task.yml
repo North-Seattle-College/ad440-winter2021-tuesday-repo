@@ -29,12 +29,6 @@ jobs:
       - name: Install serverless and serverless-artillery
         run: |
           npm install -g serverless@1.38.0 serverless-artillery
-      # once a folder with slsart script.yml and serverless.yml are created and in the repo
-      # we can copy them into the working dir to run those specific tests with those configurations
-      # - currently this just runs the defaults
-      # examples for future:
-      #- run: cp ./slsart/script.yml ./
-      # - run: cp ./slsart/serverless.yml ./
       - name: Sleep
         run: sleep 10s
       - name: Deploy 
@@ -42,7 +36,7 @@ jobs:
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
       - name: Invocation 
         run: |
-          ~/.npm-global/bin/slsart invoke -p ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME --region us-west-2
+          ~/.npm-global/bin/slsart invoke -p ../../testing/serverless-artillery/test-users-userid-tasks.yml --stage $STAGE_NAME --region us-west-2
       - name: remove functions
         run: |
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
