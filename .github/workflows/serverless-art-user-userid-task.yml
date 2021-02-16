@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
