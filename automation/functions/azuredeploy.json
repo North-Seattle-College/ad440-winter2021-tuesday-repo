@@ -40,9 +40,8 @@
       "defaultValue": {
         "NSCYear": "2021",
         "NSCCohort": "Tuesday",
-        "Owner": "Selina N",
+        "Owner": "Selina N.",
         "OwnerEmail": "selina.nguyen@seattlecolleges.edu"
-
       }
     },
         "applicationInsight": {
@@ -166,6 +165,7 @@
       "location": "[parameters('appInsightsLocation')]",
       "tags": {
         "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
+     
       },
       "properties": {
         "ApplicationId": "[variables('applicationInsightsName')]",
