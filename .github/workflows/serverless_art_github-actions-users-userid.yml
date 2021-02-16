@@ -36,12 +36,18 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
-      
+
       - name: Deploy functions
         run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
 
+      - name: Sleep1
+        run: sleep 10s
+
       - name: Invoke functions
         run: ~/.npm-global/bin/slsart invoke -o ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME --region us-west-2
+
+      - name: Sleep2
+        run: sleep 10s
 
       - name: Remove functions
         run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
