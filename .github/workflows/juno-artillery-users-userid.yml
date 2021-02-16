@@ -31,4 +31,4 @@ jobs:
       - name: Sleep
         run: sleep 10s
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/juno-artillery-test-users-userid.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/juno-users-usersid-10con-5min.yml
