@@ -1,4 +1,4 @@
-name: Performance-Test
+name: Serverless Artillery Users UserID Performance Test
 
 on:  
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   slsart-perf:
-    name: Serverless Artillery Performance Test
+    name: Serverless Artillery Users UserID Performance Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -41,7 +41,7 @@ jobs:
         run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
 
       - name: Invoke functions
-        run: ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/results/users_id_api_script.json
+        run: ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/Serverless-Artillery/users_id_api_script.json
 
       - name: Remove functions
         run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
