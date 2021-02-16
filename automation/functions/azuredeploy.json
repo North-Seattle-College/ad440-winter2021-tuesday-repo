@@ -165,7 +165,6 @@
       "location": "[parameters('appInsightsLocation')]",
       "tags": {
         "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
-     
       },
       "properties": {
         "ApplicationId": "[variables('applicationInsightsName')]",
