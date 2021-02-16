@@ -10,7 +10,7 @@ jobs:
     name: Artillery Performance Test
     runs-on: ubuntu-latest
     env:
-      NPM_CONFIG_PREFIX: "~/.npm"
+      NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: users-userid-perf-test
 
     steps:
