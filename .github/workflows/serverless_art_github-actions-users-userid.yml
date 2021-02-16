@@ -38,7 +38,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
       - name: Deploy functions
-        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region=us-west-2
+        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
 
       - name: Invoke functions
         run: ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/Serverless-Artillery/users_id_api_script.json
