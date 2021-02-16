@@ -3,7 +3,7 @@ name: Performance-Test
 on:
   push:
     branches:
-      - juno-artillery-test
+      - development
 
 jobs:
   setup:
@@ -34,9 +34,9 @@ jobs:
       - name: Sleep
         run: sleep 10s
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/juno-users-usersid-10con-5min.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport-users-userid_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-test-users-userid-10con-5min.yml
       - name: Check Artillery Performance test file
-        run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
+        run: ls -ltr artilleryReport-users-userid_${{ steps.date.outputs.date }}.json
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -46,7 +46,7 @@ jobs:
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport-users-userid_${{ steps.date.outputs.date }}.json --file  artilleryReport-users-userid_${{ steps.date.outputs.date }}.json
       - name: logout
         run: |
           az logout
