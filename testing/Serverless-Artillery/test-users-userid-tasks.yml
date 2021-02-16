@@ -1,12 +1,17 @@
 config:
-  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net"
+  # this hostname will be used as a prefix for each URI in the flow unless a complete URI is specified
+  target: "https://nsc-functionsapp-team1.azurewebsites.net/api/users/2/tasks"
   phases:
-    - duration: 300
-      arrivalRate: 10
-      name: "Artillery Test for /users/{user_id}/tasks - 10 concurrent requests per second for 5 min"
-scenarios:
-  - flow:
+
+     -duration: 300
+      arrivalRate: 1
+      rampTo: 10
+     
+  -
+    flow:
+
       - get:
-          url: "/api/users/1/tasks"
-          json:
-            name: "name" 
+           url: "/"
+    capture:
+      json: "$.taskId"
+      as: "taskId"
