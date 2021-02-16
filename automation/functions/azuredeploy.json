@@ -9,10 +9,21 @@
         "description": "The name of your app."
       }
     },
-    "storageSku": {
+    "storageName": {
+        "defaultValue": "[string('nsctrdevusw2tuefun')]",
+        "type": "string",
+        "metadata": {
+            "description": "Name of storage account"
+        }
+    },
+    "storageAccountType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
-      "allowedValues": ["Standard_LRS", "Standard_GRS", "Standard_RAGRS"],
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS"
+      ],
       "metadata": {
         "description": "Storage type"
       }
@@ -24,19 +35,19 @@
         "description": "Location for all resources."
       }
     },
-  "appService": {
-      "type": "string",
-      "defaultValue": "[string('nsc-asp-dev-usw2-tuesday')]",
-      "metadata": {
-        "description": "Location for all resources."
-      }
-    },
-    "applicationInsight": {
+        "applicationInsight": {
       "defaultValue": "[string('nsc-appins-dev-usw2-Tuesday')]",
       "type": "string",
       "metadata": {
         "description": "Name of Application Insights resource."
       }
+    },
+    "hostingPlan": {
+        "defaultValue": "[string('nsc-asp-dev-usw2-tuesday')]"
+        "type": "string",
+        "metadata": {
+            "description": "Name of hosting plan"
+        }
     },
     "appInsightsLocation": {
       "type": "string",
@@ -47,7 +58,11 @@
     "runtime": {
       "type": "string",
       "defaultValue": "node",
-      "allowedValues": ["node", "dotnet", "java"],
+      "allowedValues": [
+        "node",
+        "dotnet",
+        "java"
+      ],
       "metadata": {
         "description": "The language worker runtime to load in the function app."
       }
@@ -55,9 +70,9 @@
   },
   "variables": {
     "functionAppName": "[parameters('appName')]",
-    "hostingPlanName": "[parameters('appService')]",
+    "hostingPlanName": "[parameters('hostingPlan')]",
     "applicationInsightsName": "[parameters('applicationInsight')]",
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'nscstrdevusw2tuefun')]",
+    "storageAccountName": "[parameters('storageName')]",
     "functionWorkerRuntime": "[parameters('runtime')]"
   },
   "resources": [
@@ -67,7 +82,7 @@
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "[parameters('storageSku')]"
+        "name": "[parameters('storageAccountType')]"
       },
       "kind": "Storage"
     },
