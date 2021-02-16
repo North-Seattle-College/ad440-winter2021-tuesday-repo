@@ -1,9 +1,9 @@
 name: Performance-Test
 
-on:  
-  push:
-    branches:
-      - development
+on:  [push]
+  #push:
+   # branches:
+    #  - development
 
 jobs:
   slsart-perf:
@@ -39,5 +39,5 @@ jobs:
       - name: Deploy, invoke, remove functions
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke -s ../../testing/artillery/users_api_script.yaml --stage $STAGE_NAME > ../../testing/results/users_api_script.json
+          ~/.npm-global/bin/slsart invoke -s ../../testing/serverless-artillery/users_api_script.yaml --stage $STAGE_NAME > ../../testing/results/users_api_script.json
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 

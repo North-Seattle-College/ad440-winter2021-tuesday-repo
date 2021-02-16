@@ -106,9 +106,11 @@ dist
 # TernJS port file
 .tern-port
 
+
 # VS Code Workspace config files
 *.code-workspace
 .venv/
+.vscode/
 
 # Mac window config files
 **/.DS_Store
@@ -116,3 +118,4 @@ dist
 # Python
 .python_packages
 __pycache__
+
