@@ -13,9 +13,6 @@ jobs:
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,7 +38,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
       - name: Deploy functions
-        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
+        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region=us-west-2
 
       - name: Invoke functions
         run: ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/Serverless-Artillery/users_id_api_script.json
