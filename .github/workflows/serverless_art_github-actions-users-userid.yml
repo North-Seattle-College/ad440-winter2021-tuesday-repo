@@ -8,7 +8,7 @@ name: Serverless Artillery Users UserID Performance Test
 
 on:
   workflow_run:
-    workflows: ["Run Tests"]
+    workflows: ["Serverless Artillery Load testing  /users/{user_id}/tasks"]
     branches: [development]
     types: 
       - completed
