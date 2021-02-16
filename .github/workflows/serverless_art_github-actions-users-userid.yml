@@ -32,6 +32,10 @@ jobs:
       - name: Install serverless and serverless-artillery
         run: |
           npm install -g serverless@1.38.0 serverless-artillery
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
       - name: Deploy, invoke, remove functions
         run: |
