@@ -39,10 +39,10 @@ jobs:
         run: sleep 60s
       - name: Deploy 
         run: |
-          /.npm-global/bin/slsart deploy --stage $STAGE_NAME 
+          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
       - name: Invocation 
         run: |
-          /.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME > ../../testing/results/users-userid-tasks.json
+          ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME > ../../testing/results/users-userid-tasks.json
       - name: remove functions
         run: |
-          /.npm-global/bin/slsart remove --stage $STAGE_NAME
+          ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
