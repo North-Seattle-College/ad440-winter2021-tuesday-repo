@@ -36,7 +36,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
 
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-perf-test-user-api.yaml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_userAPI_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-perf-test-user-api.yaml
 
       - name: Check Artillery Performance test file
         run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
