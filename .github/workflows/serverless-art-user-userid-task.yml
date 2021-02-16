@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
-      STAGE_NAME: merge-perf-test1
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,7 +35,7 @@ jobs:
       #- run: cp ./slsart/script.yml ./
       # - run: cp ./slsart/serverless.yml ./
       - name: Sleep
-        run: sleep 30s
+        run: sleep 10s
       - name: Deploy 
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
