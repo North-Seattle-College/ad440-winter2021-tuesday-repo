@@ -2,7 +2,8 @@ name: Serverless Artillery Load testing  /users/{user_id}/tasks
 
 on:
   push:
-    branches: developement
+    branches: 
+    - developement
 
 jobs:
   slsart-perf:
