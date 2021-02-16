@@ -1,24 +1,19 @@
 import React from "react";
 import {
-  Route,
-  Switch,
-  Redirect,
   BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
 } from "react-router-dom";
 
 import HomeScreen from "./components/pages/HomeScreen";
+import UserListScreen from "./components/pages/UserListScreen";
+import TaskScreen from "./components/pages/TaskListScreen";
 import NavScreen from "./components/navigation/NavScreen";
-
 import TaskListScreen from "./components/pages/TaskListScreen";
-import TaskDetailScreen from "./components/pages/TaskDetailScreen";
-
-import UsersListScreen from "./components/pages/UserListScreen";
-import UserDetailScreen from "./components/pages/UserDetailScreen";
-
-// import ArtilleryListScreen from "./components/pages/ArtilleryListScreen";
-import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
-
+import ArtilleryListScreen from "./components/pages/ArtilleryListScreen.js";
 import ServerlessListScreen from "./components/pages/ServerlessListScreen";
+import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
 import ServerlessDetailScreen from "./components/pages/ServerlessDetailScreen";
 
 import "./components/css/App.css";
@@ -32,20 +27,20 @@ const App = () => {
             <HomeScreen />
           </Route>
           <Route path="/users" exact>
-            <UsersListScreen />
+            <UserListScreen />
           </Route>
           <Route path="/users/:userId" exact>
-            <UserDetailScreen />
+            <UserListScreen />
           </Route>
           <Route path="/users/:userId/tasks" exact>
             <TaskListScreen />
           </Route>
           <Route path="/users/:userId/tasks/:taskId" exact>
-            <TaskDetailScreen />
+            <TaskScreen />
           </Route>
-          {/* <Route path="/artillery" exact>
+          <Route path="/artillery" exact>
             <ArtilleryListScreen />
-          </Route> */}
+          </Route>
           <Route path="/artillery/:testId" exact>
             <ArtilleryDetailScreen />
           </Route>
