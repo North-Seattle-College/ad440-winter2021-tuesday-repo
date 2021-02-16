@@ -9,7 +9,7 @@ config:
 scenarios:
   - flow:
       - get:
-          url: "/users/{userId}/"
+          url: "/users/1/"
           json:
             name: "name"
 
