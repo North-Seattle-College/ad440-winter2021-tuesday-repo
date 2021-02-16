@@ -15,7 +15,7 @@ import TaskDetailScreen from "./components/pages/TaskDetailScreen";
 import UsersListScreen from "./components/pages/UserListScreen";
 import UserDetailScreen from "./components/pages/UserDetailScreen";
 
-// import ArtilleryListScreen from "./components/pages/ArtilleryListScreen";
+import ArtilleryListScreen from "./components/pages/ArtilleryListScreen";
 import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
 
 import ServerlessListScreen from "./components/pages/ServerlessListScreen";
@@ -43,9 +43,9 @@ const App = () => {
           <Route path="/users/:userId/tasks/:taskId" exact>
             <TaskDetailScreen />
           </Route>
-          {/* <Route path="/artillery" exact>
+          <Route path="/artillery" exact>
             <ArtilleryListScreen />
-          </Route> */}
+          </Route>
           <Route path="/artillery/:testId" exact>
             <ArtilleryDetailScreen />
           </Route>
