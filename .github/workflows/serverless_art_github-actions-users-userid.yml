@@ -37,11 +37,14 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
-      - name: Deploy, invoke, remove functions
-        run: |
-          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/results/users_id_api_script.json
-          ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
+      - name: Deploy functions
+        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
+
+      - name: Invoke functions
+        run: ~/.npm-global/bin/slsart invoke -s ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME > ../../testing/results/users_id_api_script.json
+
+      - name: Remove functions
+        run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
 
         #Azure Login 
 
@@ -56,7 +59,7 @@ jobs:
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_SERVERLESS_ARTILLERY }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
         
         # Azure logout
       - name: logout
