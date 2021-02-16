@@ -1,9 +1,9 @@
 name: Performance-Test
 
-on: [push]
-  #push:
-    #branches:
-      #- development
+on: 
+  push:
+    branches:
+      - development
 
 jobs:
   setup:
@@ -48,6 +48,7 @@ jobs:
         #Azure Login 
       - name: Azure Login
         uses: azure/login@v1
+
         with:
             creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
             
