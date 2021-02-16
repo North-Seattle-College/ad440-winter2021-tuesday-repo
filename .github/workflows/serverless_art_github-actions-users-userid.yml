@@ -13,6 +13,9 @@ jobs:
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -59,7 +62,7 @@ jobs:
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_SERVERLESS_ARTILLERY }}   --name serverless-users-id-artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER_SERVERLESS_ARTILLERY }}   --name serverless-users-id-artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
         
         # Azure logout
       - name: logout
