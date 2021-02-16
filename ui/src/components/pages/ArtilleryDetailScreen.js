@@ -18,7 +18,7 @@ const ArtilleryDetailScreen = (props) => {
   return (
     <React.Fragment>
       {test === undefined ? (
-        <div>Nothing loaded!</div>
+        <div>Nothing loaded</div>
       ) : (
         <div>
           <div className="test-Header">Test: {test.id}</div>
