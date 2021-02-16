@@ -1,0 +1,62 @@
+name: Serverless Artillery Users API Test
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  setup:
+    name: Serverless Artillery Performance Test
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          check-latest: true
+
+      - name: nodeJS and npm version
+        run: npm -v
+
+      - name: npm init
+        run: npm init -y
+
+      - name: Install Serverless and Serverless Artillery
+        run: npm install -g serverless@1.38.0 serverless-artillery
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
+
+      - name: Running Serverless Artillery Test
+        run: ~/.npm-global/bin/slsart --output serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json ./testing/Serverless-Artillery/serverless-artillery-test-users-api.yaml
+
+      - name: Check Serverless Artillery Performance test file
+        run: ls -ltr serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json
+        
+        #Azure Login 
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            
+        #Upload File
+      - name: uploading to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.19.1
+          inlineScript: |
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER_SERVERLESS_ARTILLERY }}   --name serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json --file  serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json
+        
+        # Azure logout
+      - name: logout
+        run: |
+          az logout
