@@ -1,4 +1,4 @@
-name: Artillery Performance Test
+name: Artillery Performance Test for users - id - tasks
 
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
         run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run  ./testing/artillery/artillery-test-users-id-tasks-api.yml
 
       - name: Check Artillery Performance test file
-        run: ls -ltr artilleryReport_users_id_tasks_${{ steps.date.outputs.date }}.json
+        run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
         
         #Azure Login 
 
@@ -54,7 +54,7 @@ jobs:
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_users_id_tasks_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artillery_users_id_tasks_report_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
         
         # Azure logout
       - name: logout
