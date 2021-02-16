@@ -1,4 +1,4 @@
-name: Artillery Performance Test for users - id - tasks
+name: Artillery Performance Test for Users/Id/Tasks
 
 on:
   push:
@@ -36,8 +36,8 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run  ./testing/artillery/artillery-test-users-id-tasks-api.yml
-
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-test-users-id-tasks-api.yml
+      
       - name: Check Artillery Performance test file
         run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
         
