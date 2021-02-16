@@ -28,7 +28,25 @@ jobs:
         run: npm init -y
       - name: Install artillery
         run: npm install -g artillery
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       - name: Sleep
         run: sleep 10s
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport.json ./testing/artillery/juno-users-usersid-10con-5min.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/juno-users-usersid-10con-5min.yml
+      - name: Check Artillery Performance test file
+        run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+      - name: uploading to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.19.1
+          inlineScript: |
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+      - name: logout
+        run: |
+          az logout
