@@ -1,6 +1,6 @@
 config:
   # this hostname will be used as a prefix for each URI in the flow unless a complete URI is specified
-  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/1/tasks/"
+  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/1/tasks"
   phases:
     - duration: 300
       arrivalRate: 10
