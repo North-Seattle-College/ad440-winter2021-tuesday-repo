@@ -1,10 +1,17 @@
 name: Serverless Artillery Users UserID Performance Test
 
-on:  
-  push:
-    branches:
-      - development
-      - derek-task4-sprint3
+#on:  
+#  push:
+#    branches:
+#      - development
+#      - derek-task4-sprint3
+
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    branches: [development]
+    types: 
+      - completed
 
 jobs:
   slsart-perf:
@@ -12,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
-      STAGE_NAME: merge-perf-test1
+      STAGE_NAME: merge-perf-test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
