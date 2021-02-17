@@ -36,7 +36,10 @@ const ServerlessTests = (props) => {
       <div className="tests-List">
         {tests.map((test) => {
           return (
-            <Button key={test.id} to={`serverless/${test.id}`}>
+            <Button
+              key={test.id}
+              to={`serverless/${test.id}`}
+            >
               ID: {test.id}
               <br />
               {test.date}

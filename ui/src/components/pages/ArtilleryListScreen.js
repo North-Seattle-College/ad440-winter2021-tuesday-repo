@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Button from '../uiElements/Button';
 
 import DUMMY_TESTS from "../data/dummy-tests.json";
-import ArtJson from '../data/report_for_30req.json';
+// import ArtJson from '../data/report_for_30req.json';
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
