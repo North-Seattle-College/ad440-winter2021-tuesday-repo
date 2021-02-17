@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Button from '../uiElements/Button';
 
 import DUMMY_TESTS from "../data/dummy-tests.json";
-import ArtJson from '../data/report_for_30req.json';
+// import ArtJson from '../data/report_for_30req.json';
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
@@ -39,9 +39,8 @@ const ArtilleryListScreen = (props) => {
   return (
     <React.Fragment>
       <section>
-        <div className="homepage-header">No Script Loaded!</div>
-        <div className="divider" />
         <div className="homepage-body">Select a script to begin.
+         <br />
           {scriptList.map((script) => {
             return (
               <NavLink className="button"
