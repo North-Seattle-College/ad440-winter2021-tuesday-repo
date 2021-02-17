@@ -1,0 +1,12 @@
+config:
+  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net"
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      name: "Artillery Test for /users/{user_id}/tasks - 10 concurrent requests per second for 5 min"
+scenarios:
+  - flow:
+      - get:
+          url: "/api/users/1/tasks"
+          json:
+            name: "name" 

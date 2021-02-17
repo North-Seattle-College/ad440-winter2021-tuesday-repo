@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  Route,
+  Switch,
+  Redirect,
+  BrowserRouter as Router,
+} from "react-router-dom";
 
-function App() {
+import HomeScreen from "./components/pages/HomeScreen";
+import NavScreen from "./components/navigation/NavScreen";
+
+import TaskListScreen from "./components/pages/TaskListScreen";
+import TaskDetailScreen from "./components/pages/TaskDetailScreen";
+
+import UsersListScreen from "./components/pages/UserListScreen";
+import UserDetailScreen from "./components/pages/UserDetailScreen";
+
+import ArtilleryListScreen from "./components/pages/ArtilleryListScreen";
+import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
+
+import ServerlessListScreen from "./components/pages/ServerlessListScreen";
+import ServerlessDetailScreen from "./components/pages/ServerlessDetailScreen";
+
+import "./components/css/App.css";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavScreen>
+        <Switch>
+          <Route path="/" exact>
+            <HomeScreen />
+          </Route>
+          <Route path="/users" exact>
+            <UsersListScreen />
+          </Route>
+          <Route path="/users/:userId" exact>
+            <UserDetailScreen />
+          </Route>
+          <Route path="/users/:userId/tasks" exact>
+            <TaskListScreen />
+          </Route>
+          <Route path="/users/:userId/tasks/:taskId" exact>
+            <TaskDetailScreen />
+          </Route>
+          <Route path="/artillery" exact>
+            <ArtilleryListScreen />
+          </Route>
+          <Route path="/artillery/:testId" exact>
+            <ArtilleryDetailScreen />
+          </Route>
+          <Route path="/serverless" exact>
+            <ServerlessListScreen />
+          </Route>
+          <Route path="/serverless/:testId" exact>
+            <ServerlessDetailScreen />
+          </Route>
+          <Redirect to="/" exact />
+        </Switch>
+      </NavScreen>
+    </Router>
   );
-}
+};
 
 export default App;

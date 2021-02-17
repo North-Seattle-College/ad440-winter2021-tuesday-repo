@@ -1,0 +1,18 @@
+# Thank you for trying serverless-artillery!
+# This default script is intended to get you started quickly.
+# There is a lot more that Artillery can do.
+# You can find great documentation of the possibilities at:
+# https://artillery.io/docs/  ########
+config:
+  # this hostname will be used as a prefix for each URI in the flow unless a complete URI is specified
+  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/1/tasks/1"
+  phases:
+    -
+      duration: 3600
+      arrivalRate: 10
+scenarios:
+  - name: "Load Test"
+    flow:
+      - get:
+        url: "/api/HttpTriggerLoadTest/"
+        afterResponse: "logResponse"

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "VNet name"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "172.18.0.0/16",
+      "metadata": {
+        "description": "Address prefix"
+      }
+    },
+    "subnet1Prefix": {
+      "type": "string",
+      "defaultValue": "172.18.0.0/24",
+      "metadata": {
+        "description": "Subnet 1 Prefix"
+      }
+    },
+    "subnet1Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 1 Name"
+      }
+    },
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "centralus",
+        "eastasia",
+        "southeastasia",
+        "eastus",
+        "eastus2",
+        "westus",
+        "westus2",
+        "northcentralus",
+        "southcentralus",
+        "westcentralus",
+        "northeurope",
+        "westeurope",
+        "japaneast",
+        "japanwest",
+        "brazilsouth",
+        "australiasoutheast",
+        "australiaeast",
+        "westindia",
+        "southindia",
+        "centralindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "southafricanorth",
+        "uaenorth",
+        "australiacentral",
+        "switzerlandnorth",
+        "germanywestcentral",
+        "norwayeast",
+        "australiacentral2"
+      ],
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressPrefix')]"
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "subnets",
+          "apiVersion": "2020-05-01",
+          "location": "[parameters('location')]",
+          "name": "[parameters('subnet1Name')]",
+          "dependsOn": [
+            "[parameters('vnetName')]"
+          ],
+          "properties": {
+            "addressPrefix": "[parameters('subnet1Prefix')]"
+          }
+        }
+      ]
+    }
+  ]
+}

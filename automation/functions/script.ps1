@@ -1,11 +1,38 @@
-#sign into azure account 
-Connect-AzAccount
+ param(
+    [Parameter(Mandatory = $True)]
+    [string]
+    $SubscriptionId,
+
+    [Parameter(Mandatory = $True)]
+    [string]
+    $TenantId,
+
+    [Parameter(Mandatory = $True)]
+    [string]
+    $ServicePrincipalId,
+
+    [Parameter(Mandatory = $True)]
+    [string]
+    $ServicePrincipalPassword
+)
 
 
-$resourceGroupName = Read-Host -Prompt "Name your resource group"
-$location = Read-Host -Prompt "Enter location"
-$templateUri = "https://raw.githubusercontent.com/selinapn/ad440-winter2021-tuesday-repo/automationspn/automation/functions/azuredeploy.json"
+#sign into azure account
+$securePassword = ConvertTo-SecureString -String $ServicePrincipalPassword -AsPlainText -Force;
+$credentials = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalId, $securePassword);
+Connect-AzAccount -Credential $credentials -Tenant $TenantId -ServicePrincipal
 
-#Create new resource group and deploy template
-New-AzResourceGroup -Name $resourceGroupName -Location "$location"
-New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri
+
+$parameters = @{
+     appName="nsc-fun-dev-usw2-tuesday";
+     storageName="nsctrdevusw2tuefun";
+     applicationInsight='nsc-appins-dev-usw2-Tuesday';
+     hostingPlan='nsc-asp-dev-usw2-tuesday';
+     appInsightsLocation="West US 2"
+ }
+
+#Will change this to NSC raw link after merge
+ $templateUri = "https://raw.githubusercontent.com/selinapn/ad440-winter2021-tuesday-repo/automationspn-sprint3/automation/functions/azuredeploy.json"
+ $resourceGroupName = "nsc-rg-dev-usw2-tuesday"
+
+ New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterObject $parameters

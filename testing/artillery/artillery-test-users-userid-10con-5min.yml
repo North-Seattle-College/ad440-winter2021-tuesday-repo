@@ -1,0 +1,12 @@
+config:
+  target: https://nsc-func-dev-usw2-tuesday.azurewebsites.net
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      name: "users/userid test by Juno"
+scenarios:
+  - flow:
+      - get:
+          url: "/users/10"
+	  json:
+            name: "name" 
