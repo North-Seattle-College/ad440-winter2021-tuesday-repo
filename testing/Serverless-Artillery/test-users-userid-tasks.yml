@@ -3,10 +3,10 @@ config:
   phases:
     - duration: 300
       arrivalRate: 10
-      name: "Performance Joanna Test"
+      name: "Artillery Test for /users/{user_id}/tasks - 10 concurrent requests per second for 5 min"
 scenarios:
   - flow:
       - get:
-          url: "/api/users/3/tasks/4"
+          url: "/api/users/1/tasks"
           json:
             name: "name" 
