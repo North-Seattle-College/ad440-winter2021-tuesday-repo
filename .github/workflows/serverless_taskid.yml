@@ -1,4 +1,4 @@
-name: Serverless Performance-Test
+name: Serverless Artillery test for/users/{user_id}/tasks/{task_id}-just write test
 
 on:  
    push:
