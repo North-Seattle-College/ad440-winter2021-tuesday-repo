@@ -1,44 +1,87 @@
+[cmdletbinding()]
 param(
-        # Login parameters
-        [string] [Parameter(Mandatory = $true)] $tenantId,          
-        [string] [Parameter(Mandatory = $true)] $applicationId,
-        [string] [Parameter(Mandatory = $true)] $secret,
-        [string] [Parameter(Mandatory = $true)] $subscriptionId,
-        # Azure SQL server parameters
-        [string] [Parameter(Mandatory = $true)] $location,
-        [string] [Parameter(Mandatory = $true)] $resourceGroupName,
-        [string] [Parameter(Mandatory = $true)] $serverName,
-        [string] [Parameter(Mandatory = $true)] $administratorLogin,
-        [SecureString] [Parameter(Mandatory = $true)] $administratorLoginPassword,
-        # Azure SQL db parameters
-        [string] [Parameter(Mandatory = $false)] $sqlDBName,    
-        # Tag parameters
-        [string] [Parameter(Mandatory = $true)] $owner,
-        [string] [Parameter(Mandatory = $true)] $ownersEmail              
+        #Subscription id, required to connect
+        [Parameter(Mandatory = $True)]
+        [string]
+        $SubscriptionId, 
+
+        #Tenant id, required to connect
+        [Parameter(Mandatory = $True)]
+        [string]
+        $TenantId,  
+
+        #Service Principal Application id, required to connect
+        [Parameter(Mandatory = $True)]
+        [string]
+        $ServicePrincipalAppId,  
+
+        #Service Principal Secret, required to connect
+        [Parameter(Mandatory = $True)]
+        [string]
+        $ServicePrincipalSecret, 
+
+        #Server name, doesn't need nsc, dev, or rg
+        [Parameter(Mandatory = $True)]
+        [string]
+        $ResourceGroupName, 
+
+        #Server name, doesn't need nsc, dev, or ss
+        [Parameter(Mandatory = $True)]
+        [string]
+        $ServerName, 
+
+        #Database Name, doesn't require nsc, dev, or db.
+        [Parameter(Mandatory = $True)]
+        [string]
+        $DatabaseName, 
+
+        #Required to create Database
+        [Parameter(Mandatory = $True)]
+        [string]
+        $AdministratorLoginId, 
+
+        #Needed for database security, has to be secured or will error out
+        [Parameter(Mandatory = $True)]
+        [secureString]
+        $AdministratorLoginPassword, 
+
+        #needed if resource group has to be created 
+        [Parameter(Mandatory = $True)]
+        [string]
+        $Location
 )
-[securestring] $administratorLoginPassword = ConvertTo-SecureString $administratorLoginPassword -AsPlainText -Force
 
-Import-Module ..\Login
-Login $tenantId $applicationId $secret $subscriptionId
+#Sign in
+$securePassword = ConvertTo-SecureString -String $ServicePrincipalSecret -AsPlainText -Force;
+$credentials = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalAppId, $securePassword)
 
-$pathToAzSqlTemplate = "./deployAzure.json"
+Connect-AzAccount -Credential $credentials -ServicePrincipalAppId $ServicePrincipalAppId -Tenant $TenantId -SubscriptionId $SubscriptionId
 
-# Check for or create a resource group
-$resourceGroupExists = (Get-AzResourceGroup -Name $resourceGroupName `
-                -ErrorVariable notPresent -ErrorAction SilentlyContinue).ResourceGroupName `
-        -eq $resourceGroupName 
-if (!$resourceGroupExists) {
-        New-AzResourceGroup -Name $resourceGroupName -Location "$location" -TemplateUri "$pathToAzSqlTemplate" -Force
-        Write-Host "Creating new resource group $resourceGroupName"
+#convert $Location to lowercase
+$location = $Location.ToLower()
+
+# Parameters for the template
+$parameters = @{
+        serverName                 = $serverName;
+        sqlDBName                  = $databaseName;
+        administratorLogin         = $AdministratorLoginId;
+        administratorLoginPassword = $AdministratorLoginPassword;
+}
+
+# Get proof the resource group exists.
+Get-AzResourceGroup -Name $resourceGroupName -ErrorVariable nonexistent -ErrorAction SilentlyContinue
+
+if ($nonexistent) {
+        # ResourceGroup doesn't exist 
+
+        #Create resource Group
+        New-AzResourceGroup -Name $resourceGroupName -Location "$location"
+
+        #New-AzResourceGroupDeployment
+        New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile 'deployAzure.json' -TemplateParameterObject $parameters
 }
 else {
-        Write-Host "Use existing resource group $resourceGroupName"
+        # ResourceGroup exists 
+        Write-Host "Resource group exists. Now creating SQL and DB." 
+        New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile 'deployAzure.json' -TemplateParameterObject $parameters
 }
-
-# Deploy template
-Write-host "Creating primary server and db"
-New-AzResourceGroupDeployment 
--ResourceGroupName $resourceGroupName `
-        -serverName $serverName `
-        -sqlDBName $sqlDBName `
-        -location $location
