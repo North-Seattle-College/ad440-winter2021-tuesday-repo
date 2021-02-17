@@ -7,7 +7,7 @@ on:
 
 jobs:
   slsart-perf:
-    name: slsart Performance Test
+    name: Serverless Artillery Users API Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -41,7 +41,7 @@ jobs:
       - name: Deploy and invoke serverless test
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke --output serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json ./testing/Serverless-Artillery/serverless-artillery-test-users-api.yaml
+          ~/.npm-global/bin/slsart invoke --output serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json ../../testing/Serverless-Artillery/serverless-artillery-test-users-api.yml
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
       
       - name: Check Serverless Artillery Performance test file
