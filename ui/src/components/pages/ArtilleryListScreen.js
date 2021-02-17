@@ -39,9 +39,8 @@ const ArtilleryListScreen = (props) => {
   return (
     <React.Fragment>
       <section>
-        <div className="homepage-header">No Script Loaded!</div>
-        <div className="divider" />
         <div className="homepage-body">Select a script to begin.
+         <br />
           {scriptList.map((script) => {
             return (
               <NavLink className="button"
