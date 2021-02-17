@@ -4,28 +4,28 @@ import Button from "../uiElements/Button";
 import DUMMY_USERS from "../data/dummy-users.json";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/UsersScreen.css";
+import "../css/UserListScreen.css";
 
-const UsersScreen = (props) => {
+const UserListScreen = (props) => {
   const [usersList, setUsersList] = useState([]);
   const { sendRequest } = useAxiosClient();
 
   useEffect(() => {
     setUsersList(DUMMY_USERS); // TESTING ONLY
     // Just need the URL put in place, uncomment this
-    // const fetchUsers = async () => {
-    //   try {
-    //     const responseData = await sendRequest(
-    //       `GET`,
-    //       `http://URLHERE/api/users`,
-    //       null,
-    //       { Authorization: `Bearer token` }
-    //     );
-    //     setUsersList(responseData.users);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          `GET`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users`,
+          null,
+          { Authorization: `Bearer token` }
+        );
+        setUsersList(responseData.users);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     // fetchUsers();
   }, [sendRequest]);
 
@@ -33,7 +33,7 @@ const UsersScreen = (props) => {
     <div className="user-List">
       {usersList.map((user) => {
         return (
-          <Button key={user.id} to={`users/${user.id}/tasks`}>
+          <Button key={user.id} to={`users/${user.id}`}>
             {user.username}
           </Button>
         );
@@ -42,4 +42,4 @@ const UsersScreen = (props) => {
   );
 };
 
-export default UsersScreen;
+export default UserListScreen;
