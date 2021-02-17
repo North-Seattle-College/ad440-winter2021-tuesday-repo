@@ -55,7 +55,7 @@ param(
 $securePassword = ConvertTo-SecureString -String $ServicePrincipalSecret -AsPlainText -Force;
 $credentials = New-Object -TypeName System.Management.Automation.PSCredential($ServicePrincipalAppId, $securePassword)
 
-Connect-AzAccount -Credential $credentials -ServicePrincipalAppId $ServicePrincipalAppId -Tenant $TenantId -SubscriptionId $SubscriptionId
+Connect-AzAccount -Credential $credentials -ServicePrincipal -Tenant $TenantId -SubscriptionId $SubscriptionId
 
 #convert $Location to lowercase
 $location = $Location.ToLower()
