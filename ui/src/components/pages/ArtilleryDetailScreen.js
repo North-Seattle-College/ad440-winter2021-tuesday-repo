@@ -9,6 +9,30 @@ const ArtilleryDetailScreen = (props) => {
   const [test, setTest] = useState();
   const params = useParams();
 
+  // This will be to get data from actual report file generated
+  // by Artillery test;
+  // const getData=()=>{
+  //   fetch('../data/report_for_30req.json'
+  //   ,{
+  //     headers : {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //      }
+  //   }
+  //   )
+  //     .then(function(response){
+  //       console.log(response)
+  //       return response.json();
+  //     })
+  //     .then(function(myJson) {
+  //       console.log(myJson);
+  //       setTest(myJson);
+  //     });
+  // }
+  // useEffect(() => {
+  //   getData()
+  // }, []);
+
   useEffect(() => {
     DUMMY_TESTS.map((item) => {
       return item.id === parseInt(params.testId) && setTest(item);
@@ -18,7 +42,7 @@ const ArtilleryDetailScreen = (props) => {
   return (
     <React.Fragment>
       {test === undefined ? (
-        <div>Nothing loaded!</div>
+        <div>Nothing loaded</div>
       ) : (
         <div>
           <div className="test-Header">Test: {test.id}</div>
