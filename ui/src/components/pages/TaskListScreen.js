@@ -5,7 +5,7 @@ import Button from "../uiElements/Button";
 import DUMMY_TASKS from "../data/dummy-tasks.json";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TaskScreen.css";
+import "../css/TaskListScreen.css";
 
 const TasksScreen = (props) => {
   const [tasksList, setTasksList] = useState([]);
@@ -32,19 +32,23 @@ const TasksScreen = (props) => {
   }, [sendRequest]);
 
   return (
-    <div className="task-List">
-      {tasksList.map((task) => {
-        return (
-          <Button
-            className="task-Button"
-            key={task.taskId}
-            to={`/users/${params.userId}/tasks/${task.taskId}`}>
-            {task.title}<br />
-            {task.dateCreated}
-          </Button>
-        );
-      })}
-    </div>
+    <React.Fragment>
+      Tasks:
+      <div className="divider" />
+      <div className="task-List">
+        {tasksList.map((task) => {
+          return (
+            <Button
+              className="task-Button"
+              key={task.taskId}
+              to={`/users/${params.userId}/tasks/${task.taskId}`}
+            >
+              {task.title}
+            </Button>
+          );
+        })}
+      </div>
+    </React.Fragment>
   );
 };
 
