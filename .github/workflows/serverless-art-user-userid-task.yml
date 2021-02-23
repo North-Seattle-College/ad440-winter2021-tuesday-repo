@@ -1,9 +1,16 @@
 name: Serverless Artillery Load testing  /users/{user_id}/tasks
+#this comment is for push
+#on:
+#  push:
+#    branches: 
+#    - development
 
 on:
-  push:
-    branches: 
-    - development
+  workflow_run:
+    workflows: ["Serverless Artillery Users UserID Performance Test"]
+    branches: [development]
+    types:
+      - completed
 
 jobs:
   slsart-perf:
