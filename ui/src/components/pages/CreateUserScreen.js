@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 
 const url = "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users";
 const config = {
-   url,
-   headers: {
-    'Access-Control-Allow-Origin' : '*',
-    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    url,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
 }
 
@@ -25,6 +25,8 @@ const CreateUserScreen = (props) => {
         fetch("https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users", {
             method: "POST",
             headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
