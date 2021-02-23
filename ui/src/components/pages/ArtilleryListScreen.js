@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from 'react-router-dom';
+
+// UI imports
 import Button from '../uiElements/Button';
 
+// Dummy data imports
 import DUMMY_TESTS from "../data/dummy-tests.json";
-// import ArtJson from '../data/report_for_30req.json';
 
+// Hook imports
 import { useAxiosClient } from "../hooks/axios-hook";
 
+// Stylesheets
 import "../css/HomeScreen.css";
 
+// Begin: our component;
 const ArtilleryListScreen = (props) => {
   const [scriptList, setScriptList] = useState([])
   const { sendRequest } = useAxiosClient();
@@ -43,23 +47,17 @@ const ArtilleryListScreen = (props) => {
          <br />
           {scriptList.map((script) => {
             return (
-              <NavLink className="button"
+              <Button
+                className="task-Button"
                 key={script.id}
-                to={`/artillery/${script.id}`}
                 onClick={clickHandler}
+                to={`/artillery/${script.id}`}
               >
                 Artillery Test Details, Test #{script.id}
-              </NavLink>
-              // <Button
-              //   className="task-Button"
-              //   key={script.id}
-              //   onClick={clickHandler}
-              //   to={`/users/${params.userId}/tasks`}
-              // >
-              //   {script.name}
-              // </Button>
+                {script.name}
+              </Button>
             );
-           })}
+          })}
         </div>
       </section>
     </React.Fragment>
