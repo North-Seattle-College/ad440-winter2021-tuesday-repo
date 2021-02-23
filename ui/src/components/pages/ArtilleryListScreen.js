@@ -43,8 +43,9 @@ const ArtilleryListScreen = (props) => {
   return (
     <React.Fragment>
       <section>
-        <div className="homepage-body">Select a script to begin.
-         <br />
+        <div className="homepage-body">
+          Select a script to begin.
+          <br />
           {scriptList.map((script) => {
             return (
               <Button
