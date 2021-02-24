@@ -7,6 +7,7 @@ on:
 env:
   AZURE_WEBAPP_PACKAGE_PATH: ui/
   NODE_VERSION: '10.x'
+  CI: false
 
 jobs:
   build-and-deploy:
