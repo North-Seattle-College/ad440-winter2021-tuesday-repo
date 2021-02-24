@@ -1,41 +1,49 @@
 import React, { useState, useEffect } from "react";
 
-// UI imports
+// External React components;
 import Button from '../uiElements/Button';
 
-// Dummy data imports
+// Dummy data imports;
 import DUMMY_TESTS from "../data/dummy-tests.json";
 
-// Hook imports
+// Hook imports;
 import { useAxiosClient } from "../hooks/axios-hook";
 
-// Stylesheets
+// Stylesheets;
 import "../css/HomeScreen.css";
 
-// Begin: our component;
+// TODO: install Azure JavaScript SDK for Azure Storage and connect to common resource group (Azure);
+// TODO: GET dynamic number of Artillery reports from Storage (Blob Client);
+// TODO: render these Buttons;
+// TODO: make each Button, when clicked, render data associated with Artillery report by id;
+
+// Begin: React component;
 const ArtilleryListScreen = (props) => {
   const [scriptList, setScriptList] = useState([])
   const { sendRequest } = useAxiosClient();
 
+  // Upon loading, renders a Button for each report found in Storage;
   useEffect(() => {
-    setScriptList(DUMMY_TESTS); // TESTING ONLY
+    // setScriptList(DUMMY_TESTS); // TESTING ONLY
     // Just need the URL put in place, uncomment this
-    // const fetchTestScripts = async () => {
-    //   try {
-    //     const responseData = await sendRequest(
-    //       `GET`,
-    //       `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/%7BuserId%7D/tasks`,
-    //       null,
-    //       { Authorization: `Bearer token` }
-    //     );
-    //     setScriptList(responseData.users);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchTestScripts();
+    const fetchTestScripts = async () => {
+      try {
+        const responseData = await sendRequest(
+          `GET`,
+          `.github/workflows/artillery-action-users-id-tasks-api.yml`,
+          null,
+          { Authorization: `Bearer token` }
+        );
+        setScriptList(responseData.results);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTestScripts();
   }, [sendRequest]);
 
+  // TODO: make this function access the particular report mapped to the
+  // corresponding React Button and render using ArtilleryDetailScreen;
   function clickHandler() {
     console.log("I'm a button.");
   }
@@ -49,9 +57,9 @@ const ArtilleryListScreen = (props) => {
           {scriptList.map((script) => {
             return (
               <Button
-                className="task-Button"
                 key={script.id}
                 onClick={clickHandler}
+                // This will map to individual report (i.e. ArtilleryDetailScreen component);
                 to={`/artillery/${script.id}`}
               >
                 Artillery Test Details, Test #{script.id}
@@ -64,5 +72,6 @@ const ArtilleryListScreen = (props) => {
     </React.Fragment>
   );
 };
+// End React component;
 
 export default ArtilleryListScreen;

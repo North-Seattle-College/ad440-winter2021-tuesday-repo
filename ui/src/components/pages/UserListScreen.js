@@ -13,19 +13,19 @@ const UserListScreen = (props) => {
   useEffect(() => {
     setUsersList(DUMMY_USERS); // TESTING ONLY
     // Just need the URL put in place, uncomment this
-    const fetchUsers = async () => {
-      try {
-        const responseData = await sendRequest(
-          `GET`,
-          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users`,
-          null,
-          { Authorization: `Bearer token` }
-        );
-        setUsersList(responseData.users);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    // const fetchUsers = async () => {
+    //   try {
+    //     const responseData = await sendRequest(
+    //       `GET`,
+    //       `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users`,
+    //       null,
+    //       { Authorization: `Bearer token` }
+    //     );
+    //     setUsersList(responseData.users);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
     // fetchUsers();
   }, [sendRequest]);
 
