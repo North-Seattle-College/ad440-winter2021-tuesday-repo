@@ -8,7 +8,7 @@ name: Serverless Artillery Users UserID Performance Test
 
 on:
   workflow_run:
-    workflows: ["Run Tests"]
+    workflows: ["Serverless Artillery Users API Test"]
     branches: [development]
     types: 
       - completed
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
-      STAGE_NAME: merge-perf-test
+      STAGE_NAME: merge-perf-test1
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

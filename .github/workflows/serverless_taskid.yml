@@ -1,9 +1,16 @@
-name: Serverless Performance-Test
+name: Serverless Artillery test for/users/{user_id}/tasks/{task_id}-just write test
 
-on:  
-   push:
-    branches:
-     - development
+on:
+  workflow_run:
+    workflows: ["Serverless Artillery Load testing  /users/{user_id}/tasks"]
+    branches: [development]
+    types:
+      - completed
+
+# on:  
+  # push:
+   # branches:
+    # - development
  
 jobs:
   slsart-perf:

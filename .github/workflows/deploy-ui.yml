@@ -19,7 +19,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-            az storage blob upload-batch --account-name nscad440uistoragetues -d '$web' -s .
+            az storage blob upload-batch --account-name nscstrdevusw2tuecommon -d '$web' -s .
       # Azure logout
       - name: logout
         run: |
