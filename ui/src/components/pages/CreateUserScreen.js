@@ -5,7 +5,7 @@ const CreateUserScreen = (props) => {
     const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
     const [userPassword, setUserPassword] = useState();
-    const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState(0);
 
     const generateId = () => {
         return Math.floor(Math.random() * 10000); //0 to 9999
