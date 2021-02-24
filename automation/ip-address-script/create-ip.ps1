@@ -18,6 +18,8 @@
     Suggested. The type of IP, such as IPv4 or IPv6
 .PARAMETER IpMethod
     Suggested. The allocation method, static or dynamic
+.PARAMETER ResourceLocation
+    Suggested. The location of the resource, such as westus2, if the resource group does not exist.
 .NOTES
   Version:        2.0
   Author:         Derek Hendrick
@@ -40,11 +42,11 @@ param (
     [string]
     $ResourceGroupName,
 
-    [Parameter(Mandatory=$False, HelpMessage='The service principal ID')]
+    [Parameter(Mandatory=$True, HelpMessage='The service principal ID')]
     [string]
     $ServicePrincipalId,
 
-    [Parameter(Mandatory=$False, HelpMessage='The service principal password')]
+    [Parameter(Mandatory=$True, HelpMessage='The service principal password')]
     [string]
     $ServicePrincipalPassword,
 
@@ -58,7 +60,11 @@ param (
 
     [Parameter(Mandatory=$False, HelpMessage='The allocation method, static or dynamic.')]
     [string]
-    $IpMethod
+    $IpMethod,
+
+    [Parameter(Mandatory=$False, HelpMessage='The location of the resource.')]
+    [string]
+    $ResourceLocation
 )
 
 #Clears all prior sign ins
@@ -82,7 +88,7 @@ function CreateNewRG {
     [string]
     $Location
   )
-  New-AzResourceGroup -Name $ResourceGroupName -Location $Location
+  New-AzResourceGroup -Name $ResourceGroupName -Location $ResourceLocation
 }
 
 #if errorVariable is notPresent VNet will not be created, and will prompt user 
