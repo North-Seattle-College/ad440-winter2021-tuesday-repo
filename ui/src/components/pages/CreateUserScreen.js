@@ -4,13 +4,20 @@ const CreateUserScreen = (props) => {
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
-    const queryString = require('query-string');
+    const [userPassword, setUserPassword] = useState();
+    const [userId, setUserId] = useState();
+
+    const generateId = () => {
+        return Math.floor(Math.random() * 10000); //0 to 9999
+    }
 
     const handleSubmit = (event) => {
         console.log(`
+        UserId: ${userId}
         FirstName: ${firstName}
         LastName: ${lastName}
         Email: ${email}
+        UserPassword: ${userPassword}
         `);
         fetch("https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users", {
             method: "POST",
@@ -21,10 +28,13 @@ const CreateUserScreen = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                userId,
+                email,
+                userPassword,
                 firstName,
-                lastName,
-                email
-            })
+                lastName,    
+            }),
+            mode: "no-cors"
         })
         event.preventDefault();
     }
@@ -59,6 +69,15 @@ const CreateUserScreen = (props) => {
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    required />
+            </label>
+            <label>
+                Password:
+            <input
+                    name="userPassword"
+                    type="userPassword"
+                    value={userPassword}
+                    onChange={e => { setUserPassword(e.target.value); setUserId(generateId)} }
                     required />
             </label>
             <button>Submit</button>
