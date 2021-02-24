@@ -6,21 +6,26 @@ on:
       - development
 
 jobs:
-  build:
+  build-and-deploy:
+    name: Build and deploy
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v2
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
-
-      - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az storage blob upload-batch --account-name nscstrdevusw2tuecommon -d '$web' -s .
-      # Azure logout
-      - name: logout
-        run: |
-          az logout
+    - uses: actions/checkout@v2
+      
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+      
+    - name: Build website
+      run: |
+        cd ui
+        npm install
+        npm run build
+        
+    - name: Deploy to Azure
+      uses: TravisSpomer/deploy-to-azure-storage@v1.3.0
+      with:
+        source-path: ui/build
+        sas-url: ${{ secrets.DEPLOY_SAS_URL }}
