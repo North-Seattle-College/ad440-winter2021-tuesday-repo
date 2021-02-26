@@ -37,12 +37,12 @@ jobs:
         run: npm install --global yarn
       
       - name: Puppeteer Screenshot Action
-  # You may pin to the exact commit or the version.
-  # uses: lannonbr/puppeteer-screenshot-action@ecc08ce649f3aa4ff689388f903d38d83eccfc22
+        # You may pin to the exact commit or the version.
+        # uses: lannonbr/puppeteer-screenshot-action@ecc08ce649f3aa4ff689388f903d38d83eccfc22
         uses: lannonbr/puppeteer-screenshot-action@1.3.1
         with:
         # The URL you want puppeteer to visit
-        url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
+        url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/
         # Browser viewport width
         #width:  optional, default is 1920
         # Browser viewport height
@@ -50,7 +50,7 @@ jobs:
         # Controls whether screenshot taken includes entire page
         #fullPage:  optional
         # The screenshot name if you do not want the default timestamp
-        screenshotName: # optional
+        #screenshotName:  optional
     
       #Azure Login 
       - name: Azure Login
