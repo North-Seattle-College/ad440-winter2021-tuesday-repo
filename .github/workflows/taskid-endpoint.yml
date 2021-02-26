@@ -42,7 +42,7 @@ jobs:
         uses: lannonbr/puppeteer-screenshot-action@1.3.1
         with:
         # The URL you want puppeteer to visit
-        url: https://www.google.com
+          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/
         # Browser viewport width
         #width:  optional, default is 1920
         # Browser viewport height
