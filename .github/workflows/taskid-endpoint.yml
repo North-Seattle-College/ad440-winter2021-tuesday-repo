@@ -57,5 +57,3 @@ jobs:
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
-        with:
-          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
