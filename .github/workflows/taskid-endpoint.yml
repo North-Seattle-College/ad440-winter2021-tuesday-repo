@@ -44,11 +44,11 @@ jobs:
     # The URL you want puppeteer to visit
     url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
     # Browser viewport width
-    width: # optional, default is 1920
+    #width:  optional, default is 1920
     # Browser viewport height
-    height: # optional, default is 1080
+    #height:  optional, default is 1080
     # Controls whether screenshot taken includes entire page
-    fullPage: # optional
+    #fullPage:  optional
     # The screenshot name if you do not want the default timestamp
     screenshotName: # optional
     
