@@ -3,7 +3,7 @@ name: Deploy Function App to Azure
 on:
   workflow_run:
     workflows: ["Deploy UI"]
-    branches: [development, derek-task4-sprint4]
+    branches: [development, derek-task1-sprint4]
     types:
       - completed
 
