@@ -1,7 +1,5 @@
 name: Serverless Artillery Users Test
 
-Artillery Users/Id/Tasks/Id Test
-
 on:
   workflow_run:
     workflows: ["Artillery Users/Id/Tasks/Id Test"]
