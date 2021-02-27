@@ -14,7 +14,7 @@ const ArtilleryListScreen = (props) => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `https://nscstrdevusw2tuecommon.blob.core.windows.net/api/artillery`,
+          `https://nscstrdevusw2tuecommon.blob.core.windows.net/api/artillery?`,
           null,
           null
         );

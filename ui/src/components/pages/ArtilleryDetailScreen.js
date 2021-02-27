@@ -15,7 +15,7 @@ const ArtilleryDetailScreen = (props) => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/serverless/${params.testId}`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/artillery/${params.testId}?`,
           null,
           null
         );

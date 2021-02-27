@@ -15,7 +15,7 @@ const ServerlessDetailScreen = (props) => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/serverless/${params.testId}`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/serverless/${params.testId}?`,
           null,
           null
         );
