@@ -28,7 +28,7 @@ const ServerlessTests = (props) => {
 
   return (
     <React.Fragment>
-      Serverless Artillery Tests Taken:
+      Serverless Tests Taken:
       <div className="divider" />
       <div className="tests-List">
         {tests.map((test) => {

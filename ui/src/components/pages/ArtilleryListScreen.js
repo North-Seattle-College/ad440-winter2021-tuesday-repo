@@ -30,8 +30,9 @@ const ArtilleryListScreen = (props) => {
 
   return (
     <React.Fragment>
-      <section>
-        <div className="homepage-body">
+      Artillery Tests Taken:
+      <div className="divider" />
+      <div className="tests-List">
           {scriptList.map((script) => {
             return (
               <Button
@@ -44,7 +45,6 @@ const ArtilleryListScreen = (props) => {
             );
           })}
         </div>
-      </section>
     </React.Fragment>
   );
 };
