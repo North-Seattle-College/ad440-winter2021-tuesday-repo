@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+      - derek-task1-sprint4
 env:
   AZURE_WEBAPP_PACKAGE_PATH: ui/
   NODE_VERSION: '10.x'

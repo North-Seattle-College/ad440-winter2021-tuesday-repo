@@ -1,9 +1,11 @@
 name: Deploy Function App to Azure
 
 on:
-  push:
-    branches:
-      - development
+  workflow_run:
+    workflows: ["Deploy UI"]
+    branches: [development]
+    types:
+      - completed
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  
