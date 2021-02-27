@@ -14,7 +14,7 @@ const UserListScreen = (props) => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users?`,
           null,
           null
         );
