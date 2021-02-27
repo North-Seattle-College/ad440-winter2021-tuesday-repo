@@ -9,7 +9,9 @@ name: Serverless Artillery Users/Id Test
 on:
   workflow_run:
     workflows: ["Serverless Artillery Users Test"]
-    branches: [development, derek-task4-sprint4]
+    branches: 
+      - development
+      - derek-task1-sprint4
     types: 
       - completed
 
