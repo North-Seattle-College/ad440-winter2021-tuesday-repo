@@ -1,10 +1,21 @@
 name: Serverless Artillery Users Test
 
+Artillery Users/Id/Tasks/Id Test
+
 on:
-  push:
-    branches:
+  workflow_run:
+    workflows: ["Artillery Users/Id/Tasks/Id Test"]
+    branches: 
       - development
       - derek-task1-sprint4
+    types: 
+      - completed
+
+#on:
+#  push:
+#    branches:
+#      - development
+#      - derek-task1-sprint4
 
 jobs:
   slsart-perf:
