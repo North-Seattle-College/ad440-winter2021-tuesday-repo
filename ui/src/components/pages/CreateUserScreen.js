@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 const CreateUserScreen = (props) => {
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [email, setEmail] = useState();
-    const [userPassword, setUserPassword] = useState();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
     const [userId, setUserId] = useState(0);
 
     const generateId = () => {
@@ -34,7 +34,6 @@ const CreateUserScreen = (props) => {
                 firstName,
                 lastName,    
             }),
-            mode: "no-cors"
         })
         event.preventDefault();
     }
