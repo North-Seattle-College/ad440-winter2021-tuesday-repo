@@ -12,6 +12,7 @@ env:
 
 jobs:
   build-and-deploy:
+    name: Deploy UI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
