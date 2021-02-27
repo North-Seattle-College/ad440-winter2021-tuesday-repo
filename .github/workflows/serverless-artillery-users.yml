@@ -8,7 +8,7 @@ on:
 
 jobs:
   slsart-perf:
-    name: Serverless Artillery Users API Test
+    name: Serverless Artillery Users Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
