@@ -30,7 +30,4 @@ jobs:
         run: npm init -y
         
       - name: capute screenshot in headless chrome and save it
-        uses: JonathanTreffler/full-website-screenshot-action@v1.0
-        with:
-          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/41/tasks
-          destination: https://nscstrdevusw2tuecommon.blob.core.windows.net/screenshots
+        run: google-chrome --headless --disable-gpu --screenshot=capture-users-id-tasks.png https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/41/tasks
