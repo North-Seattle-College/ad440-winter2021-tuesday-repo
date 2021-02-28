@@ -4,28 +4,23 @@ on:
   push:
     branches:
       - development
-env:
-  AZURE_WEBAPP_PACKAGE_PATH: ui/
-  NODE_VERSION: '10.x'
-  CI: false
+      paths:
+        - "ui"
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@main
-      - name: Set up Node.js version
+      - name: Use Node.js ${{ matrix.node-version}}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{env.NODE_VERSION}}
-      - name: npm install and build
+          node-version: ${{matrix.NODE_VERSION}}
         run: |
-          cd ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
-          npm install
+          cd ui
+          npm i
+          npm test
           npm run build
-      - name: Upload To Azure Blob Storage
-        uses: bacongobbler/azure-blob-storage-upload@v1.0.0
-        with:
-          source_dir: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/build
-          container_name: $web
-          connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
