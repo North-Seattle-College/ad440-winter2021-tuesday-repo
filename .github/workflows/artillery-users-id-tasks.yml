@@ -1,13 +1,22 @@
-name: Artillery Performance Test for Users/Id/Tasks
+name: Artillery Users/Id/Tasks Test
 
 on:
-  push:
-    branches:
+  workflow_run:
+    workflows: ["Artillery Users/Id Test"]
+    branches: 
       - development
+      - derek-task1-sprint4
+    types:
+      - completed
+
+#on:
+#  push:
+#    branches:
+#      - development
 
 jobs:
   setup:
-    name: Artillery Performance Test
+    name: Artillery Users/Id/Tasks Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -36,7 +45,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
       
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-test-users-id-tasks-api.yml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-users-id-tasks.yml
       
       - name: Check Artillery Performance test file
         run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json
