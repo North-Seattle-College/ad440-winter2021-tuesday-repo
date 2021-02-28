@@ -1,4 +1,4 @@
-name: Artillery Users/Id Test
+name: Artillery Users-Id Test
 
 on:
   workflow_run:
