@@ -1,8 +1,8 @@
-name: Artillery Users-Id-Tasks Test
+name: Artillery Users/Id/Tasks Test
 
 on:
   workflow_run:
-    workflows: ["Artillery Users-Id Test"]
+    workflows: ["Artillery Users/Id Test"]
     branches: 
       - development
       - derek-task1-sprint4
