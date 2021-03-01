@@ -32,6 +32,7 @@ function CreateUserScreen() {
     }
 
     const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             await saveFormData();
             alert('Your registration was successfully submitted!');
@@ -81,5 +82,3 @@ function CreateUserScreen() {
 }
 
 export default CreateUserScreen;
-
-
