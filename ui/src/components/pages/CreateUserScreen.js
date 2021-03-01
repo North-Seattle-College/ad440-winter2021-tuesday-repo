@@ -1,86 +1,87 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import '../css/CreateUserScreen.css';
 
-const CreateUserScreen = (props) => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('');
+function CreateUserScreen() {
+    const [values, setValues] = useState({
+        email: '', userPassword: '', firstName: '', lastName: ''
+    });
 
-    const handleSubmit = (event) => {
-        console.log(`
-        FirstName: ${firstName}
-        LastName: ${lastName}
-        Email: ${email}
-        UserPassword: ${userPassword}
-        `);
-        fetch("https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users", {
-            method: "POST",
+    const onChange = (event) => {
+        setValues(event.target.value);
+    };
+
+    const set = name => {
+        return ({ target: { value } }) => {
+            setValues(oldValues => ({ ...oldValues, [name]: value }));
+        }
+    };
+
+    const saveFormData = async () => {
+        console.log(JSON.stringify(values));
+        const response = await fetch('https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users', {
+            method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': 'http://localhost:3000',
                 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                email,
-                userPassword,
-                firstName,
-                lastName
-            })
-            }).then((response) => {
-                if (response.status === 200 || response.status === 201) { // Can also use created user response userId instead
-                    alert('it works! ');
-                } 
-                else {
-                    alert("Fail to create a new user");
-                }
-        })
+            body: JSON.stringify(values)
+        });
+        if (response.status !== 200) {
+            throw new Error(`Request failed: ${response.status}`);
+        }
+    }
+
+    const handleSubmit = async (event) => {
+        try {
+            await saveFormData();
+            alert('Your registration was successfully submitted!');
+            setValues({
+                email: '', userPassword: '', firstName: '', lastName: ''
+            });
+        } catch (e) {
+            alert(`Registration failed! ${e.message}`);
+        }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Create a User</h1>
+        <form className="userForm" onSubmit={handleSubmit}>
+            <h2>Register</h2>
 
-            <label>
-                First Name:
+            <label>First Name *:
             <input
-                    name="firstName"
-                    type="firstName"
-                    value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
-                    required />
+                    type="text" required
+                    value={values.firstName} onChange={set('firstName')}
+                />
             </label>
 
-            <label>
-                Last Name:
+            <label>Last Name *:   
             <input
-                    name="lastName"
-                    type="lastName"
-                    value={lastName}
-                    onChange={e => setLastName(e.target.value)}
-                    required />
+                    type="text" required
+                    value={values.lastName} onChange={set('lastName')}
+                />
             </label>
-            <label>
-                Email:
+
+            <label>Email *:
             <input
-                    name="email"
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required />
+                    type="email" required
+                    value={values.email} onChange={set('email')}
+                />
             </label>
-            <label>
-                Password:
+
+            <label>Password *:
             <input
-                    name="userPassword"
-                    type="userPassword"
-                    value={userPassword}
-                    onChange={e => setUserPassword(e.target.value)}
-                    required />
+                    type="password" required min="6"
+                    value={values.userPassword} onChange={set('userPassword')}
+                />
             </label>
-            <button>Submit</button>
+
+            <button variant="outline-primary" type="submit">Submit</button>
         </form>
     );
-};
+}
 
 export default CreateUserScreen;
+
+
