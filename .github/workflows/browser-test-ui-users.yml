@@ -36,15 +36,15 @@ jobs:
         run: npm init -y
       - name: install yarn
         run: npm install --global yarn
-        
 
       - name: Puppeteer Screenshot Action
-      # You may pin to the exact commit or the version.
-      uses: JonathanTreffler/full-website-screenshot-action@v1.0
-      with:
+        # You may pin to the exact commit or the version.
+        uses: JonathanTreffler/full-website-screenshot-action@v1.0
+        with:
         # The URL you want puppeteer to visit
-        url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
-        destination: https://nscstrdevusw2tuecommon.blob.core.windows.net/screenshots/capture-users-YYYY-mm-DD-HH-MM-SS.png
+          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
+        
+          destination: https://nscstrdevusw2tuecommon.blob.core.windows.net/screenshots/capture-users-YYYY-mm-DD-HH-MM-SS.png
 
       #Azure Login 
       - name: Azure Login
