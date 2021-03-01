@@ -12,7 +12,7 @@ import { useAxiosClient } from "../hooks/axios-hook";
 // Stylesheets;
 import "../css/HomeScreen.css";
 
-// TODO: install Azure JavaScript SDK for Azure Storage and connect to common resource group (Azure);
+// TODO: install Azure JavaScript SDK for Azure Storage and connect to common resource group (Azure); DONE
 // TODO: GET dynamic number of Artillery reports from Storage (Blob Client);
 // TODO: render these Buttons;
 // TODO: make each Button, when clicked, render data associated with Artillery report by id;
@@ -30,9 +30,9 @@ const ArtilleryListScreen = (props) => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `.github/workflows/artillery-action-users-id-tasks-api.yml`,
+          `https://nscstrdevusw2tuecommon.blob.core.windows.net/artillery`,
           null,
-          { Authorization: `Bearer token` }
+          null,
         );
         setScriptList(responseData.results);
       } catch (err) {
@@ -43,11 +43,13 @@ const ArtilleryListScreen = (props) => {
   }, [sendRequest]);
 
   // TODO: make this function access the particular report mapped to the
-  // corresponding React Button and render using ArtilleryDetailScreen;
+  // corresponding React Button and render it using ArtilleryDetailScreen;
+  // Update: I think this may be unnecessary, as we have the 'to' set on Button below;
   function clickHandler() {
     console.log("I'm a button.");
-  }
 
+  }
+  // onClick={const scriptRoute = () => {script.id.}}
   return (
     <React.Fragment>
       <section>
@@ -60,7 +62,8 @@ const ArtilleryListScreen = (props) => {
                 key={script.id}
                 onClick={clickHandler}
                 // This will map to individual report (i.e. ArtilleryDetailScreen component);
-                to={`/artillery/${script.id}`}
+                // This relationship is defined in App.js;
+                to={`/artillery/:${script.id}`}
               >
                 Artillery Test Details, Test #{script.id}
                 {script.name}
