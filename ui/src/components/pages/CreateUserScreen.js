@@ -21,8 +21,6 @@ function CreateUserScreen() {
         const response = await fetch('https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users', {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
