@@ -5,15 +5,9 @@ const CreateUserScreen = (props) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    const [userId, setUserId] = useState(0);
-
-    const generateId = () => {
-        return Math.floor(Math.random() * 10000); //0 to 9999
-    }
 
     const handleSubmit = (event) => {
         console.log(`
-        UserId: ${userId}
         FirstName: ${firstName}
         LastName: ${lastName}
         Email: ${email}
@@ -28,14 +22,19 @@ const CreateUserScreen = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                userId,
                 email,
                 userPassword,
                 firstName,
-                lastName,    
-            }),
+                lastName
+            })
+            }).then((response) => {
+                if (response.status === 200 || response.status === 201) { // Can also use created user response userId instead
+                    alert('it works! ');
+                } 
+                else {
+                    alert("Fail to create a new user");
+                }
         })
-        event.preventDefault();
     }
 
     return (
@@ -76,7 +75,7 @@ const CreateUserScreen = (props) => {
                     name="userPassword"
                     type="userPassword"
                     value={userPassword}
-                    onChange={e => { setUserPassword(e.target.value); setUserId(generateId)} }
+                    onChange={e => setUserPassword(e.target.value)}
                     required />
             </label>
             <button>Submit</button>
