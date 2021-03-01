@@ -5,12 +5,13 @@ name: user/-browser-test
 on:
   # Triggers the workflow on push or pull request events but only for the development branch
   push:
-    branches: [ development ]
+    branches: [ Write-action-for-UI-tests-for-/users ]
   pull_request:
-    branches: [ development ]
+    branches: [ Write-action-for-UI-tests-for-/users ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch: true
+  repository_dispatch: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,7 +34,7 @@ jobs:
         run: npm -v
       - name: npm init
         run: npm init -y
-      - name: Install yarn
+      - name: install yarn
         run: npm install --global yarn
         
 
@@ -42,7 +43,7 @@ jobs:
       uses: JonathanTreffler/full-website-screenshot-action@v1.0
       with:
         # The URL you want puppeteer to visit
-        url: https://example.com
+        url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users
         destination: https://nscstrdevusw2tuecommon.blob.core.windows.net/screenshots/capture-users-YYYY-mm-DD-HH-MM-SS.png
 
       #Azure Login 
