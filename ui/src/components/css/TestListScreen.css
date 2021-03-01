@@ -1,6 +1,5 @@
 .test-List {
-    display: flex;
-    flex-direction: column;
+    flex-direction: auto;
     min-width: 150px;
     max-width: 30%;
     height: 580px;
