@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions               
-name: Screenshot taskid endpoint
+name: Headless Chrome /users/id/tasks
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the development branch
   push:
-    branches: [ sprint4-task4-amb ]
+    branches: [ development ]
   pull_request:
-    branches: [ sprint4-task4-amb ]
+    branches: [ development ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
