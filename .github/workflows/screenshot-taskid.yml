@@ -5,9 +5,9 @@ name: Screenshot taskid endpoint
 on:
   # Triggers the workflow on push or pull request events but only for the development branch
   push:
-    branches: [ sprint4-task4-amb ]
+    branches: [ development ]
   pull_request:
-    branches: [ sprint4-task4-amb ]
+    branches: [ development ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
