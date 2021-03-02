@@ -26,12 +26,13 @@ function CreateUserScreen() {
             },
             body: JSON.stringify(values)
         });
-        if (response.status !== 200) {
+        if (response.status !== 200 || response.status !== 204) {
             throw new Error(`Request failed: ${response.status}`);
         }
     }
 
     const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             await saveFormData();
             alert('Your registration was successfully submitted!');
@@ -54,7 +55,7 @@ function CreateUserScreen() {
                 />
             </label>
 
-            <label>Last Name *:   
+            <label>Last Name *:
             <input
                     type="text" required
                     value={values.lastName} onChange={set('lastName')}
@@ -81,5 +82,4 @@ function CreateUserScreen() {
 }
 
 export default CreateUserScreen;
-
 
