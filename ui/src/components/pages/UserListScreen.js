@@ -23,7 +23,7 @@ const UserListScreen = (props) => {
         console.log(err);
       }
     };
-    fetchUsers();
+     fetchUsers();
   }, [sendRequest]);
 
   return (
