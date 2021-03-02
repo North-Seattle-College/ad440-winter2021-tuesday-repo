@@ -1,15 +1,17 @@
-name: Serverless Artillery Users UserID Performance Test
+name: Serverless Artillery Users/Id Test
 
 #on:  
 #  push:
 #    branches:
 #      - development
-#      - derek-task4-sprint3
+#      - derek-task1-sprint4
 
 on:
   workflow_run:
-    workflows: ["Serverless Artillery Users API Test"]
-    branches: [development]
+    workflows: ["Serverless Artillery Users Test"]
+    branches: 
+      - development
+      - derek-task1-sprint4
     types: 
       - completed
 
@@ -51,7 +53,7 @@ jobs:
         run: sleep 10s
 
       - name: Invoke functions
-        run: ~/.npm-global/bin/slsart invoke -o ../../testing/Serverless-Artillery/serverless-artillery-test-users-id-api.yml --stage $STAGE_NAME --region us-west-2
+        run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id.yml --stage $STAGE_NAME --region us-west-2
 
       - name: Sleep2
         run: sleep 10s
