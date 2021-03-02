@@ -34,7 +34,7 @@ jobs:
         uses: JonathanTreffler/full-website-screenshot-action@v1.0
         with:
           url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/2/tasks
-          destination: capture-task-id_${{ steps.date.outputs.date }}.png
+          destination: capture-id-tasks_${{ steps.date.outputs.date }}.png
         #Azure Login 
       - name: Azure Login
         uses: azure/login@v1
