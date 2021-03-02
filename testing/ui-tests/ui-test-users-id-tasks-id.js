@@ -9,6 +9,6 @@ const puppeteer = require('puppeteer');
       let date = new Date();
       let stringDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
       await page.screenshot({path: './results/ad440-users-5-tasks-6-screenshot' + stringDate + '.png'});
-
+      console.log('Screenshot was just taken...');
       await browser.close();
     })();
