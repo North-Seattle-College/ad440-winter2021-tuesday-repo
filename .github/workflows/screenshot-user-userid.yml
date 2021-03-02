@@ -4,9 +4,9 @@ name: Screenshot user/{user_id} endpoint
 on:
   # Triggers the workflow on push or pull request events but only for the development branch
   push:
-    branches: [pk-sprint4-task2]
+    branches: [development]
   pull_request:
-    branches: [pk-sprint4-task2]
+    branches: [development]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
