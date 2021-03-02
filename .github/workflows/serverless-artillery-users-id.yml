@@ -1,0 +1,82 @@
+name: Serverless Artillery Users/Id Test
+
+#on:  
+#  push:
+#    branches:
+#      - development
+#      - derek-task1-sprint4
+
+on:
+  workflow_run:
+    workflows: ["Serverless Artillery Users Test"]
+    branches: 
+      - development
+      - derek-task1-sprint4
+    types: 
+      - completed
+
+jobs:
+  slsart-perf:
+    name: Serverless Artillery Users UserID Performance Test
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          check-latest: true
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Install serverless and serverless-artillery
+        run: |
+          npm install -g serverless@1.38.0 serverless-artillery
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
+
+      - name: Deploy functions
+        run: ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
+
+      - name: Sleep1
+        run: sleep 10s
+
+      - name: Invoke functions
+        run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id.yml --stage $STAGE_NAME --region us-west-2
+
+      - name: Sleep2
+        run: sleep 10s
+
+      - name: Remove functions
+        run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
+
+        #Azure Login 
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            
+        #Upload File
+      - name: uploading to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.19.1
+          inlineScript: |
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER_SERVERLESS_ARTILLERY }}   --name serverless-users-id-artilleryReport_${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
+        
+        # Azure logout
+      - name: logout
+        run: |
+          az logout

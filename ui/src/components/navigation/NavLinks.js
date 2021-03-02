@@ -13,6 +13,15 @@ const NavLinks = (props) => {
       <NavLink className="button" to="/users">
         Users
       </NavLink>
+      <NavLink className="button" to="/artillery">
+        Artillery Tests
+      </NavLink>
+      <NavLink className="button" to="/serverless">
+        Serverless Tests
+      </NavLink>
+      <NavLink className="button" to="/createuser">
+        Create a user
+      </NavLink>
     </div>
   );
 };

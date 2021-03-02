@@ -1,0 +1,12 @@
+config:
+  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net"
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      name: "Performance Joanna Test"
+scenarios:
+  - flow:
+      - get:
+          url: "/api/users/3/tasks/4"
+          json:
+            name: "name" 

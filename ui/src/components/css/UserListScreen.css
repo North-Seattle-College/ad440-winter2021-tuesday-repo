@@ -1,0 +1,6 @@
+.user-List {
+    width: 100%;
+    height: 568px;
+    padding-right: 20px;
+    overflow-y: scroll;
+}

@@ -1,46 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import Button from "../uiElements/Button";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TaskListScreen.css";
+import "../css/TestListScreen.css";
 
-const TasksScreen = (props) => {
-  const [tasksList, setTasksList] = useState([]);
+const ServerlessTests = (props) => {
+  const [tests, setTestsList] = useState([]);
   const { sendRequest } = useAxiosClient();
-  const params = useParams();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
           `GET`,
-          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/${params.userId}/tasks?`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/artillery?`,
           null,
           null
         );
-        setTasksList(responseData);
+        setTestsList(responseData);
       } catch (err) {
         console.log(err);
       }
     };
     fetchUsers();
-  }, [sendRequest, params.userId]);
+  }, [sendRequest]);
 
   return (
     <React.Fragment>
-      Tasks:
+      Serverless Tests Taken:
       <div className="divider" />
-      <div className="task-List">
-        {tasksList.map((task) => {
+      <div className="tests-List">
+        {tests.map((test) => {
           return (
             <Button
-              className="task-Button"
-              key={task.taskId}
-              to={`/users/${params.userId}/tasks/${task.taskId}`}
+              key={test.id}
+              to={`serverless/${test.id}`}
             >
-              {task.title}
+              ID: {test.id}
+              <br />
             </Button>
           );
         })}
@@ -49,4 +47,4 @@ const TasksScreen = (props) => {
   );
 };
 
-export default TasksScreen;
+export default ServerlessTests;

@@ -1,0 +1,44 @@
+name: Serverless Artillery Users/Id/Tasks Test
+#this comment is for push
+on:
+  workflow_run:
+    workflows: ["Serverless Artillery Users/Id Test"]
+    branches: 
+      - development 
+      - derek-task1-sprint4
+    types:
+      - completed
+
+jobs:
+  slsart-perf:
+    name: slsart Performance Test
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PREFIX: "~/.npm-global"
+      STAGE_NAME: merge-perf-test1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          check-latest: true
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Install serverless and serverless-artillery
+        run: |
+          npm install -g serverless@1.38.0 serverless-artillery
+      - name: Sleep
+        run: sleep 10s
+      - name: Deploy 
+        run: |
+          ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
+      - name: Invocation 
+        run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id-tasks.yml --stage $STAGE_NAME --region us-west-2 #> -p ../../testing/results/users-userid-tasks.json --region us-west-2
+      - name: remove functions
+        run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME
