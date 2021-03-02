@@ -1,9 +1,10 @@
 name: Deploy UI
-
+# This comment is for pushing a change to a branch to test a github action
 on:
   push:
     branches:
       - development
+      - derek-task1-sprint4
 env:
   AZURE_WEBAPP_PACKAGE_PATH: ui/
   NODE_VERSION: '10.x'
@@ -11,6 +12,7 @@ env:
 
 jobs:
   build-and-deploy:
+    name: Deploy UI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
