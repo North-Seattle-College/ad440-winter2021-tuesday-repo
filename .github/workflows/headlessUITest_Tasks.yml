@@ -33,10 +33,17 @@ jobs:
       - name: Puppeteer Screenshot Action
         uses: JonathanTreffler/full-website-screenshot-action@v1.0
         with:
-          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/{user_id}/tasks/{task_id}
-          destination: https://nscstrdevusw2tuecommon.blob.core.windows.net/screenshots
+          url: https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/2/tasks
+          destination: capture-task-id_${{ steps.date.outputs.date }}.png
         #Azure Login 
       - name: Azure Login
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+            #Upload File
+      - name: uploading to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.19.1
+          inlineScript: |
+            az storage blob upload --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER_SCREENSHOTS }} --file capture-task-id_${{ steps.date.outputs.date }}.png --name capture-task-id_${{ steps.date.outputs.date }}.png
