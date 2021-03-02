@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+
+// For handling Azure blob/container resources;
 import { AnonymousCredential, BlobServiceClient } from "@azure/storage-blob";
+
 // External React components;
 import Button from '../uiElements/Button';
 
 // Hook imports;
-import { useAxiosClient } from "../hooks/axios-hook";
+// import { useAxiosClient } from "../hooks/axios-hook";
 
 // Stylesheets;
 import "../css/HomeScreen.css";
@@ -15,23 +18,21 @@ require("dotenv").config();
 // Azure Blob Storage SDK imports;
 // const account = process.env.CLIENT_ID;
 const anonymousCredential = new AnonymousCredential();
-const containerName = "Artillery";
+const containerName = "artillery";
 
 // TODO: install Azure JavaScript SDK for Azure Storage and connect to common resource group (Azure); DONE
-// TODO: GET dynamic number of Artillery reports from Storage (Blob Client);
+// TODO: GET dynamic number of Artillery reports from Storage (Blob Client); DONE
 // TODO: render these Buttons;
 // TODO: make each Button, when clicked, render data associated with Artillery report by id;
 
 // Begin: React component;
 const ArtilleryListScreen = () => {
   const [reportList, setReportList] = useState([])
-  const { sendRequest } = useAxiosClient();
+  // const { sendRequest } = useAxiosClient();
 
 
   // Upon loading, renders a Button for each report found in Storage;
   useEffect(() => {
-    // setScriptList(DUMMY_TESTS); // TESTING ONLY
-    // Just need the URL put in place, uncomment this
     // List containers
     const blobServiceClient = new BlobServiceClient(
       // When using AnonymousCredential, following url should include a valid SAS or support public access
@@ -40,29 +41,34 @@ const ArtilleryListScreen = () => {
     );
 
     const fetchArtilleryReports = async () => {
+
       // Get container client as object;
       const containerClient = blobServiceClient.getContainerClient(containerName);
+      let fileReader = new FileReader();
+
       try {
         console.log("Listing blobs: ");
         // List blobs
         let i = 1;
         const blobs = containerClient.listBlobsFlat();
+        let reports = [];
         for await (const blob of blobs) {
           console.log(`Blob ${i++}: ${blob.name}`);
+          FileReader.readAsArrayBuffer(blob);
+          fileReader.onload = (event) => {
+            let arrayBuffer = fileReader.result;
+            reports.append(JSON.stringify(arrayBuffer));
+          }
         }
-        setReportList(blobs);
+        setReportList(reports);
       } catch (err) {
         console.log(err);
       }
     }
       fetchArtilleryReports();
-    }, []);
+    }, [reportList]);
 
 
-
-  // TODO: make this function access the particular report mapped to the
-  // corresponding React Button and render it using ArtilleryDetailScreen;
-  // Update: I think this may be unnecessary, as we have the 'to' set on Button below;
   function clickHandler() {
     console.log("I'm a button.");
   }
@@ -80,10 +86,9 @@ const ArtilleryListScreen = () => {
                 onClick={clickHandler}
                 // This will map to individual report (i.e. ArtilleryDetailScreen component);
                 // This relationship is defined in App.js;
-                to={`/artillery/:${report.id}`}
+                to={`/artillery/:${report.name}`}
               >
-                Artillery Test Details, Test #{report.id}
-                {report.name}
+                Artillery Test {report.name}
               </Button>
             );
           })}
