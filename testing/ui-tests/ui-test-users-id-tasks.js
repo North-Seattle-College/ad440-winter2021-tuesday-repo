@@ -1,32 +1,14 @@
 const puppeteer = require('puppeteer');
 
-const escapeXpathString = str => {
-  const splitedQuotes = str.replace(/'/g, `', "'", '`);
-  return `concat('${splitedQuotes}', '')`;
-};
-
-
-const clickByText = async (page, text) => {
-  const escapedText = escapeXpathString(text);
-  const linkHandlers = await page.$x(`//a[contains(text(), ${escapedText})]`);
-
-  if (linkHandlers.length > 0) {
-    await linkHandlers[0].click();
-  } else {
-    throw new Error(`Link not found: ${text}`);
-  }
-};
-
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://nscstrdevusw2tuecommon.z5.web.core.windows.net');
+  await page.goto('https://nscstrdevusw2tuecommon.z5.web.core.windows.net/users/1/tasks');
+    
+  let date = new Date();
+  let stringDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 
-  await clickByText(page, `Users`)
-  await clickByText(page, `wgrinston0`)
-  await clickByText(page, `View User Tasks`)
-
-  await page.screenshot({ path: 'capture-users-id-tasks.png' });
+  await page.screenshot({ path: './results/capture-users-id-tasks-'+ stringDate +'.png' });
 
   await browser.close();
 
