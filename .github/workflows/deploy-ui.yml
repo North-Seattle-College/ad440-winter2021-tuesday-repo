@@ -1,26 +1,33 @@
 name: Deploy UI
-
+# This comment is for pushing a change to a branch to test a github action
 on:
   push:
     branches:
       - development
+      - derek-task1-sprint4
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: ui/
+  NODE_VERSION: '10.x'
+  CI: false
 
 jobs:
-  build:
+  build-and-deploy:
+    name: Deploy UI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: azure/login@v1
+      - uses: actions/checkout@main
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
         with:
-          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
-
-      - name: Upload to blob storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az storage blob upload-batch --account-name nscstrdevusw2tuecommon -d '$web' -s .
-      # Azure logout
-      - name: logout
+          node-version: ${{env.NODE_VERSION}}
+      - name: npm install and build
         run: |
-          az logout
+          cd ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+          npm install
+          npm run build
+      - name: Upload To Azure Blob Storage
+        uses: bacongobbler/azure-blob-storage-upload@v1.0.0
+        with:
+          source_dir: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/build
+          container_name: $web
+          connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}

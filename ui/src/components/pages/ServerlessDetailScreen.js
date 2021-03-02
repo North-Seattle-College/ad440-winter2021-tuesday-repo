@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import DUMMY_TESTS from "../data/dummy-tests.json";
+import { useAxiosClient } from "../hooks/axios-hook";
 
 import "../css/TestDetailScreen.css";
 
 const ServerlessDetailScreen = (props) => {
   const [test, setTest] = useState();
   const params = useParams();
+  const { sendRequest } = useAxiosClient();
 
   useEffect(() => {
-    DUMMY_TESTS.map((item) => {
-      return item.id === parseInt(params.testId) && setTest(item);
-    });
-  }, [params.testId, test]);
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          `GET`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/serverless/${params.testId}?`,
+          null,
+          null
+        );
+        setTest(responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUsers();
+  }, [sendRequest, params.testId]);
 
   return (
     <React.Fragment>
@@ -21,13 +33,15 @@ const ServerlessDetailScreen = (props) => {
         <div>Nothing loaded!</div>
       ) : (
         <div>
-          <div className="test-Header">Test: {test.id}</div>
+          <div className="test-Header">Test Info: {params.testId}</div>
           <div className="divider" />
           <ol>
             <div className="test-data">
-              Test Completion Date: {test.date}
+                Aggregate Min: {test.aggregate.latency.min}
+                Aggregate Max: {test.aggregate.latency.max}
               <br />
-              Test Result: {test.result.toString()}
+                Intermediate Min: {test.intermediate.latency.min}
+                Intermediate Max: {test.intermediate.latency.max}
             </div>
           </ol>
         </div>
