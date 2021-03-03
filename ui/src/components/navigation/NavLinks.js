@@ -20,7 +20,7 @@ const NavLinks = (props) => {
         Serverless Tests
       </NavLink>
       <NavLink className="button" to="/createuser">
-        Create a user
+        Create a User
       </NavLink>
       <NavLink className="button" to="/createtask">
         Create a task
