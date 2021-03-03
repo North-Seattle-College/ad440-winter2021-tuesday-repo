@@ -22,6 +22,8 @@ import ServerlessListScreen from "./components/pages/ServerlessListScreen";
 import ServerlessDetailScreen from "./components/pages/ServerlessDetailScreen";
 
 import CreateUserScreen from "./components/pages/CreateUserScreen";
+import CreateTaskScreen from "./components/pages/CreateTaskScreen";
+
 import "./components/css/App.css";
 
 const App = () => {
@@ -58,6 +60,9 @@ const App = () => {
           </Route>
           <Route path="/createuser" exact>
             <CreateUserScreen />
+          </Route>
+          <Route path="/createtask" exact>
+            <CreateTaskScreen />
           </Route>
           <Redirect to="/" exact />
         </Switch>
