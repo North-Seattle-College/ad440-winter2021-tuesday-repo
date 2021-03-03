@@ -8,7 +8,8 @@ const puppeteer = require('puppeteer');
   let date = new Date();
   let stringDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 
-  await page.screenshot({ path: './results/capture-users-id-tasks-'+ stringDate +'.png' });
+  /*Temporarily saved to uitestfolder until it is connected to a Github Action*/
+  await page.screenshot({ path: 'capture-users-id-tasks-'+ stringDate +'.png' });
 
   await browser.close();
 
