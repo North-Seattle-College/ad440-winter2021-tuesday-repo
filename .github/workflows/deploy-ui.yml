@@ -1,30 +1,34 @@
 name: Deploy UI
-# This comment is for pushing a change to a branch to test a github action
+
 on:
   push:
     branches:
       - development
-      - derek-task1-sprint4
-env:
-  AZURE_WEBAPP_PACKAGE_PATH: ui/
-  NODE_VERSION: "10.x"
-  CI: false
-
+    paths:
+      - "ui/**"
 jobs:
-  build-and-deploy:
+  build:
+
     name: Deploy UI
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [14.x]
+
     steps:
       - uses: actions/checkout@main
       - name: Use Node.js ${{ matrix.node-version}}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{matrix.NODE_VERSION}}
-        run: |
-          cd ui
-          npm i
-          npm test
-          npm run build
+        run: cd ui
+        run: npm ci
+        run: npm run build --if-present
+        run: npm test
+
+      - name: Upload To Azure Blob Storage
+        uses: bacongobbler/azure-blob-storage-upload@v1.0.0
+        with:
+          source_dir: ui/build
+          container_name: $web
+          connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
