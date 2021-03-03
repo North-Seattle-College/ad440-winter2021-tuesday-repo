@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TestDetailScreen.css";
-
 const ArtilleryDetailScreen = (props) => {
   const [test, setTest] = useState();
   const params = useParams();
@@ -33,15 +31,15 @@ const ArtilleryDetailScreen = (props) => {
         <div>Nothing loaded</div>
       ) : (
         <div>
-          <div className="test-Header">Test Info: {params.testId}</div>
+          <div className="homepage-Header">Test Info: {params.testId}</div>
           <div className="divider" />
           <ol>
-            <div className="test-data">
-                Aggregate Min: {test.aggregate.latency.min}
-                Aggregate Max: {test.aggregate.latency.max}
+            <div className="homepage-body">
+              Aggregate Min: {test.aggregate.latency.min}
+              Aggregate Max: {test.aggregate.latency.max}
               <br />
-                Intermediate Min: {test.intermediate.latency.min}
-                Intermediate Max: {test.intermediate.latency.max}                
+              Intermediate Min: {test.intermediate.latency.min}
+              Intermediate Max: {test.intermediate.latency.max}
             </div>
           </ol>
         </div>
