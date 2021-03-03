@@ -1,39 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 // For handling Azure blob/container resources;
+// install Azure JavaScript SDK for Azure Storage and connect to
+// common resource group(Azure);
 import { AnonymousCredential, BlobServiceClient } from "@azure/storage-blob";
 
 // External React components;
 import Button from '../uiElements/Button';
 
-// Hook imports;
-// import { useAxiosClient } from "../hooks/axios-hook";
-
-// Stylesheets;
+// Styles;
 import "../css/HomeScreen.css";
 
-// Load the .env file if it exists
-require("dotenv").config();
-
-// Azure Blob Storage SDK imports;
-// const account = process.env.CLIENT_ID;
+// Azure Blob-Storage SDK;
 const anonymousCredential = new AnonymousCredential();
 const containerName = "artillery";
 
-// TODO: install Azure JavaScript SDK for Azure Storage and connect to common resource group (Azure); DONE
-// TODO: GET dynamic number of Artillery reports from Storage (Blob Client); DONE
-// TODO: render these Buttons;
-// TODO: make each Button, when clicked, render data associated with Artillery report by id;
-
-// Begin: React component;
+// Begin: React Component;
 const ArtilleryListScreen = () => {
-  const [reportList, setReportList] = useState([])
-  // const { sendRequest } = useAxiosClient();
+  const [reportList, setReportList] = useState([]);
 
-
-  // Upon loading, renders a Button for each report found in Storage;
+  // Upon loading, renders a Button for each report(Blob) found in Storage;
   useEffect(() => {
-    // List containers
     const blobServiceClient = new BlobServiceClient(
       // When using AnonymousCredential, following url should include a valid SAS or support public access
       `https://nscstrdevusw2tuecommon.blob.core.windows.net`,
@@ -41,8 +28,7 @@ const ArtilleryListScreen = () => {
     );
 
     const fetchArtilleryReports = async () => {
-
-      // Get container client as object;
+      // Get container client as object instance;
       const containerClient = blobServiceClient.getContainerClient(containerName);
 
       try {
@@ -50,7 +36,10 @@ const ArtilleryListScreen = () => {
         // List blobs
         let i = 1;
         const blobs = containerClient.listBlobsFlat();
+
+        // Reports is JS array of blobs;
         let reports = [];
+
         for await (const blob of blobs) {
           console.log(`Blob ${i++}: ${blob.name}`);
           reports.push(blob);
@@ -61,7 +50,7 @@ const ArtilleryListScreen = () => {
       }
     }
       fetchArtilleryReports();
-    }, []);
+  }, []);
 
   return (
     <React.Fragment>
@@ -73,8 +62,8 @@ const ArtilleryListScreen = () => {
             return (
               <Button
                 key={report.name}
-                // This will map to individual report (i.e. ArtilleryDetailScreen component);
-                // This relationship is defined in App.js;
+                // TODO: make this route to a working ArtilleryDetailScreen;
+                // This screen shall display the contents of the report;
                 to={`/artillery/:${report.name}`}
               >
                 {report.name}
@@ -86,6 +75,6 @@ const ArtilleryListScreen = () => {
     </React.Fragment>
   );
 };
-// End React component;
+// End React Component;
 
 export default ArtilleryListScreen;
