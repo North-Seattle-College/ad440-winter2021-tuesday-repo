@@ -18,7 +18,7 @@ function CreateTaskScreen() {
 
     const saveFormData = async () => {
         console.log(JSON.stringify(values));
-        const response = await fetch('https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/tasks', {
+        const response = await fetch('https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/:userId/task', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
