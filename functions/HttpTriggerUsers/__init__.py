@@ -87,7 +87,7 @@ def add_user(conn, user_req_body):
         assert "userPassword" in user_req_body, "New user request body did not contain field: 'userPassword'"
     except AssertionError as user_req_body_content_error:
         logging.error("New user request body did not contain the necessary fields!")
-        return func.HttpResponse(user_req_body_content_error.args[0], status_code=400)
+        return func.HttpResponse(user_req_body_content_error.args[0], status_code=422)
     
     logging.debug("New user request body contains all the necessary fields!")
     with conn.cursor() as cursor:
