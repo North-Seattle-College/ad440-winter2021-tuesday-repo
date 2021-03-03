@@ -44,7 +44,6 @@ const ArtilleryListScreen = () => {
 
       // Get container client as object;
       const containerClient = blobServiceClient.getContainerClient(containerName);
-      const fileReader = new FileReader();
 
       try {
         console.log("Listing blobs: ");
@@ -54,7 +53,7 @@ const ArtilleryListScreen = () => {
         let reports = [];
         for await (const blob of blobs) {
           console.log(`Blob ${i++}: ${blob.name}`);
-          reports.push(JSON.stringify(blob));
+          reports.push(blob);
         }
         setReportList(reports);
       } catch (err) {
@@ -63,11 +62,6 @@ const ArtilleryListScreen = () => {
     }
       fetchArtilleryReports();
     }, []);
-
-
-  function clickHandler() {
-    console.log("I'm a button.");
-  }
 
   return (
     <React.Fragment>
@@ -79,7 +73,6 @@ const ArtilleryListScreen = () => {
             return (
               <Button
                 key={report.name}
-                onClick={clickHandler}
                 // This will map to individual report (i.e. ArtilleryDetailScreen component);
                 // This relationship is defined in App.js;
                 to={`/artillery/:${report.name}`}
