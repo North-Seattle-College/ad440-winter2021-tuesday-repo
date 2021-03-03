@@ -23,7 +23,7 @@ const CreateTaskScreen = (props) => {
     try {
       const response = await sendRequest(
         "POST",
-        "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/tasks?",
+        `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/:userId/tasks?`,
         values,
         null
       );
