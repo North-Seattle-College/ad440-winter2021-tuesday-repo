@@ -31,7 +31,7 @@ const ArtilleryDetailScreen = (props) => {
         <div>Nothing loaded</div>
       ) : (
         <div>
-          <div className="homepage-Header">Test Info: {params.testId}</div>
+          <div className="homepage-header">Test Info: {params.testId}</div>
           <div className="divider" />
           <ol>
             <div className="homepage-body">
