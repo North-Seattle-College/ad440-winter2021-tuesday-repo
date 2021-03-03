@@ -26,7 +26,7 @@
 # )
 $ctx = $storageAccName.Context
 $location = "westus2"
-$templateUri = "./template.json"
+$templateUri = "./templatestorage.json"
 $subs = "9f4dcf43-aa06-457b-b975-f0216baef20d"
 $tenant = Read-Host -Prompt "Enter Tenant Id"
 $resourceGroupName = "nsc-rg-dev-usw2-tuesday"

@@ -3,7 +3,7 @@ import json
 import os
 import pyodbc
 import azure.functions as func
-from ..Utils.dbHandler import dbHandler
+from ..Utils.dbHandler import *
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 import datetime
 
@@ -132,3 +132,29 @@ def addUserTask(conn, task_req_body, userId):
             status_code=200,
             mimetype='application/json'
         )
+
+## Json file logging
+
+import json
+import traceback
+#from datetime import datetime
+
+def addLogging(logDict:dict):
+    loggingsFile = '..Swagger.swagger-users-userid-task.json'
+
+    with open(loggingsFile) as f:
+        data = json.load(f)
+
+    data.append(logDict)
+
+    with open(loggingsFile, 'w') as f:
+        json.dump(data, f)
+
+def currentTimeUTC():
+    return datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+
+try:
+    print(5 / 0)
+except ZeroDivisionError:
+    fullTraceback = str(traceback.format_exc())
+    addLogging({'timestamp': currentTimeUTC(), 'level': 'error', 'traceback': fullTraceback})
