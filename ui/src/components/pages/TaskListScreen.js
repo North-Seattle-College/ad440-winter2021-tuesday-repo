@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import Button from "../uiElements/Button";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TaskListScreen.css";
-
 const TasksScreen = (props) => {
   const [tasksList, setTasksList] = useState([]);
   const { sendRequest } = useAxiosClient();
@@ -30,20 +28,25 @@ const TasksScreen = (props) => {
 
   return (
     <React.Fragment>
-      Tasks:
+      <div className="homepage-header">Tasks Found:</div>
       <div className="divider" />
-      <div className="task-List">
-        {tasksList.map((task) => {
-          return (
-            <Button
-              className="task-Button"
-              key={task.taskId}
-              to={`/users/${params.userId}/tasks/${task.taskId}`}
-            >
-              {task.title}
-            </Button>
-          );
-        })}
+      <div className="homepage-body">
+        {!tasksList.length ? (
+          <div>
+            <br />
+            No tasks exist!
+          </div>
+        ) : (
+          tasksList.map((task) => {
+            return (
+              <Button
+                key={task.taskId}
+                to={`/users/${params.userId}/tasks/${task.taskId}`}>
+                {task.title}
+              </Button>
+            );
+          })
+        )}
       </div>
     </React.Fragment>
   );
