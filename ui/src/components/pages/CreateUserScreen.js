@@ -18,15 +18,16 @@ function CreateUserScreen() {
 
     const saveFormData = async () => {
         console.log(JSON.stringify(values));
-        const response = await sendRequest(
-            "POST",
-            "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users?",
-            values,
-            null
-        );
-        if (response.status !== 200 || response.status !== 204) {
-            throw new Error(`Request failed: ${response.status}`);
-        }
+        try {
+            const response = await sendRequest(
+                "POST",
+                "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users?",
+                values,
+                null
+            );
+            console.log(response)
+        } catch (err) { throw new Error(`Request failed: ${err.message}`); }
+
     };
 
     const handleSubmit = async (event) => {
@@ -42,7 +43,7 @@ function CreateUserScreen() {
         }
     };
 
-    return(
+    return (
         <form className="userForm" onSubmit={handleSubmit}>
             <h2>Register</h2>
 
