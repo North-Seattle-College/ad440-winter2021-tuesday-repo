@@ -6,10 +6,7 @@
 			"command": "host start",
 			"problemMatcher": "$func-python-watch",
 			"isBackground": true,
-			"dependsOn": "pipInstall",
-			"options": {
-				"cwd": "${workspaceFolder}/prototype\\functions"
-			}
+			"dependsOn": "pipInstall"
 		},
 		{
 			"label": "pipInstall",
@@ -23,10 +20,7 @@
 			"linux": {
 				"command": "${config:azureFunctions.pythonVenv}/bin/python -m pip install -r requirements.txt"
 			},
-			"problemMatcher": [],
-			"options": {
-				"cwd": "${workspaceFolder}/prototype\\functions"
-			}
+			"problemMatcher": []
 		}
 	]
 }

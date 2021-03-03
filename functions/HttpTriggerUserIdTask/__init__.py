@@ -53,7 +53,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         elif method == "POST":
             logging.debug("trying to add one task to tasks")
             task_req_body = req.get_json()
-            new_task_id = add_tasks(conn, task_req_body, user_id)
+            new_task_id = addUserTask(conn, task_req_body, user_id)
             logging.debug("task added successfully!")
             return new_task_id
 

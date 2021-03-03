@@ -1,61 +1,72 @@
 import React, { useState, useEffect } from "react";
 
-// UI imports
+// For handling Azure blob/container resources;
+// install Azure JavaScript SDK for Azure Storage and connect to
+// common resource group(Azure);
+import { AnonymousCredential, BlobServiceClient } from "@azure/storage-blob";
+
+// External React components;
 import Button from '../uiElements/Button';
 
-// Dummy data imports
-import DUMMY_TESTS from "../data/dummy-tests.json";
-
-// Hook imports
-import { useAxiosClient } from "../hooks/axios-hook";
-
-// Stylesheets
+// Styles;
 import "../css/HomeScreen.css";
 
-// Begin: our component;
-const ArtilleryListScreen = (props) => {
-  const [scriptList, setScriptList] = useState([])
-  const { sendRequest } = useAxiosClient();
+// Azure Blob-Storage SDK;
+const anonymousCredential = new AnonymousCredential();
+const containerName = "artillery";
 
+// Begin: React Component;
+const ArtilleryListScreen = () => {
+  const [reportList, setReportList] = useState([]);
+
+  // Upon loading, renders a Button for each report(Blob) found in Storage;
   useEffect(() => {
-    setScriptList(DUMMY_TESTS); // TESTING ONLY
-    // Just need the URL put in place, uncomment this
-    // const fetchTestScripts = async () => {
-    //   try {
-    //     const responseData = await sendRequest(
-    //       `GET`,
-    //       `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/%7BuserId%7D/tasks`,
-    //       null,
-    //       { Authorization: `Bearer token` }
-    //     );
-    //     setScriptList(responseData.users);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchTestScripts();
-  }, [sendRequest]);
+    const blobServiceClient = new BlobServiceClient(
+      // When using AnonymousCredential, following url should include a valid SAS or support public access
+      `https://nscstrdevusw2tuecommon.blob.core.windows.net`,
+      anonymousCredential
+    );
 
-  function clickHandler() {
-    console.log("I'm a button.");
-  }
+    const fetchArtilleryReports = async () => {
+      // Get container client as object instance;
+      const containerClient = blobServiceClient.getContainerClient(containerName);
+
+      try {
+        console.log("Listing blobs: ");
+        // List blobs
+        let i = 1;
+        const blobs = containerClient.listBlobsFlat();
+
+        // Reports is JS array of blobs;
+        let reports = [];
+
+        for await (const blob of blobs) {
+          console.log(`Blob ${i++}: ${blob.name}`);
+          reports.push(blob);
+        }
+        setReportList(reports);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+      fetchArtilleryReports();
+  }, []);
 
   return (
     <React.Fragment>
       <section>
         <div className="homepage-body">
-          Select a script to begin.
+          <b>Select a log to read: </b>
           <br />
-          {scriptList.map((script) => {
+          {reportList.map((report) => {
             return (
               <Button
-                className="task-Button"
-                key={script.id}
-                onClick={clickHandler}
-                to={`/artillery/${script.id}`}
+                key={report.name}
+                // TODO: make this route to a working ArtilleryDetailScreen;
+                // This screen shall display the contents of the report;
+                to={`/artillery/:${report.name}`}
               >
-                Artillery Test Details, Test #{script.id}
-                {script.name}
+                {report.name}
               </Button>
             );
           })}
@@ -64,5 +75,6 @@ const ArtilleryListScreen = (props) => {
     </React.Fragment>
   );
 };
+// End React Component;
 
 export default ArtilleryListScreen;

@@ -1,9 +1,11 @@
-name: Serverless Artillery test for/users/{user_id}/tasks/{task_id}-just write test
+name: Serverless Artillery Users/Id/Tasks/Id Test
 
 on:
   workflow_run:
-    workflows: ["Serverless Artillery Load testing  /users/{user_id}/tasks"]
-    branches: [development]
+    workflows: ["Serverless Artillery Users/Id/Tasks Test"]
+    branches: 
+      - development 
+      - derek-task1-sprint4
     types:
       - completed
 
@@ -47,7 +49,7 @@ jobs:
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
 
-          ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-test-users-is-tasks-id-api.yml --stage $STAGE_NAME --region us-west-2
+          ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id-tasks-id.yml --stage $STAGE_NAME --region us-west-2
 
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
         # trying to fix the invoke
