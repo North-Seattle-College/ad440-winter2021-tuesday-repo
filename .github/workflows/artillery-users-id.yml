@@ -1,13 +1,22 @@
-name: Artillery Performance Test for Users/Id/Tasks/Id
+name: Artillery Users/Id Test
 
-on: 
-  push:
-    branches:
+on:
+  workflow_run:
+    workflows: ["Artillery Users Test"]
+    branches: 
       - development
+      - derek-task1-sprint4
+    types:
+      - completed
+
+#on:
+#  push:
+#    branches:
+#      - development
 
 jobs:
   setup:
-    name: Artillery Performance Test
+    name: Artillery Users-Id Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -16,7 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -25,42 +33,29 @@ jobs:
 
       - name: nodeJS and npm version
         run: npm -v
-
       - name: npm init
         run: npm init -y
-
       - name: Install artillery
         run: npm install -g artillery
-
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
-
       - name: Sleep
         run: sleep 10s
-
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-test-users-id-tasks-id-api.yml
-
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport-users-userid_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-users-id.yml
       - name: Check Artillery Performance test file
-        run: ls -ltr artilleryReport_${{ steps.date.outputs.date }}.json 
-
-        #Azure Login 
+        run: ls -ltr artilleryReport-users-userid_${{ steps.date.outputs.date }}.json
       - name: Azure Login
         uses: azure/login@v1
-
         with:
             creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
-            
-        #Upload File
       - name: uploading to Azure Blob Storage
         uses: azure/CLI@v1
         with:
           azcliversion: 2.19.1
           inlineScript: |
-            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport_userid_tasks_id${{ steps.date.outputs.date }}.json --file  artilleryReport_${{ steps.date.outputs.date }}.json
-        
-        # Azure logout
+            az storage blob upload  --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }}  --container-name ${{ secrets.BLOB_CONTAINER }}   --name artilleryReport-users-userid_${{ steps.date.outputs.date }}.json --file  artilleryReport-users-userid_${{ steps.date.outputs.date }}.json
       - name: logout
         run: |
           az logout

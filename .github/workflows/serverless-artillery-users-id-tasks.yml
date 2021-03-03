@@ -1,4 +1,4 @@
-name: Serverless Artillery Load testing  /users/{user_id}/tasks
+name: Serverless Artillery Users/Id/Tasks Test
 #this comment is for push
 #on:
 #  push:
@@ -7,8 +7,10 @@ name: Serverless Artillery Load testing  /users/{user_id}/tasks
 
 on:
   workflow_run:
-    workflows: ["Serverless Artillery Users UserID Performance Test"]
-    branches: [development]
+    workflows: ["Serverless Artillery Users/Id Test"]
+    branches: 
+      - development 
+      - derek-task1-sprint4
     types:
       - completed
 
@@ -42,6 +44,6 @@ jobs:
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME --region us-west-2
       - name: Invocation 
-        run: ~/.npm-global/bin/slsart invoke -o ../../testing/Serverless-Artillery/test-users-userid-tasks.yml --stage $STAGE_NAME --region us-west-2 #> -p ../../testing/results/users-userid-tasks.json --region us-west-2
+        run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id-tasks.yml --stage $STAGE_NAME --region us-west-2 #> -p ../../testing/results/users-userid-tasks.json --region us-west-2
       - name: remove functions
         run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
