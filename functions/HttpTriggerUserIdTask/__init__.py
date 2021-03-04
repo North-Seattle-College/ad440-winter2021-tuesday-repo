@@ -111,7 +111,7 @@ def addUserTask(conn, task_req_body, userId):
         title = task_req_body['title']
         description = task_req_body['description']
         #dateCreated = datetime.datetime.now()
-        task_params = (userId, title, description)
+        task_params = (taskUserId, title, description)
         # query DB to create task
         task_query = """
                         SET NOCOUNT ON;
