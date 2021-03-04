@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
 const CreateTaskScreen = (props) => {
   const [values, setValues] = useState({
-    taskName: "",
-    taskDescription: "",
-    taskDueDate: "",
-    taskStatus: "",
-    taskOwner: "",
+    title: "",
+    description: "",
   });
+  const params = useParams();
   const { sendRequest } = useAxiosClient();
 
   const setHandler = (name) => {
@@ -23,7 +22,7 @@ const CreateTaskScreen = (props) => {
     try {
       const response = await sendRequest(
         "POST",
-        `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/:userId/tasks?`,
+        `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/${params.userId}/tasks?`,
         values,
         null
       );
@@ -39,11 +38,8 @@ const CreateTaskScreen = (props) => {
       await saveFormData();
       alert("Your task has successfully been entered!");
       setValues({
-        taskName: "",
-        taskDescription: "",
-        taskDueDate: "",
-        taskStatus: "",
-        taskOwner: "",
+        title: "",
+        description: "",
       });
     } catch (e) {
       alert(`Task creation failed! ${e.message}`);
@@ -52,15 +48,15 @@ const CreateTaskScreen = (props) => {
 
   return (
     <form className="taskForm" onSubmit={handleSubmit}>
-      <h2>Create a task</h2>
-
+      <div className="homepage-header">Create a Task</div>
+      <div className="divider" />
       <label>
         Task Name: &nbsp;
         <input
           type="text"
           required
-          value={values.taskName}
-          onChange={setHandler("taskName")}
+          value={values.title}
+          onChange={setHandler("title")}
         />
       </label>
 
@@ -69,38 +65,8 @@ const CreateTaskScreen = (props) => {
         <input
           type="text"
           required
-          value={values.taskDescription}
-          onChange={setHandler("taskDescription")}
-        />
-      </label>
-
-      <label>
-        Task Due Date: &nbsp;
-        <input
-          type="text"
-          required
-          value={values.taskDueDate}
-          onChange={setHandler("taskDueDate")}
-        />
-      </label>
-
-      <label>
-        Task Status: &nbsp;
-        <input
-          type="text"
-          required
-          value={values.taskStatus}
-          onChange={setHandler("taskStatus")}
-        />
-      </label>
-
-      <label>
-        Task Owner: &nbsp;
-        <input
-          type="text"
-          required
-          value={values.taskOwner}
-          onChange={setHandler("taskOwner")}
+          value={values.description}
+          onChange={setHandler("description")}
         />
       </label>
 
