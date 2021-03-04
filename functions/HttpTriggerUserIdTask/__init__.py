@@ -109,14 +109,14 @@ def addUserTask(conn, task_req_body, userId):
     with conn.cursor() as cursor:
         taskUserId = userId
         title = task_req_body['title']
-        description = task_req_body['description']
+        taskDescription = task_req_body['description']
         #dateCreated = datetime.datetime.now()
-        task_params = (taskUserId, title, description)
+        task_params = (taskUserId, title, taskDescription)
         # query DB to create task
         task_query = """
                         SET NOCOUNT ON;
                         DECLARE @NEWID TABLE(ID INT);
-                        INSERT INTO tasks (taskUserId, title, description)
+                        INSERT INTO tasks (taskUserId, title, taskDescription)
                         OUTPUT inserted.taskId INTO @NEWID(ID)
                         VALUES(?, ?, ?);
                         SELECT ID FROM @NEWID
