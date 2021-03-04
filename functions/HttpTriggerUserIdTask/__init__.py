@@ -116,7 +116,7 @@ def addUserTask(conn, task_req_body, userId):
         task_query = """
                         SET NOCOUNT ON;
                         DECLARE @NEWID TABLE(ID INT);
-                        INSERT INTO tasks (taskUserId, title, taskDescription)
+                        INSERT INTO dbo.tasks (taskUserId, title, taskDescription)
                         OUTPUT inserted.taskId INTO @NEWID(ID)
                         VALUES(?, ?, ?);
                         SELECT ID FROM @NEWID
