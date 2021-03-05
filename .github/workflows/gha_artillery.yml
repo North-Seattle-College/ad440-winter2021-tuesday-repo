@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+      - derek-task1-sprint5
 
 jobs:
   setup:

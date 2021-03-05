@@ -5,7 +5,7 @@ on:
     workflows: ["Artillery Users Test"]
     branches: 
       - development
-      - derek-task1-sprint4
+      - derek-task1-sprint5
     types:
       - completed
 
