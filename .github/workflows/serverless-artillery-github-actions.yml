@@ -1,9 +1,10 @@
 name: Performance-Test
 
-on:  [push]
-  #push:
-   # branches:
-    #  - development
+on:
+  push:
+    branches:
+      - development
+      - derek-task1-sprint5
 
 jobs:
   slsart-perf:
