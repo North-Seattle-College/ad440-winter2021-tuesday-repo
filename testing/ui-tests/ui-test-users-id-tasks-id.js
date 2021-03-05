@@ -11,6 +11,7 @@ const puppeteer = require('puppeteer');
        
       /*Temporarily saved to uitestfolder until it is connected to a Github Action*/
       await page.screenshot({ path: 'capture-users-id-tasks-id-'+ stringDate +'.png' });
+        
       console.log('Screenshot was just taken...');
       await browser.close();
     })();
