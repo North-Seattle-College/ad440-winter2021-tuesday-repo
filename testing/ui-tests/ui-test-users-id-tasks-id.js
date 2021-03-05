@@ -10,7 +10,7 @@ const puppeteer = require('puppeteer');
       let stringDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
        
       /*Temporarily saved to uitestfolder until it is connected to a Github Action*/
-      await page.screenshot({ path: 'capture-users-id-tasks-id-'+ stringDate +'.png' });
+      await page.screenshot({ path: '../results/capture-users-id-tasks-id-'+ stringDate +'.png' });
         
       console.log('Screenshot was just taken...');
       await browser.close();
