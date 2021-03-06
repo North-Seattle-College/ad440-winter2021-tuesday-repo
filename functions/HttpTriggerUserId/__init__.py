@@ -41,7 +41,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     'User not found',
                     status_code=404
                 )
-            
+
             # Return results according to the method
             if method == "GET":
                 logging.debug("Attempting to retrieve users...")
@@ -49,23 +49,30 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 logging.debug("Users retrieved successfully!")
                 return getUser
 
+            elif method == "POST":
+                logging.debug("Attempting to create user...")
+                logging.debug("This method is not allowed!")
+
             elif method == "PUT":
                 logging.debug("Attempting to update user...")
                 return updateUser(req, cursor, userId)
                 logging.debug("User added successfully!")
 
             else:
-                logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
+                logging.warn(
+                    f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
                 return func.HttpResponse(status_code=405)
 
-    #displays errors encountered when API methods were called
+    # displays errors encountered when API methods were called
     except ExceptionWithStatusCode as err:
         return func.HttpResponse(str(err), status_code=err.status_code)
-    finally: 
+    finally:
         conn.close()
         logging.debug('Connection to DB closed')
 
 # Get target user by ID
+
+
 def getUserById(cursor, row):
     logging.debug("Attempting to retrieve user by ID...")
     # This will convert the results from the query into json properties.
@@ -134,8 +141,10 @@ def deleteUser(cursor, user_id):
         status_code=200
     )
 
+
 def get_user_row(cursor, userId):
     cursor.execute(
-        'SELECT userId, email, userPassword, firstName, lastName FROM users WHERE userId={}'.format(userId)
+        'SELECT userId, email, userPassword, firstName, lastName FROM users WHERE userId={}'.format(
+            userId)
     )
     return cursor.fetchone()
