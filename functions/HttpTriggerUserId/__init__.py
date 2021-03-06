@@ -127,7 +127,7 @@ def updateUser(req, cursor, userId):
     update_user_query = "UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE userId= ?"
     logging.debug("Executing query: " + update_user_query)
     cursor.execute(update_user_query,
-                   (firstName, lastName, email, user_id))
+                   (firstName, lastName, email, userId))
     logging.debug("User was updated successfully!.")
     return func.HttpResponse(
         "User updated",
@@ -136,15 +136,25 @@ def updateUser(req, cursor, userId):
 
 
 def deleteUser(cursor, user_id):
-    logging.debug("Attempting to retrieve user by ID and delete the user...")
-    delete_user_query = "DELETE FROM users  WHERE userId={}".format(userId)
-    logging.debug("Executing query: " + delete_user_query)
-    cursor.execute(delete_user_query, (user_id))
-    logging.debug("User was deleted successfully!.")
-    return func.HttpResponse(
-        "User deleted",
-        status_code=200
-    )
+    row = get_user_row(cursor, user_id)
+    if not row:
+        logging.debug('User not found')
+        return func.HttpResponse(
+            'User not found',
+            status_code=404
+        )
+    else:
+        logging.debug(
+            "Attempting to retrieve user by ID and delete the user...")
+        delete_user_query = "DELETE FROM users  WHERE userId={}".format(
+            user_id)
+        logging.debug("Executing query: " + delete_user_query)
+        cursor.execute(delete_user_query, (user_id))
+        logging.debug("User was deleted successfully!.")
+        return func.HttpResponse(
+            "User deleted",
+            status_code=200
+        )
 
 
 def get_user_row(cursor, userId):
