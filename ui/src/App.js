@@ -21,6 +21,9 @@ import ArtilleryDetailScreen from "./components/pages/ArtilleryDetailScreen";
 import ServerlessListScreen from "./components/pages/ServerlessListScreen";
 import ServerlessDetailScreen from "./components/pages/ServerlessDetailScreen";
 
+import CreateUserScreen from "./components/pages/CreateUserScreen";
+import CreateTaskScreen from "./components/pages/CreateTaskScreen";
+
 import "./components/css/App.css";
 
 const App = () => {
@@ -31,6 +34,9 @@ const App = () => {
           <Route path="/" exact>
             <HomeScreen />
           </Route>
+          <Route path="/createuser" exact>
+            <CreateUserScreen />
+          </Route>
           <Route path="/users" exact>
             <UsersListScreen />
           </Route>
@@ -39,6 +45,9 @@ const App = () => {
           </Route>
           <Route path="/users/:userId/tasks" exact>
             <TaskListScreen />
+          </Route>
+          <Route path="/users/:userId/createtask" exact>
+            <CreateTaskScreen />
           </Route>
           <Route path="/users/:userId/tasks/:taskId" exact>
             <TaskDetailScreen />
@@ -55,6 +64,7 @@ const App = () => {
           <Route path="/serverless/:testId" exact>
             <ServerlessDetailScreen />
           </Route>
+
           <Redirect to="/" exact />
         </Switch>
       </NavScreen>

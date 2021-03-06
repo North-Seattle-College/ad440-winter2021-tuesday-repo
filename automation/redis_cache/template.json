@@ -1,0 +1,56 @@
+  
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "redis_cache": {
+            "name":  "Redis_nsc_dev_usw2_tuesday",
+            "type": "string"
+        },
+        "resource_group": {
+            "defaultValue": "nsc-rg-dev-usw2-tuesday",
+            "type": "string",
+            "metadata": {
+                "description": "Location of all resources"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[parameters('Redis_nsc_redis_dev_usw2_tuesday')]",
+            "type": "Microsoft.Cache/Redis",
+            "apiVersion": "2019-07-01",
+            "zones": [
+                "string"
+            ],
+            "location": "West US 2",
+            "tags": {},
+            "resources": [],
+            "properties": {
+                "redisConfiguration": {
+                    "maxclients": "256",
+                    "maxmemory-reserved": "2",
+                    "maxfragmentationmemory-reserved": "12",
+                    "maxmemory-delta": "2"
+                },
+                "minimumTlsVersion": "1.2",
+                "sku": {
+                    "name": "Basic",
+                    "family": "C",
+                    "capacity": 0
+                }                            
+            }
+        }        
+    ],
+    "outputs": {
+        "ResourceGroupName" : {
+            "type" : "string",
+            "value" : "parameters('location')('defaultName')"
+        },
+        "RedisServerName" : {
+            "type" : "string",
+            "value" : "parameters('redis_location').('name')"
+        }
+    }
+}
