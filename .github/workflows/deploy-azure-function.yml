@@ -1,13 +1,10 @@
 name: Deploy Function App to Azure
 
 on:
-  workflow_run:
-    workflows: ["Deploy UI"]
-    branches: 
+  push:
+    branches:
       - development
       - derek-task1-sprint5
-    types:
-      - completed
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  
