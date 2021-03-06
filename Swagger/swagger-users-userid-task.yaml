@@ -1,0 +1,39 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: document the required input and expected output for POST /users/{user_id}/tasks
+host: localhost: 3030
+basepath: /swagger
+schemes: 
+  - http
+consumes: 
+  - application/json
+produces: 
+  - application/json
+paths: 
+  /functions/HttpTriggerUserIdTask:
+    post:
+      tags:
+      - 
+      summary: This creates Task for user
+      operationId: createTask
+      description: Create task
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: tasks
+        description: task to be added
+        schema:
+          $ref: ''
+      responses:
+        200:
+          description: task added successfully!
+        400:
+          description: invalid input, object invalid
+        405:
+          description: an existing task already exists
+        500:
+          description: server error
