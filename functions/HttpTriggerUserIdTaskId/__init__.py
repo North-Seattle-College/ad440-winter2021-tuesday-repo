@@ -2,9 +2,13 @@ import json
 import pyodbc
 import logging
 import os
+import redis
 import azure.functions as func
 from ..Utils.dbHandler import dbHandler
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
+
+# Setup redis server
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(
