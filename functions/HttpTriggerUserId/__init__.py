@@ -33,7 +33,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         userId = req.route_params.get('userId')
         with conn.cursor() as cursor:
-            #logging.debug('Checking for user in database: ' + userId)
+            # logging.debug('Checking for user in database: ' + userId)
             row = get_user_row(cursor, userId)
             if not row:
                 logging.debug('User not found')
@@ -57,6 +57,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 logging.debug("Attempting to update user...")
                 return updateUser(req, cursor, userId)
                 logging.debug("User added successfully!")
+
+            elif method == "DELETE":
+                logging.debug("Attempting to delete user...")
+                return deleteUser(cursor, userId)
+                logging.debug("User deleted successfully!")
 
             else:
                 logging.warn(
