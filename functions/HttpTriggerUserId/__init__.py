@@ -33,7 +33,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         userId = req.route_params.get('userId')
         with conn.cursor() as cursor:
-            #logging.debug('Checking for user in database: ' + userId)
+            # logging.debug('Checking for user in database: ' + userId)
             row = get_user_row(cursor, userId)
             if not row:
                 logging.debug('User not found')
@@ -41,7 +41,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     'User not found',
                     status_code=404
                 )
-            
+
             # Return results according to the method
             if method == "GET":
                 logging.debug("Attempting to retrieve users...")
@@ -49,23 +49,35 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 logging.debug("Users retrieved successfully!")
                 return getUser
 
+            elif method == "POST":
+                logging.debug("Attempting to create user...")
+                logging.debug("This method is not allowed!")
+
             elif method == "PUT":
                 logging.debug("Attempting to update user...")
                 return updateUser(req, cursor, userId)
                 logging.debug("User added successfully!")
 
+            elif method == "DELETE":
+                logging.debug("Attempting to delete user...")
+                return deleteUser(cursor, userId)
+                logging.debug("User deleted successfully!")
+
             else:
-                logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
+                logging.warn(
+                    f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
                 return func.HttpResponse(status_code=405)
 
-    #displays errors encountered when API methods were called
+    # displays errors encountered when API methods were called
     except ExceptionWithStatusCode as err:
         return func.HttpResponse(str(err), status_code=err.status_code)
-    finally: 
+    finally:
         conn.close()
         logging.debug('Connection to DB closed')
 
 # Get target user by ID
+
+
 def getUserById(cursor, row):
     logging.debug("Attempting to retrieve user by ID...")
     # This will convert the results from the query into json properties.
@@ -115,7 +127,7 @@ def updateUser(req, cursor, userId):
     update_user_query = "UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE userId= ?"
     logging.debug("Executing query: " + update_user_query)
     cursor.execute(update_user_query,
-                   (firstName, lastName, email, user_id))
+                   (firstName, lastName, email, userId))
     logging.debug("User was updated successfully!.")
     return func.HttpResponse(
         "User updated",
@@ -124,18 +136,30 @@ def updateUser(req, cursor, userId):
 
 
 def deleteUser(cursor, user_id):
-    logging.debug("Attempting to retrieve user by ID and delete the user...")
-    delete_user_query = "DELETE FROM users  WHERE userId={}".format(userId)
-    logging.debug("Executing query: " + delete_user_query)
-    cursor.execute(delete_user_query, (user_id))
-    logging.debug("User was deleted successfully!.")
-    return func.HttpResponse(
-        "User deleted",
-        status_code=200
-    )
+    row = get_user_row(cursor, user_id)
+    if not row:
+        logging.debug('User not found')
+        return func.HttpResponse(
+            'User not found',
+            status_code=404
+        )
+    else:
+        logging.debug(
+            "Attempting to retrieve user by ID and delete the user...")
+        delete_user_query = "DELETE FROM users  WHERE userId={}".format(
+            user_id)
+        logging.debug("Executing query: " + delete_user_query)
+        cursor.execute(delete_user_query, (user_id))
+        logging.debug("User was deleted successfully!.")
+        return func.HttpResponse(
+            "User deleted",
+            status_code=200
+        )
+
 
 def get_user_row(cursor, userId):
     cursor.execute(
-        'SELECT userId, email, userPassword, firstName, lastName FROM users WHERE userId={}'.format(userId)
+        'SELECT userId, email, userPassword, firstName, lastName FROM users WHERE userId={}'.format(
+            userId)
     )
     return cursor.fetchone()
