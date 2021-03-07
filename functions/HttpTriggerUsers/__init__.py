@@ -9,7 +9,7 @@ from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 # GLOBAL VARIABLES
 USERS_CACHE = b'users:all'
-CACHE_TOGGLE = 'On' #os.environ.get('CACHE_TOGGLE')
+CACHE_TOGGLE = True #os.environ.get('CACHE_TOGGLE')
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(
@@ -74,7 +74,7 @@ def get_users(conn, r):
             mimetype='application/json'
         )
     else:
-        if(CACHE_TOGGLE == 'On'):
+        if(CACHE_TOGGLE == True):
             logging.debug('Cache is empty, seaching database...')
 
         with conn.cursor() as cursor:
@@ -160,7 +160,7 @@ def setupRedis():
     )
 
 def cacheUsers(r, users):
-    if(CACHE_TOGGLE == 'On'):
+    if(CACHE_TOGGLE == True):
         try:
             logging.debug('Caching users...')
             r.set(USERS_CACHE, json.dumps(users), ex=1200)
@@ -170,7 +170,7 @@ def cacheUsers(r, users):
             logging.debug(err.args[0])
 
 def getUsersCache(r):
-    if(CACHE_TOGGLE == 'On'):
+    if(CACHE_TOGGLE == True):
         logging.debug('Checking cache for users...')
         try:
             cache = r.get(USERS_CACHE)
