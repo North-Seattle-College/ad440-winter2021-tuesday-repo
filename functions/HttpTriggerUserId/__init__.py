@@ -114,8 +114,7 @@ def updateUser(req, cursor, userId):
     # Update user in DB
     update_user_query = "UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE userId= ?"
     logging.debug("Executing query: " + update_user_query)
-    cursor.execute(update_user_query,
-                   (firstName, lastName, email, user_id))
+    cursor.execute(update_user_query, (firstName, lastName, email, userId))
     logging.debug("User was updated successfully!.")
     return func.HttpResponse(
         "User updated",
@@ -123,11 +122,11 @@ def updateUser(req, cursor, userId):
     )
 
 
-def deleteUser(cursor, user_id):
+def deleteUser(cursor, userId):
     logging.debug("Attempting to retrieve user by ID and delete the user...")
     delete_user_query = "DELETE FROM users  WHERE userId={}".format(userId)
     logging.debug("Executing query: " + delete_user_query)
-    cursor.execute(delete_user_query, (user_id))
+    cursor.execute(delete_user_query, (userId))
     logging.debug("User was deleted successfully!.")
     return func.HttpResponse(
         "User deleted",

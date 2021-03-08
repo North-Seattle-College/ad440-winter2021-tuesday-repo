@@ -138,12 +138,12 @@ def add_user(conn, user_req_body):
         count = cursor.execute(add_user_query, user_params)
 
         # Get the user id from cursor
-        user_id = cursor.fetchval()
+        userId = cursor.fetchval()
 
         clearUsersCache(r)
         
         logging.debug("User added and new user id retrieved, returning information from add_user function")
-        return func.HttpResponse(json.dumps({"userId": user_id}), status_code=200, mimetype="application/json")
+        return func.HttpResponse(json.dumps({"userId": userId}), status_code=200, mimetype="application/json")
 
 # CONN STRING : nsc-redis-dev-usw2-tuesday.redis.cache.windows.net:6380,password=I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU=,ssl=True,abortConnect=False
 def setupRedis():
