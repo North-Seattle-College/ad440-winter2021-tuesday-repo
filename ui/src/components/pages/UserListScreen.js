@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import Button from "../uiElements/Button";
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/UserListScreen.css";
-
 const UserListScreen = (props) => {
   const [usersList, setUsersList] = useState([]);
   const { sendRequest } = useAxiosClient();
@@ -23,19 +21,30 @@ const UserListScreen = (props) => {
         console.log(err);
       }
     };
-     fetchUsers();
+    fetchUsers();
   }, [sendRequest]);
 
   return (
-    <div className="user-List">
-      {usersList.map((user) => {
-        return (
-          <Button key={user.userId} to={`users/${user.userId}`}>
-            {user.email}
-          </Button>
-        );
-      })}
-    </div>
+    <React.Fragment>
+      <div className="homepage-header">Users Found:</div>
+      <div className="divider" />
+      <div className="homepage-body">
+        {!usersList.length ? (
+          <div>
+            <br />
+            Fetching users...
+          </div>
+        ) : (
+          usersList.map((user) => {
+            return (
+              <Button key={user.userId} to={`users/${user.userId}`}>
+                {user.email}
+              </Button>
+            );
+          })
+        )}
+      </div>
+    </React.Fragment>
   );
 };
 

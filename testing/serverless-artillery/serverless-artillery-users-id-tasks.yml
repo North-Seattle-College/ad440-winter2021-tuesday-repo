@@ -9,4 +9,4 @@ scenarios:
       - get:
           url: "/api/users/1/tasks"
           json:
-            name: "name" 
+            name: "name"
