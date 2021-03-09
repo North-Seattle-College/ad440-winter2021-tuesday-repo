@@ -148,7 +148,7 @@ def add_user(conn, user_req_body):
 # CONN STRING : nsc-redis-dev-usw2-tuesday.redis.cache.windows.net:6380,password=I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU=,ssl=True,abortConnect=False
 def setupRedis():
     REDIS_HOST = 'nsc-redis-dev-usw2-tuesday.redis.cache.windows.net'
-    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU'
+    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU='
     REDIS_PORT = '6380'
 
     return redis.StrictRedis(

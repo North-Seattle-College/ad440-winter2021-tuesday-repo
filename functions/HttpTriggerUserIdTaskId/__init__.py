@@ -9,13 +9,11 @@ from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 # GLOBAL VARIABLES
 CACHE_TOGGLE = True #os.environ.get('CACHE_TOGGLE')
-USERID_TASKS_CACHE = b'users:{userId}:tasks:all'
 USERID_TASKID_CACHE = b'users:{userId}/tasks/{taskId}'
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info(
-        'Python HTTP trigger for /users/:userId/tasks/:taskId function is processing a request.')
+    logging.info('Python HTTP trigger for /users/:userId/tasks/:taskId function is processing a request.')
 
     # Check request method
     method = req.method
@@ -39,15 +37,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         userId = req.route_params.get('userId')
         taskId = req.route_params.get('taskId')
-        #with conn.cursor() as cursor:
-         #   logging.debug('Checking if task is in DB taskId: ' + taskId)
-          #  row = get_task_row(cursor, taskId)
-           # if not row:
-            #    logging.debug('Task not found')
-             #   return func.HttpResponse(
-              #      'Task not found',
-               #     status_code=404
-                #)
+        with conn.cursor() as cursor:
+            logging.debug('Checking if task is in DB taskId: ' + taskId)
+            row = get_task_row(cursor, taskId)
+            if not row:
+                logging.debug('Task not found')
+                return func.HttpResponse(
+                    'Task not found',
+                    status_code=404
+                )
 
         # Return results according to the method
         if method == "GET":
@@ -117,8 +115,9 @@ def getTask(conn, row, r):
             )
 
 def updateTask(conn, task_req_body, r):
-    task_req_body = req.get_json()
-
+    if not task_req_body:
+        logging.debug('no params passed')
+        return func.HttpResponse(status_code=500)
     # Validation checks on required fields
     try:
         assert 'title' in task_req_body, 'User did not provide required field: title'
@@ -171,6 +170,8 @@ def deleteTask(conn, taskId, r):
         )
 
 def get_task_row(cursor, taskId):
+    if not taskId:
+        logging.debug('No task defined')
     cursor.execute(
         'SELECT taskId, taskUserId, title, taskDescription FROM tasks WHERE taskId={}'.format(taskId)
     )
@@ -179,7 +180,7 @@ def get_task_row(cursor, taskId):
 # CONN STRING : nsc-redis-dev-usw2-tuesday.redis.cache.windows.net:6380,password=I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU=,ssl=True,abortConnect=False
 def setupRedis():
     REDIS_HOST = 'nsc-redis-dev-usw2-tuesday.redis.cache.windows.net'
-    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU'
+    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU='
     REDIS_PORT = '6380'
 
     return redis.StrictRedis(
