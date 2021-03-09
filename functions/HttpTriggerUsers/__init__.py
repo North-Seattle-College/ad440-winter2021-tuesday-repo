@@ -9,7 +9,7 @@ from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 # GLOBAL VARIABLES
 USERS_CACHE = b'users:all'
-CACHE_TOGGLE = True #os.environ.get('CACHE_TOGGLE')
+CACHE_TOGGLE =  os.environ.get('CACHE_TOGGLE')
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info(
@@ -145,12 +145,7 @@ def add_user(conn, user_req_body):
         logging.debug("User added and new user id retrieved, returning information from add_user function")
         return func.HttpResponse(json.dumps({"userId": userId}), status_code=200, mimetype="application/json")
 
-# CONN STRING : nsc-redis-dev-usw2-tuesday.redis.cache.windows.net:6380,password=I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU=,ssl=True,abortConnect=False
 def setupRedis():
-    REDIS_HOST = 'nsc-redis-dev-usw2-tuesday.redis.cache.windows.net'
-    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU='
-    REDIS_PORT = '6380'
-
     return redis.StrictRedis(
         host= REDIS_HOST,
         port= REDIS_PORT,
