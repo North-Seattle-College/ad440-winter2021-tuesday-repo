@@ -146,6 +146,11 @@ def add_user(conn, user_req_body):
         return func.HttpResponse(json.dumps({"userId": userId}), status_code=200, mimetype="application/json")
 
 def setupRedis():
+    # Get env variables
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_KEY = os.environ.get('REDIS_KEY')
+    REDIS_PORT = os.environ.get('REDIS_PORT')
+    
     return redis.StrictRedis(
         host= REDIS_HOST,
         port= REDIS_PORT,

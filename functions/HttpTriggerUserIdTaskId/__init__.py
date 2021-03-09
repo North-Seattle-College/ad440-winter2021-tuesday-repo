@@ -179,6 +179,11 @@ def get_task_row(cursor, taskId):
     return cursor.fetchone()
 
 def setupRedis():
+    # Get env variables
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_KEY = os.environ.get('REDIS_KEY')
+    REDIS_PORT = os.environ.get('REDIS_PORT')
+
     return redis.StrictRedis(
         host= REDIS_HOST,
         port= REDIS_PORT,
