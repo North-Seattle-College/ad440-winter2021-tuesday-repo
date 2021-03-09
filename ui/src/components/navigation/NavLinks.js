@@ -22,9 +22,6 @@ const NavLinks = (props) => {
       <NavLink className="button" to="/createuser">
         Create a User
       </NavLink>
-      <NavLink className="button" to="/createtask">
-        Create a task
-      </NavLink>
     </div>
   );
 };

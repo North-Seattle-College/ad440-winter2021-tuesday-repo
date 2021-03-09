@@ -6,10 +6,7 @@ import React, { useState, useEffect } from "react";
 import { AnonymousCredential, BlobServiceClient } from "@azure/storage-blob";
 
 // External React components;
-import Button from '../uiElements/Button';
-
-// Styles;
-import "../css/HomeScreen.css";
+import Button from "../uiElements/Button";
 
 // Azure Blob-Storage SDK;
 const anonymousCredential = new AnonymousCredential();
@@ -29,7 +26,9 @@ const ArtilleryListScreen = () => {
 
     const fetchArtilleryReports = async () => {
       // Get container client as object instance;
-      const containerClient = blobServiceClient.getContainerClient(containerName);
+      const containerClient = blobServiceClient.getContainerClient(
+        containerName
+      );
 
       try {
         console.log("Listing blobs: ");
@@ -48,8 +47,8 @@ const ArtilleryListScreen = () => {
       } catch (err) {
         console.log(err);
       }
-    }
-      fetchArtilleryReports();
+    };
+    fetchArtilleryReports();
   }, []);
 
   return (
@@ -58,18 +57,24 @@ const ArtilleryListScreen = () => {
         <div className="homepage-body">
           <b>Select a log to read: </b>
           <br />
-          {reportList.map((report) => {
-            return (
-              <Button
-                key={report.name}
-                // TODO: make this route to a working ArtilleryDetailScreen;
-                // This screen shall display the contents of the report;
-                to={`/artillery/:${report.name}`}
-              >
-                {report.name}
-              </Button>
-            );
-          })}
+          {!reportList.length ? (
+            <div>
+              <br />
+              No logs exist!
+            </div>
+          ) : (
+            reportList.map((report) => {
+              return (
+                <Button
+                  key={report.name}
+                  // TODO: make this route to a working ArtilleryDetailScreen;
+                  // This screen shall display the contents of the report;
+                  to={`/artillery/:${report.name}`}>
+                  {report.name}
+                </Button>
+              );
+            })
+          )}
         </div>
       </section>
     </React.Fragment>
