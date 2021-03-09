@@ -11,7 +11,7 @@ on:
 
 jobs:
   slsart-perf:
-    name: slsart Performance Test
+    name: Serverless Artillery Users/Id/Tasks Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
