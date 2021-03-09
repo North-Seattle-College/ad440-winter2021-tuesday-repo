@@ -14,7 +14,8 @@ USERID_TASKID_CACHE = b'users:{userId}/tasks/{taskId}'
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger for /users/:userId/tasks/:taskId function is processing a request.')
+    logging.info(
+        'Python HTTP trigger for /users/:userId/tasks/:taskId function is processing a request.')
 
     # Check request method
     method = req.method
@@ -54,6 +55,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             getTaskById = getTask(conn, taskId, r)
             logging.debug("Task retrieved successfully!")
             return getTaskById
+        elif method == "POST":
+            logging.debug("Attempting to create task...")
+            logging.debug("This method is not allowed!")
         elif method == "PUT":
             logging.debug("Attempting to update taskId: " + taskId)
             task_req_body = req.get_json()
@@ -67,12 +71,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             logging.warn(f"Request with method {method} has been recieved, but that is not allowed for this endpoint")
             return func.HttpResponse(status_code=405)
 
-    #displays errors encountered when API methods were called
+    # displays errors encountered when API methods were called
     except ExceptionWithStatusCode as err:
         return func.HttpResponse(str(err), status_code=err.status_code)
     finally:
         conn.close()
         logging.debug('Connection to DB closed')
+
 
 def getTask(conn, taskId, r):
     try:
@@ -90,9 +95,10 @@ def getTask(conn, taskId, r):
     else:
         if(CACHE_TOGGLE == True):
             logging.debug('cache is empty searching database...')
-            
+
         with conn.cursor() as cursor:
-            logging.debug('Using connection to execute sql query for taskId...')
+            logging.debug(
+                'Using connection to execute sql query for taskId...')
 
             row = get_task_row(cursor, taskId)
             if not row:
@@ -115,6 +121,15 @@ def getTask(conn, taskId, r):
                 mimetype='application/json'
             )
 
+
+def methodNotAllowed():
+    logging.debug("This method is not implemented")
+    return func.HttpResponse(
+        "Method not allowed",
+        status_code=405
+    )
+
+
 def updateTask(conn, task_req_body, r):
     if not task_req_body:
         logging.debug('no params passed')
@@ -124,9 +139,10 @@ def updateTask(conn, task_req_body, r):
         assert 'title' in task_req_body, 'User did not provide required field: title'
         assert 'taskDescription' in task_req_body, 'User did not provide required field: taskDescription'
     except AssertionError as err:
-        logging.error('User request body did not contain the necessary fields!')
+        logging.error(
+            'User request body did not contain the necessary fields!')
         return func.HttpResponse(
-            err.args[0], 
+            err.args[0],
             status_code=400
         )
 
@@ -140,7 +156,8 @@ def updateTask(conn, task_req_body, r):
         updateTaskQuery = 'UPDATE [dbo].[tasks] SET title = ?, taskDescription = ? WHERE userId = ? AND taskId = ?'
         executeQuery = cursor.execute(updateTaskQuery, taskParams)
         if not executeQuery:
-            logging.error('There was an ERROR updating this task or it does NOT exist.')
+            logging.error(
+                'There was an ERROR updating this task or it does NOT exist.')
             return func.HttpResponse(
                 'Bad or invalid input',
                 status_code=404
@@ -154,6 +171,33 @@ def updateTask(conn, task_req_body, r):
             'Success',
             status_code=200
         )
+
+    logging.debug('Request body contains all the necessary fields!')
+    with conn.cursor() as cursor:
+        title = task_req_body['title']
+        taskDescription = task_req_body['taskDescription']
+        taskParams = (title, taskDescription)
+
+        # update in database
+        updateTaskQuery = 'UPDATE [dbo].[tasks] SET title = ?, taskDescription = ? WHERE userId = ? AND taskId = ?'
+        executeQuery = cursor.execute(updateTaskQuery, taskParams)
+        if not executeQuery:
+            logging.error(
+                'There was an ERROR updating this task or it does NOT exist.')
+            return func.HttpResponse(
+                'Bad or invalid input',
+                status_code=404
+            )
+
+        # Clear taskId cache
+        clearTaskIdCache(r)
+
+        logging.debug('Task updated successfully')
+        return func.HttpResponse(
+            'Success',
+            status_code=200
+        )
+
 
 def deleteTask(conn, taskId, r):
     logging.debug('Attempting to delete taskId: ' + taskId)
@@ -170,13 +214,16 @@ def deleteTask(conn, taskId, r):
             status_code=200
         )
 
+
 def get_task_row(cursor, taskId):
     if not taskId:
         logging.debug('No task defined')
     cursor.execute(
-        'SELECT taskId, taskUserId, title, taskDescription FROM tasks WHERE taskId={}'.format(taskId)
+        'SELECT taskId, taskUserId, title, taskDescription FROM tasks WHERE taskId={}'.format(
+            taskId)
     )
     return cursor.fetchone()
+
 
 def setupRedis():
     # Get env variables
@@ -185,12 +232,29 @@ def setupRedis():
     REDIS_PORT = os.environ.get('REDIS_PORT')
 
     return redis.StrictRedis(
-        host= REDIS_HOST,
-        port= REDIS_PORT,
-        db= 0,
-        password= REDIS_KEY,
-        ssl= True
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        db=0,
+        password=REDIS_KEY,
+        ssl=True
     )
+    return cursor.fetchone()
+
+
+def setupRedis():
+    # Get env variables
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_KEY = os.environ.get('REDIS_KEY')
+    REDIS_PORT = os.environ.get('REDIS_PORT')
+
+    return redis.StrictRedis(
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        db=0,
+        password=REDIS_KEY,
+        ssl=True
+    )
+
 
 def cacheTaskId(r, taskId):
     if(CACHE_TOGGLE == True):
@@ -202,6 +266,7 @@ def cacheTaskId(r, taskId):
             logging.debug('Caching failed')
             logging.debug(err.args[0])
 
+
 def getTaskIdCache(r):
     if(CACHE_TOGGLE == True):
         logging.debug('Checking cache for taskId...')
@@ -210,7 +275,8 @@ def getTaskIdCache(r):
             return cache
         except ExceptionWithStatusCode as err:
             logging.debug('Failed to fetch taskId from cache')
-            return func.HttpResponse(str(err), status_code=err.status_code) 
+            return func.HttpResponse(str(err), status_code=err.status_code)
+
 
 def clearTaskIdCache(r):
     r.delete(USERID_TASKID_CACHE)
