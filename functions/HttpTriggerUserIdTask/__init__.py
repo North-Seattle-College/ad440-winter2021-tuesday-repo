@@ -53,7 +53,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         elif method == "POST":
             logging.debug("trying to add one task to tasks")
             task_req_body = req.get_json()
-            new_task_id = add_tasks(conn, task_req_body, user_id)
+            new_task_id = addUserTask(conn, task_req_body, userId)
             logging.debug("task added successfully!")
             return new_task_id
 
@@ -109,26 +109,27 @@ def addUserTask(conn, task_req_body, userId):
     with conn.cursor() as cursor:
         taskUserId = userId
         title = task_req_body['title']
-        description = task_req_body['description']
+        taskDescription = task_req_body['description']
         #dateCreated = datetime.datetime.now()
-        task_params = (userId, title, description)
+        task_params = (taskUserId, title, taskDescription)
         # query DB to create task
         task_query = """
                         SET NOCOUNT ON;
                         DECLARE @NEWID TABLE(ID INT);
-                        INSERT INTO tasks (userId, title, description)
+                        INSERT INTO dbo.tasks (taskUserId, title, taskDescription)
                         OUTPUT inserted.taskId INTO @NEWID(ID)
                         VALUES(?, ?, ?);
                         SELECT ID FROM @NEWID
                         """
         logging.debug('execute query')
         cursor.execute(task_query, task_params)
+        
         # Get the user id from cursor 
         taskId = cursor.fetchval()
         logging.info(taskId)
         logging.debug('task with id {} added'.format(taskId))
         return func.HttpResponse(
-            body=taskId,
-            status_code=200,
-            mimetype='application/json'
+            json.dumps({"taskId": taskId}), 
+            status_code=200, 
+            mimetype="application/json"
         )

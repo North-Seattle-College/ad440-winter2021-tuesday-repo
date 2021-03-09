@@ -172,6 +172,32 @@ def updateTask(conn, task_req_body, r):
             status_code=200
         )
 
+    logging.debug('Request body contains all the necessary fields!')
+    with conn.cursor() as cursor:
+        title = task_req_body['title']
+        taskDescription = task_req_body['taskDescription']
+        taskParams = (title, taskDescription)
+
+        # update in database
+        updateTaskQuery = 'UPDATE [dbo].[tasks] SET title = ?, taskDescription = ? WHERE userId = ? AND taskId = ?'
+        executeQuery = cursor.execute(updateTaskQuery, taskParams)
+        if not executeQuery:
+            logging.error(
+                'There was an ERROR updating this task or it does NOT exist.')
+            return func.HttpResponse(
+                'Bad or invalid input',
+                status_code=404
+            )
+
+        # Clear taskId cache
+        clearTaskIdCache(r)
+
+        logging.debug('Task updated successfully')
+        return func.HttpResponse(
+            'Success',
+            status_code=200
+        )
+
 
 def deleteTask(conn, taskId, r):
     logging.debug('Attempting to delete taskId: ' + taskId)
@@ -195,6 +221,22 @@ def get_task_row(cursor, taskId):
     cursor.execute(
         'SELECT taskId, taskUserId, title, taskDescription FROM tasks WHERE taskId={}'.format(
             taskId)
+    )
+    return cursor.fetchone()
+
+
+def setupRedis():
+    # Get env variables
+    REDIS_HOST = os.environ.get('REDIS_HOST')
+    REDIS_KEY = os.environ.get('REDIS_KEY')
+    REDIS_PORT = os.environ.get('REDIS_PORT')
+
+    return redis.StrictRedis(
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        db=0,
+        password=REDIS_KEY,
+        ssl=True
     )
     return cursor.fetchone()
 

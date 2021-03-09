@@ -1,13 +1,23 @@
-name: Serverless Artillery Users API Test
+name: Serverless Artillery Users Test
+
+#on:
+#  workflow_run:
+#    workflows: ["Artillery Users/Id/Tasks/Id Test"]
+#    branches: 
+#      - development
+#      - derek-task1-sprint4
+#    types: 
+#      - completed
 
 on:
   push:
     branches:
       - development
+      - derek-task1-sprint4
 
 jobs:
   slsart-perf:
-    name: Serverless Artillery Users API Test
+    name: Serverless Artillery Users Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
@@ -41,7 +51,7 @@ jobs:
       - name: Deploy and invoke serverless test
         run: |
           ~/.npm-global/bin/slsart deploy --stage $STAGE_NAME 
-          ~/.npm-global/bin/slsart invoke --output serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json ../../testing/Serverless-Artillery/serverless-artillery-test-users-api.yml
+          ~/.npm-global/bin/slsart invoke --output serverlessArtilleryReport_userAPI_${{ steps.date.outputs.date }}.json ../../testing/serverless-artillery/serverless-artillery-users.yml
           ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
       
       - name: Check Serverless Artillery Performance test file
