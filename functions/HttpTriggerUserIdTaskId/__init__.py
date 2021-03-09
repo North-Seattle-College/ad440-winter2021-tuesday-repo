@@ -8,7 +8,8 @@ from ..Utils.dbHandler import dbHandler
 from ..Utils.ExceptionWithStatusCode import ExceptionWithStatusCode
 
 # GLOBAL VARIABLES
-CACHE_TOGGLE = True #os.environ.get('CACHE_TOGGLE')
+CACHE_TOGGLE = os.environ.get('CACHE_TOGGLE')
+USERID_TASKS_ALL_CACHE = b'users:{user_id}:tasks:all'
 USERID_TASKID_CACHE = b'users:{userId}/tasks/{taskId}'
 
 
@@ -73,7 +74,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         conn.close()
         logging.debug('Connection to DB closed')
 
-def getTask(conn, row, r):
+def getTask(conn, taskId, r):
     try:
         cache = getTaskIdCache(r)
     except TypeError as err:
@@ -177,12 +178,7 @@ def get_task_row(cursor, taskId):
     )
     return cursor.fetchone()
 
-# CONN STRING : nsc-redis-dev-usw2-tuesday.redis.cache.windows.net:6380,password=I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU=,ssl=True,abortConnect=False
 def setupRedis():
-    REDIS_HOST = 'nsc-redis-dev-usw2-tuesday.redis.cache.windows.net'
-    REDIS_KEY = 'I6yuDCJzGBaR55KyI8nb30leOvFYpIEv3HTlgsir+xU='
-    REDIS_PORT = '6380'
-
     return redis.StrictRedis(
         host= REDIS_HOST,
         port= REDIS_PORT,
