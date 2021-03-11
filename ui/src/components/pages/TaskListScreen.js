@@ -48,7 +48,8 @@ const TasksScreen = (props) => {
             <Button
               className="task-Button"
               key={task.taskId}
-              onDelete={this.handleDelete} 
+              onDelete={onDeleteHandler} 
+              taskId={task.taskId}
               to={`/users/${params.userId}/tasks/${task.taskId}`}
             >
               {task.title}  
