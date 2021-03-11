@@ -26,8 +26,9 @@ const TasksScreen = (props) => {
     fetchUsers();
   }, [sendRequest, params.userId]);
 
-  handleDelete = () => {
-    alert("Task deleted");
+  onDeleteHandler = (taskId) => {
+    alert(`Task deleted: ${taskId}`);
+    // post request out to server goes here
   };
 
   return (
@@ -48,7 +49,8 @@ const TasksScreen = (props) => {
               <Button
                 className="task-Button"
                 key={task.taskId}
-                onDelete={this.handleDelete}
+                onDelete={onDeleteHandler}
+                taskId={task.taskId}
                 to={`/users/${params.userId}/tasks/${task.taskId}`}
               >
                 {task.title}
