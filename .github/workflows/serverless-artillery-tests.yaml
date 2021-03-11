@@ -1,4 +1,4 @@
-name: Serverless Artillery Users Test
+name: Serverless Artillery Tests
 
 on:
   workflow_run:
