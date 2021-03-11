@@ -1,5 +1,5 @@
 name: Artillery Tests
-
+# test
 on:
   workflow_run:
     workflows: ["Deploy Function App to Azure"]
