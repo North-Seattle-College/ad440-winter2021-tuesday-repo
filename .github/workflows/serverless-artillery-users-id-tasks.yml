@@ -46,4 +46,4 @@ jobs:
       - name: Invocation 
         run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id-tasks.yml --stage $STAGE_NAME --region us-west-2 #> -p ../../testing/results/users-userid-tasks.json --region us-west-2
       - name: remove functions
-        run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME 
+        run: ~/.npm-global/bin/slsart remove --stage $STAGE_NAME

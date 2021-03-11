@@ -1,54 +1,64 @@
 import React, { useState, useEffect } from "react";
+import { AnonymousCredential, BlobServiceClient } from "@azure/storage-blob";
 
 import Button from "../uiElements/Button";
-import DUMMY_TESTS from "../data/dummy-tests.json";
-import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TestListScreen.css";
+const ServerlessListScreen = () => {
+  const [reportList, setReportList] = useState([]);
 
-const ServerlessTests = (props) => {
-  const [tests, setTestsList] = useState([]);
-  const { sendRequest } = useAxiosClient();
-
+  // Grabs the serverless blobs. TODO: Merge with Artillery
   useEffect(() => {
-    setTestsList(DUMMY_TESTS); // TESTING ONLY
-    // Just need the URL put in place, uncomment this
-    // const fetchUsers = async () => {
-    //   try {
-    //     const responseData = await sendRequest(
-    //       `GET`,
-    //       `http://URLHERE/api/users`,
-    //       null,
-    //       { Authorization: `Bearer token` }
-    //     );
-    //     setUsersList(responseData.users);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchUsers();
-  }, [sendRequest]);
+    const containerName = "serverless-artillery";
+    const anonymousCredential = new AnonymousCredential();
+    const blobServiceClient = new BlobServiceClient(
+      `https://nscstrdevusw2tuecommon.blob.core.windows.net`,
+      anonymousCredential
+    );
+    const fetchArtilleryReports = async () => {
+      const containerClient = blobServiceClient.getContainerClient(
+        containerName
+      );
+      try {
+        const blobs = containerClient.listBlobsFlat();
+        let reports = [];
+        for await (const blob of blobs) {
+          reports.push(blob);
+        }
+        setReportList(reports);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchArtilleryReports();
+  }, []);
 
   return (
     <React.Fragment>
-      Serverless Artillery Tests Taken:
-      <div className="divider" />
-      <div className="tests-List">
-        {tests.map((test) => {
-          return (
-            <Button
-              key={test.id}
-              to={`serverless/${test.id}`}
-            >
-              ID: {test.id}
+      <section>
+        <div className="homepage-body">
+          <b>Select a log to read: </b>
+          <br />
+          {!reportList.length ? (
+            <div>
               <br />
-              {test.date}
-            </Button>
-          );
-        })}
-      </div>
+              No logs exist!
+            </div>
+          ) : (
+            reportList.map((report) => {
+              return (
+                <Button
+                  key={report.name}
+                  to={`/serverless-artillery/:${report.name}`}>
+                  {report.name}
+                </Button>
+              );
+            })
+          )}
+        </div>
+      </section>
     </React.Fragment>
   );
 };
+// End React Component;
 
-export default ServerlessTests;
+export default ServerlessListScreen;

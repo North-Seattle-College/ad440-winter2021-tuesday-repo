@@ -2,19 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Button from "../uiElements/Button";
-import DUMMY_USERS from "../data/dummy-users.json";
-
-import "../css/UserDetailScreen.css";
+import { useAxiosClient } from "../hooks/axios-hook";
 
 const UserDetailScreen = (props) => {
   const [user, setUser] = useState();
   const params = useParams();
+  const { sendRequest } = useAxiosClient();
 
   useEffect(() => {
-    DUMMY_USERS.map((item) => {
-      return item.id === parseInt(params.userId) && setUser(item);
-    });
-  }, [params.userId, user]);
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          `GET`,
+          `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/${params.userId}?`,
+          null,
+          null
+        );
+        setUser(responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUsers();
+  }, [sendRequest, params.userId]);
 
   return (
     <React.Fragment>
@@ -22,19 +32,17 @@ const UserDetailScreen = (props) => {
         <div>Nothing loaded!</div>
       ) : (
         <div>
-          <div className="user-Header">User: {user.id}</div>
+          <div className="homepage-header">User: {user.email}</div>
           <div className="divider" />
           <ol>
-            <div className="user-description">
-              First Name: {user.first}
+            <div className="homepage-description">
+              First Name: {user.firstName}
               <br />
-              Last Name: {user.last}
+              Last Name: {user.lastName}
             </div>
           </ol>
           <div className="divider" />
-          <Button className="user-Button" to={`/users/${params.userId}/tasks`}>
-            View User Tasks
-          </Button>
+          <Button to={`/users/${params.userId}/tasks`}>View User Tasks</Button>
         </div>
       )}
     </React.Fragment>
