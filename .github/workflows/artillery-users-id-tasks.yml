@@ -1,18 +1,13 @@
 name: Artillery Users/Id/Tasks Test
 
-on:
-  workflow_run:
-    workflows: ["Artillery Users/Id Test"]
-    branches: 
-      - development
-      - derek-task1-sprint5
-    types:
-      - completed
-
 #on:
-#  push:
-#    branches:
+#  workflow_run:
+#    workflows: ["Artillery Users/Id Test"]
+#    branches: 
 #      - development
+#      - derek-task1-sprint5
+#    types:
+#      - completed
 
 jobs:
   setup:

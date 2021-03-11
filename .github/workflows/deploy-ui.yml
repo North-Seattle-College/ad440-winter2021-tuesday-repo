@@ -32,23 +32,3 @@ jobs:
           source_dir: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/build
           container_name: $web
           connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
-  build-and-deploy2:
-    name: Deploy UI 2
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{env.NODE_VERSION}}
-      - name: npm install and build
-        run: |
-          cd ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
-          npm install
-          npm run build
-      - name: Upload To Azure Blob Storage
-        uses: bacongobbler/azure-blob-storage-upload@v1.0.0
-        with:
-          source_dir: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/build
-          container_name: $web
-          connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
