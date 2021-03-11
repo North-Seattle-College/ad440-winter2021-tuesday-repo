@@ -1,19 +1,13 @@
-name: Serverless Artillery Users Test
-
-on:
-  workflow_run:
-    workflows: ["Deploy Function App to Azure"]
-    branches: 
-      - development
-      - derek-task1-sprint5
-    types:
-      - completed
+name: Serverless Artillery Tests
 
 #on:
-#  push:
-#    branches:
+#  workflow_run:
+#    workflows: ["Deploy Function App to Azure"]
+#    branches: 
 #      - development
 #      - derek-task1-sprint5
+#    types:
+#      - completed
 
 jobs:
   slsart-perf:
