@@ -39,7 +39,7 @@ const TaskDetailScreen = (props) => {
               Description: {task.taskDescription}
             </div>
             <div> <button
-              onClick={this.props.onDelete}
+              onClick={props.onDelete.bind(this, props.taskId)}
               className="btn btn-lg btn-outline-danger ml-4"
             >
               Delete
