@@ -10,18 +10,18 @@ on:
       - completed
 
 jobs:
-  artillery_users:
-    name: Artillery Users Test
+  artillery_tests:
+    name: Artillery Tests
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       max-parallel: 1
       matrix:
         file: 
           - ./testing/artillery/artillery-users.yaml
           - ./testing/artillery/artillery-users-id.yml
+          - ./testing/artillery/artillery-users-id-tasks.yml
           - ./testing/artillery/artillery-users-id-tasks-id.yml
-          - ./testing/artillery/artillery-users-id-tasks-id.yml
-
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
