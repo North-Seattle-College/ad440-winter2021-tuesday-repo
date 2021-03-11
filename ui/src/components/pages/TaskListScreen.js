@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 import Button from "../uiElements/Button";
 import { useAxiosClient } from "../hooks/axios-hook";
-
-import "../css/TaskListScreen.css";
 
 const TasksScreen = (props) => {
   const [tasksList, setTasksList] = useState([]);
@@ -34,7 +32,9 @@ const TasksScreen = (props) => {
 
   return (
     <React.Fragment>
-      Tasks:
+      <NavLink className="button" to={`/users/${params.userId}/createtask`}>
+        Create a Task
+      </NavLink>
       <div className="divider" />
       <div className="task-List">
         {tasksList.map((task) => {

@@ -3,9 +3,6 @@ import { useParams } from "react-router-dom";
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
-import "../css/TaskDetailScreen.css";
-
-// Displays close "details" view of a user's individual Task from their list;
 const TaskDetailScreen = (props) => {
   const [task, setTask] = useState([]);
   const { sendRequest } = useAxiosClient();
@@ -35,10 +32,10 @@ const TaskDetailScreen = (props) => {
         <div>Nothing loaded!</div>
       ) : (
         <div>
-          <div className="task-Header">Task: {task.title}</div>
+          <div className="homepage-header">Task: {task.title}</div>
           <div className="divider" />
           <ol>
-            <div className="task-description">
+            <div className="homepage-description">
               Description: {task.taskDescription}
             </div>
             <div> <button
