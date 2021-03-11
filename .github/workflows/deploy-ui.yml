@@ -32,7 +32,7 @@ jobs:
           source_dir: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}/build
           container_name: $web
           connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
-  - build-and-deploy2:
+  build-and-deploy2:
     name: Deploy UI 2
     runs-on: ubuntu-latest
     steps:
