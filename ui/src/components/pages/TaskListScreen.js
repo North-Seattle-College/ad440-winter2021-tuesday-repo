@@ -43,18 +43,18 @@ const TasksScreen = (props) => {
             No tasks exist!
           </div>
         ) : (
-        tasksList.map((task) => {
-          return (
-            <Button
-              className="task-Button"
-              key={task.taskId}
-              onDelete={this.handleDelete} 
-              to={`/users/${params.userId}/tasks/${task.taskId}`}
-            >
-              {task.title}  
-            </Button>
-          );
-        })
+          tasksList.map((task) => {
+            return (
+              <Button
+                className="task-Button"
+                key={task.taskId}
+                onDelete={this.handleDelete}
+                to={`/users/${params.userId}/tasks/${task.taskId}`}
+              >
+                {task.title}
+              </Button>
+            );
+          })
         )}
       </div>
     </React.Fragment>

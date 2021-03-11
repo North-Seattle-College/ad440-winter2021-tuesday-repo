@@ -38,14 +38,16 @@ const TaskDetailScreen = (props) => {
             <div className="homepage-description">
               Description: {task.taskDescription}
             </div>
-            <div> <button
-              onClick={this.props.onDelete}
-              className="btn btn-lg btn-outline-danger ml-4"
-            >
-              Delete
-            </button></div>
+            <div>
+              {" "}
+              <button
+                onClick={this.props.onDelete}
+                className="btn btn-lg btn-outline-danger ml-4"
+              >
+                Delete
+              </button>
+            </div>
           </ol>
-
         </div>
       )}
     </React.Fragment>
