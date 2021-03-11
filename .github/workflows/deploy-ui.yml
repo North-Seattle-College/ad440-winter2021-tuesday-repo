@@ -12,7 +12,7 @@ env:
   CI: false
 
 jobs:
-  - build-and-deploy:
+  build-and-deploy:
     name: Deploy UI
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
           container_name: $web
           connection_string: ${{secrets.BLOB_STORAGE_CONNECTION_STRING}}
   - build-and-deploy2:
-    name: Deploy UI
+    name: Deploy UI 2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
