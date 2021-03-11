@@ -28,6 +28,10 @@ const TasksScreen = (props) => {
     fetchUsers();
   }, [sendRequest, params.userId]);
 
+  handleDelete = () => {
+    alert("Task deleted");
+  };
+
   return (
     <React.Fragment>
       Tasks:
@@ -38,9 +42,11 @@ const TasksScreen = (props) => {
             <Button
               className="task-Button"
               key={task.taskId}
+              onDelete={this.handleDelete} 
               to={`/users/${params.userId}/tasks/${task.taskId}`}
             >
               {task.title}
+              
             </Button>
           );
         })}
