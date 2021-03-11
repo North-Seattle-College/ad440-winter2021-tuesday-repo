@@ -1,13 +1,18 @@
 name: Serverless Artillery Users/Id/Tasks Test
 #this comment is for push
-on:
-  workflow_run:
-    workflows: ["Serverless Artillery Users/Id Test"]
-    branches: 
-      - development 
-      - derek-task1-sprint5
-    types:
-      - completed
+#on:
+#  push:
+#    branches: 
+#    - development
+
+#on:
+#  workflow_run:
+#    workflows: ["Serverless Artillery Users/Id Test"]
+#    branches: 
+#      - development 
+#      - derek-task1-sprint5
+#    types:
+#      - completed
 
 jobs:
   slsart-perf:

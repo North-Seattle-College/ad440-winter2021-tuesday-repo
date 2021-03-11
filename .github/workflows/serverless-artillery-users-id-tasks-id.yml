@@ -1,13 +1,13 @@
 name: Serverless Artillery Users/Id/Tasks/Id Test
 
-on:
-  workflow_run:
-    workflows: ["Serverless Artillery Users/Id/Tasks Test"]
-    branches: 
-      - development 
-      - derek-task1-sprint5
-    types:
-      - completed
+#on:
+#  workflow_run:
+#    workflows: ["Serverless Artillery Users/Id/Tasks Test"]
+#    branches: 
+#      - development 
+#      - derek-task1-sprint5
+#    types:
+#      - completed
 
 # on:  
   # push:

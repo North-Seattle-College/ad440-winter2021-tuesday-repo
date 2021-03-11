@@ -10,7 +10,7 @@ on:
       - completed
 
 jobs:
-  artillery users:
+  artillery_users:
     name: Artillery Users Test
     runs-on: ubuntu-latest
     env:
@@ -65,7 +65,7 @@ jobs:
         run: |
           az logout
 
-  artillery users id:
+  artillery_users_id:
     name: Artillery Users/Id Test
     runs-on: ubuntu-latest
     env:
@@ -110,7 +110,7 @@ jobs:
         run: |
           az logout
 
-  artillery users id tasks:
+  artillery_users_id_tasks:
     name: Artillery Users/Id/Tasks Test
     runs-on: ubuntu-latest
     env:
@@ -164,8 +164,8 @@ jobs:
       - name: logout
         run: |
           az logout
-          
-  artillery users id tasks id:
+
+  artillery_users_id_tasks_id:
     name: Artillery Users/Id/Tasks/Id Test
     runs-on: ubuntu-latest
     env:

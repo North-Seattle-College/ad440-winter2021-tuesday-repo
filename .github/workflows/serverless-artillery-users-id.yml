@@ -6,14 +6,14 @@ name: Serverless Artillery Users/Id Test
 #      - development
 #      - derek-task1-sprint4
 
-on:
-  workflow_run:
-    workflows: ["Serverless Artillery Users Test"]
-    branches: 
-      - development
-      - derek-task1-sprint5
-    types: 
-      - completed
+#on:
+#  workflow_run:
+#    workflows: ["Serverless Artillery Users Test"]
+#    branches: 
+#      - development
+#      - derek-task1-sprint5
+#    types: 
+#      - completed
 
 jobs:
   slsart-perf:
