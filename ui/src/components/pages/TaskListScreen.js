@@ -36,8 +36,14 @@ const TasksScreen = (props) => {
         Create a Task
       </NavLink>
       <div className="divider" />
-      <div className="task-List">
-        {tasksList.map((task) => {
+      <div className="homepage-body">
+        {!tasksList.length ? (
+          <div>
+            <br />
+            No tasks exist!
+          </div>
+        ) : (
+        tasksList.map((task) => {
           return (
             <Button
               className="task-Button"
@@ -45,11 +51,11 @@ const TasksScreen = (props) => {
               onDelete={this.handleDelete} 
               to={`/users/${params.userId}/tasks/${task.taskId}`}
             >
-              {task.title}
-              
+              {task.title}  
             </Button>
           );
-        })}
+        })
+        )}
       </div>
     </React.Fragment>
   );
