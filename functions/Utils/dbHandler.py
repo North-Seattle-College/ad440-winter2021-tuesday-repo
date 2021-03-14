@@ -12,7 +12,7 @@ DRIVER = '{ODBC Driver 17 for SQL Server}'
 
 class dbHandler():
     def getConnectionString():
-        # Define the connection string
+        # Define the connection string 
         conn_string = "Driver={};Server={};Database={};Uid={};Pwd={};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;".format(
         DRIVER, SERVER, DATABASE, USERNAME, PASSWORD)
 
