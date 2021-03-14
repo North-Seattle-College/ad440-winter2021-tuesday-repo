@@ -8,6 +8,7 @@ CREATE TABLE users (
   userPassword VARCHAR(60),
   firstName VARCHAR(60) NOT NULL,
   lastName VARCHAR(60) NOT NULL,
+  dateUserJoined DATETIME DEFAULT GETUTCDATE()
 );
 
 -- 'Completed' is a boolean equivalent with 0 equal to "false" and 1 equal to "true";
@@ -16,7 +17,7 @@ CREATE TABLE tasks (
   taskUserId INT NOT NULL,
   title VARCHAR(60),
   taskDescription VARCHAR(500),
-  dateCreated DATETIME NOT NULL,
+  dateCreated DATETIME DEFAULT GETUTCDATE(),
   completed TINYINT NOT NULL DEFAULT 0,
   CONSTRAINT tasks_fk_users
     FOREIGN KEY (taskUserId) REFERENCES users (userId)
