@@ -11,7 +11,7 @@ on:
     workflows: ["Serverless Artillery Users Test"]
     branches: 
       - development
-      - derek-task1-sprint5
+      - derek-task1-sprint4
     types: 
       - completed
 

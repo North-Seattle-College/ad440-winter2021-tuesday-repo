@@ -5,6 +5,7 @@ on:
     workflows: ["Deploy Function App to Azure"]
     branches: 
       - development
+<<<<<<< HEAD
       - derek-task1-sprint5
     types:
       - completed
@@ -14,6 +15,9 @@ on:
 #    branches:
 #      - development
 #      - derek-task1-sprint5
+=======
+      - derek-task1-sprint4
+>>>>>>> parent of 176322f... Changes branches the tests will run on
 
 jobs:
   setup:

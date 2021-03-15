@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - development
+<<<<<<< HEAD
       - derek-task1-sprint5
+=======
+      - derek-task1-sprint4
+    types:
+      - completed
+>>>>>>> parent of 176322f... Changes branches the tests will run on
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  
