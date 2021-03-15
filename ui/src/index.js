@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {HashRouter} from 'react-router-dom';
 import "./components/css/Index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <HashRouter>
     <App />
-  </React.StrictMode>,
+  </HashRouter>,
   document.getElementById("root")
 );
 
