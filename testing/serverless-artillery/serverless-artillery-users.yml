@@ -1,0 +1,14 @@
+config:
+  target: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net"
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      name: "Performance Test"
+scenarios:
+  - flow:
+      - post:
+          url: "/api/users"
+          json:
+            firstName : "test_user_first_name"
+            lastName : "test_user_last_name"
+            email : "test@domain.com"

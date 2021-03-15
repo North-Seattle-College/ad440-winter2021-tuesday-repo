@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "redisCacheConnectionString": "localhost:6379",
+    "AzureWebJobs.HttpTrigger1.Disabled": "true"
+  }
+}

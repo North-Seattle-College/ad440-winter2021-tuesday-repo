@@ -1,0 +1,196 @@
+{ 
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminUsernameVM": {
+        "type": "string",
+        "metadata": {
+          "description": "Username for the Virtual Machine."
+        }
+      },
+      "adminPasswordVM": {
+        "type": "securestring",
+        "minLength": 12,
+        "metadata": {
+          "description": "Password for the Virtual Machine."
+        }
+      },
+      "resourceGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the resource Group Name."
+        }
+      },
+      "subscriptionId": {
+        "type": "string",
+        "metadata": {
+          "description": "Name for the subscription Id."
+        }
+      },
+      "publicIpName": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().publicIpName]",
+        "metadata": {
+          "description": "Name for the Public IP used to access the Virtual Machine."
+        }
+      },
+      "OSVersion": {
+        "type": "string",
+        "defaultValue": "2019-Datacenter",
+        "allowedValues": [
+          "2008-R2-SP1",
+          "2012-Datacenter",
+          "2012-R2-Datacenter",
+          "2016-Nano-Server",
+          "2016-Datacenter-with-Containers",
+          "2016-Datacenter",
+          "2019-Datacenter",
+          "2019-Datacenter-Core",
+          "2019-Datacenter-Core-smalldisk",
+          "2019-Datacenter-Core-with-Containers",
+          "2019-Datacenter-Core-with-Containers-smalldisk",
+          "2019-Datacenter-smalldisk",
+          "2019-Datacenter-with-Containers",
+          "2019-Datacenter-with-Containers-smalldisk"
+        ],
+        "metadata": {
+          "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
+        }
+      },
+      "vmSize": {
+        "type": "string",
+        "defaultValue": "Standard_B1s",
+        "metadata": {
+          "description": "Size of the virtual machine."
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "westus2",
+        "allowedValues": [
+          "centralus",
+          "eastus",
+          "eastus2",
+          "westus",
+          "westus2",
+          "northcentralus",
+          "southcentralus",
+          "westcentralus",
+          "northeurope"     
+        ],
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      },
+      "VmName": {
+        "type": "string",
+        "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "metadata": {
+          "description": "Name of the virtual machine."
+        }
+      },
+      "networkInterfaceName": {
+        "type": "string",
+        "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "metadata": {
+          "description": "Name of the network interface."
+        }
+      },
+      "virtualNetworkName": {
+        "type": "string",
+         "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "metadata": {
+          "description": "Name of the virtual network."
+        }
+      },
+      "subnetName": {
+        "type": "string",
+        "defaultValue": "[concat('bootdiags', uniquestring(resourceGroup().id))]",
+        "metadata": {
+          "description": "subnet."
+        }
+      }
+    },
+    "variables": {  
+      "pipRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]",    
+      "intfName": "nsc-aut-dev-usw2-joanna-intfc",        
+      "subnetRef": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourceGroups/', parameters('resourceGroupName'),'/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'),'/subnets/', parameters('subnetName'))]"
+      
+
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[parameters('networkInterfaceName')]",
+        "apiVersion": "2020-06-01",
+        "location": "[parameters('location')]",
+        "dependsOn": [],
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "ipConfig1",
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "[resourceId(parameters('subscriptionId'),parameters('resourceGroupName'),'Microsoft.Network/publicIPAddresses', parameters('publicIpName'))]"
+                },
+                "subnet": {
+                  "id": "[variables('subnetRef')]"                 
+                }               
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "apiVersion": "2020-06-01",
+        "name": "[parameters('VmName')]",
+        "location": "[parameters('location')]",
+        "dependsOn": ["[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"],
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+          },
+          "osProfile": {
+            "computerName": "[parameters('VmName')]",
+            "adminUsername": "[parameters('adminUsernameVM')]",
+            "adminPassword": "[parameters('adminPasswordVM')]"
+          },
+          "storageProfile": {
+            "imageReference": {
+                "publisher": "Canonical",
+                "offer": "UbuntuServer",
+                "sku": "18.04-LTS",
+                "version": "latest"
+            },
+            "osDisk": {
+              "createOption": "FromImage",
+              "managedDisk": {
+                "storageAccountType": "StandardSSD_LRS"
+              },
+              "diskSizeGB": 30
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+              }
+            ]
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "enabled": true
+            }
+          }
+        }
+      }      
+    ],
+    "outputs": {
+      "virtualMachine": {
+        "type": "object",
+        "value": "[reference(parameters('VmName'))]"
+      }
+    }
+  }

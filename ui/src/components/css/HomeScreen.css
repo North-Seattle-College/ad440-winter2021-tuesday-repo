@@ -1,0 +1,20 @@
+.homepage-header {
+  font-size: xx-large;
+}
+
+.homepage-description {
+  margin-top: 20px;
+  font-size: large;
+}
+
+.homepage-body {
+  height: 568px;
+  padding-right: 20px;
+  overflow-y: scroll;
+}
+.divider {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 13rem;
+  border-bottom: 1px solid black;
+}
