@@ -1,15 +1,10 @@
 name: Deploy UI
-
+# This comment is for pushing a change to a branch to test a github action
 on:
   push:
     branches:
       - development
-<<<<<<< HEAD
-      - derek-task1-sprint5
-
-=======
       - derek-task1-sprint4
->>>>>>> parent of 176322f... Changes branches the tests will run on
 env:
   AZURE_WEBAPP_PACKAGE_PATH: ui/
   NODE_VERSION: '10.x'
