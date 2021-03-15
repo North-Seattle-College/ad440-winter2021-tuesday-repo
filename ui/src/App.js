@@ -5,6 +5,7 @@ import {
   Redirect,
   BrowserRouter as Router,
   HashRouter,
+  Link
 } from "react-router-dom";
 
 import HomeScreen from "./components/pages/HomeScreen";
@@ -50,12 +51,9 @@ const App = () => {
           <Route path="/users/:userId/createtask" exact>
             <CreateTaskScreen />
           </Route>
-          {/* <Route path="/users/:userId/tasks/:taskId" exact>
+          <Route path="/users/:userId/tasks/:taskId" exact>
             <TaskDetailScreen />
-          </Route> */}
-          <HashRouter basename="/"/>
-          <Link to="/users/:userId/tasks/:taskId"/> 
-          <HashRouter/>
+          </Route>
           <Route path="/artillery" exact>
             <ArtilleryListScreen />
           </Route>
