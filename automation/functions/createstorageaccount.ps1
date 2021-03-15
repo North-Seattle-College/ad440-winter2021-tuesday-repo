@@ -24,9 +24,9 @@
 #     $tags
 
 # )
-$web = "$web"
+$ctx = $storageAccName.Context
 $location = "westus2"
-$templateUri = "./template.json"
+$templateUri = "./templatestorage.json"
 $subs = "9f4dcf43-aa06-457b-b975-f0216baef20d"
 $tenant = Read-Host -Prompt "Enter Tenant Id"
 $resourceGroupName = "nsc-rg-dev-usw2-tuesday"
@@ -68,8 +68,8 @@ Function CreateAzStorageAcc{
 CreateAzStorageAcc  
  
 ## Create container
-"$web serverless-artillery artillery".split() | New-AzureStorageContainer -Permission Container
-Get-AzStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccName
+# Get-AzStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccName
+"web serverless-artillery artillery".split() | New-AzureStorageContainer -Permission Container -Context $ctx
 
 ## Disconnect from Azure Account  
 Disconnect-AzAccount 
