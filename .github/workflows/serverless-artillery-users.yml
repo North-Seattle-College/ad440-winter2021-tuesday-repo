@@ -41,7 +41,7 @@ jobs:
       - name: Install serverless and serverless-artillery
         run: |
           npm install -g serverless@1.38.0 serverless-artillery
-          
+
       # Get date for dynamic file saving
       - name: Get current date
         id: date
