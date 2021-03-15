@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import { useAxiosClient } from "../hooks/axios-hook";
 
@@ -7,6 +7,7 @@ const TaskDetailScreen = (props) => {
   const [task, setTask] = useState([]);
   const { sendRequest } = useAxiosClient();
   const params = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -25,6 +26,23 @@ const TaskDetailScreen = (props) => {
     fetchUsers();
   }, [sendRequest, params.userId, params.taskId]);
 
+  const onDeleteHandler = async () => {
+    try {
+      const responseData = await sendRequest(
+        `DELETE`,
+        `https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/${params.userId}/tasks/${params.taskId}?`,
+        null,
+        null
+      );
+      if (responseData.ok) {
+        // I'm not 100% sure we can use responseData.ok here, but it should return true if status is 200-299 range
+        history.push(`/users/${params.userId}/tasks`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // Render the component;
   return (
     <React.Fragment>
@@ -40,10 +58,9 @@ const TaskDetailScreen = (props) => {
             </div>
             <div>
               <button
-                onClick={props.onDelete.bind(this, props.taskId)}
-                className="btn btn-lg btn-outline-danger ml-4"
-              >
-                Delete
+                onClick={onDeleteHandler}
+                className="btn btn-lg btn-outline-danger ml-4">
+                Delete Task
               </button>
             </div>
           </ol>

@@ -26,11 +26,6 @@ const TasksScreen = (props) => {
     fetchUsers();
   }, [sendRequest, params.userId]);
 
-  onDeleteHandler = (taskId) => {
-    alert(`Task deleted: ${taskId}`);
-    // post request out to server goes here
-  };
-
   return (
     <React.Fragment>
       <NavLink className="button" to={`/users/${params.userId}/createtask`}>
@@ -49,10 +44,7 @@ const TasksScreen = (props) => {
               <Button
                 className="task-Button"
                 key={task.taskId}
-                onDelete={onDeleteHandler}
-                taskId={task.taskId}
-                to={`/users/${params.userId}/tasks/${task.taskId}`}
-              >
+                to={`/users/${params.userId}/tasks/${task.taskId}`}>
                 {task.title}
               </Button>
             );
