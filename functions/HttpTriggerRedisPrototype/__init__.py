@@ -112,8 +112,8 @@ def add_user(conn, user_req_body):
         count = cursor.execute(add_user_query, user_params)
 
         # Get the user id from cursor
-        user_id = cursor.fetchval()
+        userId = cursor.fetchval()
         
         logging.debug(
             "User added and new user id retrieved, returning information from add_user function")
-        return func.HttpResponse(json.dumps({"userId": user_id}), status_code=200, mimetype="application/json")
+        return func.HttpResponse(json.dumps({"userId": userId}), status_code=200, mimetype="application/json")
