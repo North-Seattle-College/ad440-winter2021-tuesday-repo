@@ -4,6 +4,7 @@ import {
   Switch,
   Redirect,
   BrowserRouter as Router,
+  HashRouter,
 } from "react-router-dom";
 
 import HomeScreen from "./components/pages/HomeScreen";
@@ -28,7 +29,7 @@ import "./components/css/App.css";
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter>
       <NavScreen>
         <Switch>
           <Route path="/" exact>
@@ -49,9 +50,12 @@ const App = () => {
           <Route path="/users/:userId/createtask" exact>
             <CreateTaskScreen />
           </Route>
-          <Route path="/users/:userId/tasks/:taskId" exact>
+          {/* <Route path="/users/:userId/tasks/:taskId" exact>
             <TaskDetailScreen />
-          </Route>
+          </Route> */}
+          <HashRouter basename="/"/>
+          <Link to="/users/:userId/tasks/:taskId"/> 
+          <HashRouter/>
           <Route path="/artillery" exact>
             <ArtilleryListScreen />
           </Route>
@@ -68,7 +72,7 @@ const App = () => {
           <Redirect to="/" exact />
         </Switch>
       </NavScreen>
-    </Router>
+    </HashRouter>
   );
 };
 
