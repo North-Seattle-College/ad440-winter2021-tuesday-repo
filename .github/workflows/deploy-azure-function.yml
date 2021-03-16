@@ -1,10 +1,11 @@
 name: Deploy Function App to Azure
 
-on:
-  push:
-    branches:
-      - development
-      - derek-task1-sprint5
+#This is disabled for now.
+#on:
+#  push:
+#    branches:
+#      - development
+#      - derek-task1-sprint5
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functions'  

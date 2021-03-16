@@ -8,6 +8,11 @@ on:
       - derek-task1-sprint5
     types:
       - completed
+on:
+  push:
+    branches:
+      - development
+      - derek-task1-sprint5
 
 jobs:
   serverless_tests:
