@@ -14,7 +14,7 @@ jobs:
       # Create test user to delete and write user json to result file
       - name: 'Create test user to delete'
         run: |
-          curl -v POST -d '{ "firstName": "inject-del-fname", "lastName": "inject-del-lname", "email": "inject-del-email" }' https://nsc-fun-dev-usw2-thursday.azurewebsites.net/api/users > testing/sql-injection/delete-user-userid.json
+          curl -v POST -d '{ "firstName": "inject-del-fname", "lastName": "inject-del-lname", "email": "inject-del-email" }' https://nsc-fun-dev-usw2-tuesday.azurewebsites.net/api/users > testing/sql-injection/delete-user-userid.json
       
       # Retrieve userId from result file
       - name: 'Retrieve userId-to delete'
