@@ -2,7 +2,7 @@ name: SQL injection test for DELETE users/userid
 on:
   push:
     branches:
-      - sql-injection-delete
+      - development
 env:
   NODE_VERSION: '10.x'
 
