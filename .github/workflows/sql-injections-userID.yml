@@ -2,6 +2,7 @@ name: sql-injection-userId
 on: [push]
 
 jobs:
+  injection-test:
     name: SQL Injection Test
     runs-on: ubuntu-latest
 
