@@ -102,7 +102,7 @@ def get_users(conn, r):
 
             return func.HttpResponse(json.dumps(users), status_code=200, mimetype="application/json")
 
-def add_user(conn, user_req_body):
+def add_user(conn, user_req_body, r):
     # Verify that required fields are present..
     logging.debug("Testing the add new user request body for necessary fields...")
     try:
