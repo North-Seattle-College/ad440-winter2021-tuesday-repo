@@ -42,6 +42,7 @@ const TasksScreen = (props) => {
           tasksList.map((task) => {
             return (
               <Button
+                className="task-Button"
                 key={task.taskId}
                 to={`/users/${params.userId}/tasks/${task.taskId}`}>
                 {task.title}
