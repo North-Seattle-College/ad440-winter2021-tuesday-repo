@@ -1,13 +1,9 @@
 name: Artillery Tests
-# test
+
 on:
-  workflow_run:
-    workflows: ["Deploy Function App to Azure"]
-    branches: 
+  push:
+    branches:
       - development
-      - derek-task1-sprint5
-    types:
-      - completed
 
 jobs:
   artillery_tests:
