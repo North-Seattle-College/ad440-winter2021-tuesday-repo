@@ -1,13 +1,13 @@
 name: Serverless Artillery Users/Id/Tasks/Id Test
 
-on:
-  workflow_run:
-    workflows: ["Serverless Artillery Users/Id/Tasks Test"]
-    branches: 
-      - development 
-      - derek-task1-sprint4
-    types:
-      - completed
+#on:
+#  workflow_run:
+#    workflows: ["Serverless Artillery Users/Id/Tasks Test"]
+#    branches: 
+#      - development 
+#      - derek-task1-sprint5
+#    types:
+#      - completed
 
 # on:  
   # push:
@@ -16,7 +16,7 @@ on:
  
 jobs:
   slsart-perf:
-    name: slsart Performance Test
+    name: Serverless Artillery Users/Id/Tasks/Id Test
     runs-on: ubuntu-latest
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"

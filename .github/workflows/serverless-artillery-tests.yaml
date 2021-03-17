@@ -1,25 +1,27 @@
-name: Serverless Artillery Users/Id Test
+name: Serverless Artillery Tests
 
-#on:  
-#  push:
-#    branches:
-#      - development
-#      - derek-task1-sprint4
-
-#on:
-#  workflow_run:
-#    workflows: ["Serverless Artillery Users Test"]
-#    branches: 
-#      - development
-#      - derek-task1-sprint5
-#    types: 
-#      - completed
+on:
+  workflow_run:
+    workflows: ["Deploy Function App to Azure"]
+    branches: 
+      - development
+      - derek-task1-sprint5
+    types:
+      - completed
 
 jobs:
-  slsart-perf:
-    name: Serverless Artillery Users/Id Test
+  serverless_tests:
+    name: Serverless Artillery Tests
     runs-on: ubuntu-latest
-    env:
+    continue-on-error: true
+    strategy:
+      max-parallel: 1
+      matrix:
+        file: 
+          - ../../testing/serverless-artillery/serverless-artillery-users.yml
+          - ../../testing/serverless-artillery/serverless-artillery-users-id.yml
+          - ../../testing/serverless-artillery/serverless-artillery-users-id-tasks.yml
+          - ../../testing/serverless-artillery/serverless-artillery-users-id-tasks-id.yml
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test1
     steps:
@@ -53,7 +55,7 @@ jobs:
         run: sleep 10s
 
       - name: Invoke functions
-        run: ~/.npm-global/bin/slsart invoke -o ../../testing/serverless-artillery/serverless-artillery-users-id.yml --stage $STAGE_NAME --region us-west-2
+        run: ~/.npm-global/bin/slsart invoke -o ${{ matrix.file }} --stage $STAGE_NAME --region us-west-2
 
       - name: Sleep2
         run: sleep 10s
@@ -80,3 +82,4 @@ jobs:
       - name: logout
         run: |
           az logout
+

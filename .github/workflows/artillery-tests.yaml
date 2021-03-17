@@ -1,25 +1,27 @@
-name: Artillery Users Test
-
-#on:
-#  workflow_run:
-#    workflows: ["Deploy Function App to Azure"]
-#    branches: 
-#      - development
-#      - derek-task1-sprint5
-#    types:
-#      - completed
-
-
+name: Artillery Tests
+# test
 on:
-  push:
-    branches:
+  workflow_run:
+    workflows: ["Deploy Function App to Azure"]
+    branches: 
       - development
-      - derek-task1-sprint4
+      - derek-task1-sprint5
+    types:
+      - completed
 
 jobs:
-  setup:
-    name: Artillery Users Test
+  artillery_tests:
+    name: Artillery Tests
     runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      max-parallel: 1
+      matrix:
+        file: 
+          - ./testing/artillery/artillery-users.yaml
+          - ./testing/artillery/artillery-users-id.yml
+          - ./testing/artillery/artillery-users-id-tasks.yml
+          - ./testing/artillery/artillery-users-id-tasks-id.yml
     env:
       NPM_CONFIG_PREFIX: "~/.npm-global"
       STAGE_NAME: merge-perf-test
@@ -47,7 +49,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
 
       - name: Running Artillery Test
-        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_userAPI_${{ steps.date.outputs.date }}.json ./testing/artillery/artillery-users.yaml
+        run: /home/runner/.npm-global/lib/node_modules/artillery/bin/artillery run --output artilleryReport_userAPI_${{ steps.date.outputs.date }}.json ${{ matrix.file }}
 
       - name: Check Artillery Performance test file
         run: ls -ltr artilleryReport_userAPI_${{ steps.date.outputs.date }}.json
@@ -71,3 +73,4 @@ jobs:
       - name: logout
         run: |
           az logout
+
