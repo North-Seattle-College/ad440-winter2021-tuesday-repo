@@ -123,6 +123,7 @@ def addUserTask(conn, task_req_body, userId):
                         """
         logging.debug('execute query')
         cursor.execute(task_query, task_params)
+        
         # Get the user id from cursor 
         taskId = cursor.fetchval()
         logging.info(taskId)

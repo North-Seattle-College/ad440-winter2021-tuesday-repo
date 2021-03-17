@@ -3,7 +3,7 @@ import {
   Route,
   Switch,
   Redirect,
-  BrowserRouter as Router,
+  HashRouter,
 } from "react-router-dom";
 
 import HomeScreen from "./components/pages/HomeScreen";
@@ -28,7 +28,7 @@ import "./components/css/App.css";
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter>
       <NavScreen>
         <Switch>
           <Route path="/" exact>
@@ -68,7 +68,7 @@ const App = () => {
           <Redirect to="/" exact />
         </Switch>
       </NavScreen>
-    </Router>
+    </HashRouter>
   );
 };
 
