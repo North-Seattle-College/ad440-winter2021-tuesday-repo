@@ -9,6 +9,7 @@ name: Serverless Artillery Tests
 #    types:
 #      - completed
 
+
 jobs:
   slsart-perf:
     name: Serverless Artillery Users Test

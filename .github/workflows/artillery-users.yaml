@@ -9,11 +9,12 @@ name: Artillery Users Test
 #    types:
 #      - completed
 
-#on:
-#  push:
-#    branches:
-#      - development
-#      - derek-task1-sprint5
+
+on:
+  push:
+    branches:
+      - development
+      - derek-task1-sprint4
 
 jobs:
   setup:
