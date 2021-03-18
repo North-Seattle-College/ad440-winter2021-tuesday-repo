@@ -146,10 +146,11 @@ def add_user(conn, user_req_body, r):
         return func.HttpResponse(json.dumps({"userId": userId}), status_code=200, mimetype="application/json")
 
 def setupRedis():
+    logging.debug("Access to setupRedis successfully!")
     # Get env variables
-    REDIS_HOST = os.environ.get('REDIS_HOST')
-    REDIS_KEY = os.environ.get('REDIS_KEY')
-    REDIS_PORT = os.environ.get('REDIS_PORT')
+    REDIS_HOST = os.environ['REDIS_HOST']
+    REDIS_KEY = os.environ['REDIS_KEY']
+    REDIS_PORT = os.environ['REDIS_PORT']
     
     return redis.StrictRedis(
         host= REDIS_HOST,
@@ -160,7 +161,7 @@ def setupRedis():
     )
 
 def cacheUsers(r, users):
-    if(CACHE_TOGGLE == True):
+    if(CACHE_TOGGLE):
         try:
             logging.debug('Caching users...')
             r.set(USERS_CACHE, json.dumps(users), ex=1200)
