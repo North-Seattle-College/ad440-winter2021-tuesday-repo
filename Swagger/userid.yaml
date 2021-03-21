@@ -1,0 +1,111 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: document the required input and expected output for POST /users/{user_id}
+host: localhost: 3030
+basepath: /swagger
+schemes: 
+  - http
+consumes: 
+  - application/json
+produces: 
+  - application/json
+paths: 
+  /users/{userid}:
+    get:
+      tags:
+      - 
+      summary: Retrieve user by userID
+      operationId: getUser
+      description: Get user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: user_id
+        description: Id of the user
+        schema:
+          $ref: ''
+      responses:
+        200:
+          description: Users retrieved successfully!
+        400:
+          description: Invalid ID supplied
+        500:
+          description: server error
+
+    post:
+      tags:
+      - 
+      summary: Create user
+      operationId: createUser
+      description: Create a new user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: user_id
+        description: Id of the user
+        schema:
+          $ref: ''
+      responses:
+        405:
+          description: Method not allowed!
+        500:
+          description: server error
+
+    put:
+      tags:
+      - 
+      summary: Update existing user by userID
+      operationId: updateUser
+      description: Update a user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: user_id
+        description: Id of the user
+        schema:
+          $ref: ''
+      responses:
+        200:
+          description: User updated successfully!
+        400:
+          description: User request body did not contain the necessary fields!
+        404:
+          description: A user with the specified ID was not found.
+        500:
+          description: server error
+
+    delete:
+      tags:
+      - 
+      summary: Delete existing user by userID
+      operationId: deleteUser
+      description: Delete a user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: user_id
+        description: Id of the user
+        schema:
+          $ref: ''
+      responses:
+        200:
+          description: User deleted successfully!
+        400:
+          description: Invalid ID supplied
+        404:
+          description: A user with the specified ID was not found
+        500:
+          description: server error
