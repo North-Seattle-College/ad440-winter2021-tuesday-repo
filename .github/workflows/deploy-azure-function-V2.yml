@@ -1,0 +1,39 @@
+name: Deploy functions to Azure Functions
+
+on:
+  push:
+    branches:
+      - development
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "functions"
+  PYTHON_VERSION: "3.8"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # tells GH actions what we'll be running everything on
+    steps:
+      - name: "Checkout Repository GitHub Action" # checks out the repository
+        uses: actions/checkout@main
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }} Environment # this is the script that sets up python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: "Resolve Project Dependencies Using Pip" # installs all the packages necessary to run the functions
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+          ls .python_packages/lib/site-packages
+          popd
+      - name: "Run Azure Functions Action" # this is the action that lets us push to Azure
+        uses: Azure/functions-action@v1
+        id: fa # this just uniquely identifies this step as fa
+        with:
+          app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }} # this is the name of the function established in the env portion
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} # this is the path established in the env portion
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # this is the secret we've created on GitHub that contains the details necessary to push to Azure
+          scm-do-build-during-deployment: "True"
