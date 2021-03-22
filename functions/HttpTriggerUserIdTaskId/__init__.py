@@ -93,7 +93,7 @@ def getTask(conn, taskId, r):
             mimetype='application/json'
         )
     else:
-        if(CACHE_TOGGLE == True):
+        if(CACHE_TOGGLE == 'True'):
             logging.debug('cache is empty searching database...')
 
         with conn.cursor() as cursor:
@@ -257,7 +257,7 @@ def setupRedis():
 
 
 def cacheTaskId(r, taskId):
-    if(CACHE_TOGGLE == True):
+    if(CACHE_TOGGLE == 'True'):
         try:
             logging.debug('Caching taskId - {taskId} ...')
             r.set(USERID_TASKID_CACHE, json.dumps(taskId), ex=1200)
@@ -268,7 +268,7 @@ def cacheTaskId(r, taskId):
 
 
 def getTaskIdCache(r):
-    if(CACHE_TOGGLE == True):
+    if(CACHE_TOGGLE == 'True'):
         logging.debug('Checking cache for taskId...')
         try:
             cache = r.get(USERID_TASKID_CACHE)
