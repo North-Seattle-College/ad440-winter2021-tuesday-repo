@@ -1,7 +1,16 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "python"
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=storageaccountnscrg8744;AccountKey=Z5rp5hOQBMMP3/dtNVkdJeLKSdWYK94txMSP33tuhgBqyr+1BwGJr2P9K3rlGa7DFLWRw4hCuW5AV2y9qyoKwA==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "API_SERVER": "nsc-sqlsrv-dev-usw2-toddysm.database.windows.net",
+    "API_DATABASE": "nsc-sqldb-dev-usw2-toddysm",
+    "API_USERNAME": "sqladmin",
+    "API_PASSWORD": "ejY09p!vC*wU!le9SSp",
+    "REDIS_HOST": "nsc-redis-dev-usw2-tuesday.redis.cache.windows.net",
+    "REDIS_KEY": "jawPx3lKwxQDE+ONhXyPYpCuiGVzbnKGFG3yQtYy9t4=",
+    "REDIS_PORT": "6380",
+    "DRIVER": "{ODBC Driver 17 for SQL Server}",
+    "CACHE_TOGGLE": "True"
   }
 }

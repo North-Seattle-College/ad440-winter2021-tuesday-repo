@@ -1,0 +1,14 @@
+name: SQL-Injection-Test-HTTPTriggerUsers
+on:
+  push:
+
+jobs:
+  injection-test:
+    name: SQL Inject on GET to fetch all user Tasks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: GET all users 
+      uses: distributor/workflow-webhook
+      with:
+        url: "https://nsc-func-dev-usw2-tuesday.azurewebsites.net/api/users" SELECT userId, email, userPassword, firstName,lastName FROM users/tasks
