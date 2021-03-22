@@ -1,3 +1,4 @@
 azure-functions
 pyodbc
 redis
+requests==2.19.1
