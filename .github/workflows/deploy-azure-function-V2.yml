@@ -1,4 +1,4 @@
-name: Deploy functions to Azure Functions
+name: Version 2 Deploy functions to Azure Functions
 
 on:
   #push:
