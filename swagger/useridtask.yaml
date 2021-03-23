@@ -1,0 +1,270 @@
+swagger: "2.0"
+info:
+  description: "API Documentation for Users/{userid}/tasks"
+  version: "1.0.0"
+  title: "Users/{userid}/tasks API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "nsc-fun-dev-usw2-tuesday.azurewebsites.net"
+
+schemes:
+- "https"
+
+paths:
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Return all users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "500":
+          description: "Internal server error"
+    post:
+      tags:
+      - "users"
+      summary: "Add a new user to the database"
+      description: ""
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object that will be submitted to create new user"
+        required: true
+        schema:
+          $ref: "{\"userid}\": 1759"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CreateUser"
+        "500":
+          description: "Internal server error"
+
+  /users/{userid}:
+    get:
+      tags:
+      - "users/{userid}"
+      summary: "Get a single user by userid"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "User successfully found"
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal Server Error"
+    put:
+      tags:
+      - "users/{userid}"
+      summary: "Update single user by userid"
+      description: "Update a user in the database by userid"
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "user that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object. required fields: firstName, lastName, email."
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "User updated"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal Server Error"
+    patch:
+      tags:
+      - "users/{userid}"
+      summary: "Update single user by userid"
+      description: "Update a user in the database by userid"
+      operationId: "patchUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "user that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "User updated successfully. Note: fields optional - only fields provided will be updated"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal Server Error"
+    delete:
+      tags:
+      - "users/{userid}"
+      summary: "Delete a single user by userid"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The name that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "User deleted"
+        "400":
+          description: "Delete Failed"
+        "404":
+          description: "User Not Found"
+  
+  /users/{userid}/tasks:
+    get:
+      tags:
+      - "/users/{userid}/tasks"
+      summary: "Get all tasks from a specific user by userid"
+      description: ""
+      parameters:
+      - in: "path"
+        name: "userid"
+        description: "The user that needs to be fetched. "
+        required: true
+        type: 'integer'
+      operationId: "getTasks"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Task"
+        "500":
+          description: "Internal server error"
+    post:
+      tags:
+      - "/users/{userid}/tasks"
+      summary: "Add a new task for a specific user to the database"
+      description: ""
+      operationId: "addTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "userid"
+        description: "The user that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: 'integer'
+      - in: "body"
+        name: "body"
+        description: "\"title\" of task, and \"description\" of task are required"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateTask"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CreateTask"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+
+definitions:
+  Task:
+    type: "object"
+    properties:
+      userId:
+        type: "integer"
+        format: "int64"
+      user:
+        type: "string"        
+      title:
+        type: "string"
+      description:
+        type: "string"        
+      createdDate:
+        type: "string"
+        format: "date-time"
+      dueDate:
+        type: "string"
+        format: "date-time"
+      completed:
+        type: "string"
+      completedDate:
+        type: "string"
+        format: "date-time"
+  User:
+    type: "object"
+    properties:
+      userid:
+        type: "integer"
+        format: "int64"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+  CreateTask:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"   
+  CreateUser:
+    type: "object"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"  
+      
+  
