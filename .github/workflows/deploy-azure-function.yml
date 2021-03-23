@@ -1,11 +1,10 @@
 name: Deploy functions to Azure Functions
 
 on:
-  [push]
-  # push:
-  #   branches:
-  #     - development
-  #
+  push:
+    branches:
+      - development
+
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "functions"
   PYTHON_VERSION: "3.8"
