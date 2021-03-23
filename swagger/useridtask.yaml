@@ -1,0 +1,96 @@
+swagger: "2.0"
+info:
+  description: "API Documentation for Users/{user_id}/tasks"
+  version: "1.0.0"
+  title: "Users/{user_id}/tasks API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "nsc-fun-dev-usw2-tuesday.azurewebsites.net"
+
+schemes:
+  - "https"
+
+paths:
+  /users/{user_id}/tasks:
+    get:
+      tags:
+        - "/users/{user_id}/tasks"
+      summary: "Get all tasks from a specific user by user_id"
+      description: ""
+      parameters:
+        - in: "path"
+          name: "user_id"
+          description: "The user that needs to be fetched. "
+          required: true
+          type: "integer"
+      operationId: "getTasks"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Task"
+        "500":
+          description: "Internal server error"
+    post:
+      tags:
+        - "/users/{user_id}/tasks"
+      summary: "Add a new task for a specific user to the database"
+      description: ""
+      operationId: "addTask"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "user_id"
+          description: "The user that needs to be fetched. Use user1 for testing. "
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: '"title" of task, and "description" of task are required'
+          required: true
+          schema:
+            $ref: "#/definitions/CreateTask"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CreateTask"
+        "404":
+          description: "User not found"
+        "500":
+          description: "Internal server error"
+
+definitions:
+  Task:
+    type: "object"
+    properties:
+      user_id:
+        type: "integer"
+        format: "int64"
+      user:
+        type: "string"
+      taskId:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      description:
+        type: "string"
+  CreateTask:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"

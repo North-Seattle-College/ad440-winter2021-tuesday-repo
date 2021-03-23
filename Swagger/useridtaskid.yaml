@@ -1,0 +1,161 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: document the required input and expected output for POST /users/{user_id}
+host: localhost: 3030
+basepath: /swagger
+schemes: 
+  - http
+consumes: 
+  - application/json
+produces: 
+  - application/json
+paths: 
+  /users/{userId}/tasks/{taskId}:
+    post:
+      tags:
+        - tasks
+      summary: Not allowed
+      operationId: postTaskId
+      produces:
+        - application/json
+      parameters: []
+      description: This method is not allowed, task id cannot be specified
+      responses:
+        '405':
+          description: method not implemented
+#        '201':
+          description: item created
+#        '400':
+          description: invalid input, object invalid
+#        '401':
+          description: unknown and unauthorized
+#        '403':
+          description: known and forbidden
+#        '409':
+          description: username or id already exists
+#        '500':
+          description: internal server error
+#        '502':
+          description: bad gateway
+#        '503':
+          description: service unavailable
+    get:
+      tags:
+        - tasks
+      summary: Gets a single task for a user
+      operationId: getTaskId
+      produces:
+        - application/json
+      parameters: []
+      description: Gets a single task for a user using their unique ids
+      responses:
+        '200':
+          description: successfully returns task
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Task'
+        '404':
+          description: id does not exist
+        '500':
+          description: internal server error
+    put:
+      tags:
+        - tasks
+      summary: Updates task
+      operationId: putTaskId
+      produces:
+        - application/json
+      parameters: []
+      description: Updates a single task for a user using their unique ids
+      responses:
+        '400':
+          description: invalid input, object invalid
+        '404':
+          description: id does not exist
+        '500':
+          description: internal server error
+    delete:
+      tags:
+        - tasks
+      summary: Deletes task
+      operationId: deleteTaskId
+      produces:
+        - application/json
+      parameters: []
+      description: Uses the unique id of a task and its user to delete the task
+      responses:
+        '200':
+          description: task deleted
+        '404':
+          description: id does not exist
+        '500':
+          description: internal server error
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+
+        - firstName
+        - lastName
+        - emailAddress
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        username:
+          type: string
+          example: johndoe94
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        emailAddress:
+          type: string
+          example: john.doe@example.com
+    Task:
+      type: object
+      required:
+        - taskId
+        - title
+        - description
+        - createDate
+        - dueDate
+        - status
+        - owner
+      properties:
+        taskId:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        title:
+          type: string
+          example: "Feed the Cat"
+        description:
+          type: string
+          example: "Place one cup of cat food into the food bowl"
+        createDate:
+          type: string
+          format: date
+          example: 11-05-2020
+        dueDate:
+          type: string
+          format: date
+          example: 11-10-2020
+        status:
+          type: integer
+          description: 0-4, representing new, active, completed, or closed.
+          example: 1
+        owner:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          description: Points to the id of the user who is assigned the task.
