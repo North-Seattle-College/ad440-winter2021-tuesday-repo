@@ -4,26 +4,22 @@
   "parameters": {
     "appName": {
       "type": "string",
-      "defaultValue": "[string('nsc-fun-dev-usw2-tuesday')]",
+      "defaultValue": "[string('nsc-func-dev-usw2-tuesday')]",
       "metadata": {
         "description": "The name of your app."
       }
     },
     "storageName": {
-        "defaultValue": "[string('nsctrdevusw2tuefun')]",
-        "type": "string",
-        "metadata": {
-            "description": "Name of storage account"
-        }
+      "defaultValue": "[string('nsctrdevusw2tuefun')]",
+      "type": "string",
+      "metadata": {
+        "description": "Name of storage account"
+      }
     },
     "storageAccountType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_GRS",
-        "Standard_RAGRS"
-      ],
+      "allowedValues": ["Standard_LRS", "Standard_GRS", "Standard_RAGRS"],
       "metadata": {
         "description": "Storage type"
       }
@@ -35,7 +31,7 @@
         "description": "Location for all resources."
       }
     },
-    "resourceTags":{
+    "resourceTags": {
       "type": "object",
       "defaultValue": {
         "NSCYear": "2021",
@@ -44,7 +40,7 @@
         "OwnerEmail": "selina.nguyen@seattlecolleges.edu"
       }
     },
-        "applicationInsight": {
+    "applicationInsight": {
       "defaultValue": "[string('nsc-appins-dev-usw2-Tuesday')]",
       "type": "string",
       "metadata": {
@@ -52,11 +48,11 @@
       }
     },
     "hostingPlan": {
-        "defaultValue": "[string('nsc-asp-dev-usw2-tuesday')]",
-        "type": "string",
-        "metadata": {
-            "description": "Name of hosting plan"
-        }
+      "defaultValue": "[string('nsc-asp-dev-usw2-tuesday')]",
+      "type": "string",
+      "metadata": {
+        "description": "Name of hosting plan"
+      }
     },
     "appInsightsLocation": {
       "type": "string",
@@ -67,11 +63,7 @@
     "runtime": {
       "type": "string",
       "defaultValue": "node",
-      "allowedValues": [
-        "node",
-        "dotnet",
-        "java"
-      ],
+      "allowedValues": ["node", "dotnet", "java"],
       "metadata": {
         "description": "The language worker runtime to load in the function app."
       }
