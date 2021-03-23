@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "API Documentation for Users/{userid}/tasks"
+  description: "API Documentation for Users/{user_id}/tasks"
   version: "1.0.0"
-  title: "Users/{userid}/tasks API"
+  title: "Users/{user_id}/tasks API"
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: "apiteam@swagger.io"
@@ -36,7 +36,7 @@ paths:
     post:
       tags:
       - "users"
-      summary: "Add a new user to the database"
+      summary: "Add a new user"
       description: ""
       operationId: "addUser"
       consumes:
@@ -49,7 +49,7 @@ paths:
         description: "User object that will be submitted to create new user"
         required: true
         schema:
-          $ref: "{\"userid}\": 1759"
+          $ref: "#/definitions/CreateUser"
       responses:
         "200":
           description: "successful operation"
@@ -58,19 +58,19 @@ paths:
         "500":
           description: "Internal server error"
 
-  /users/{userid}:
+  /users/{user_id}:
     get:
       tags:
-      - "users/{userid}"
-      summary: "Get a single user by userid"
+      - "users/{user_id}"
+      summary: "Get a single user by user_id"
       description: ""
-      operationId: "getUserByName"
+      operationId: "getUserById"
       produces:
       - "application/json"
       parameters:
-      - name: "userid"
+      - name: "user_id"
         in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
+        description: "The id that needs to be fetched. Use user1 for testing. "
         required: true
         type: "string"
       responses:
@@ -84,21 +84,21 @@ paths:
           description: "Internal Server Error"
     put:
       tags:
-      - "users/{userid}"
-      summary: "Update single user by userid"
-      description: "Update a user in the database by userid"
+      - "users/{user_id}"
+      summary: "Update single user by user_id"
+      description: "Update a user by user_id"
       operationId: "updateUser"
       produces:
       - "application/json"
       parameters:
-      - name: "userid"
+      - name: "user_id"
         in: "path"
         description: "user that need to be updated"
         required: true
         type: "string"
       - in: "body"
         name: "body"
-        description: "Updated user object. required fields: firstName, lastName, email."
+        description: "Updated user. required fields: firstName, lastName, email."
         required: true
         schema:
           $ref: "#/definitions/User"
@@ -111,21 +111,21 @@ paths:
           description: "Internal Server Error"
     patch:
       tags:
-      - "users/{userid}"
-      summary: "Update single user by userid"
-      description: "Update a user in the database by userid"
+      - "users/{user_id}"
+      summary: "Update single user by user_id"
+      description: "Update a user user_id"
       operationId: "patchUser"
       produces:
       - "application/json"
       parameters:
-      - name: "userid"
+      - name: "user_id"
         in: "path"
-        description: "user that need to be updated"
+        description: "user that needs to be updated"
         required: true
         type: "string"
       - in: "body"
         name: "body"
-        description: "Updated user object"
+        description: "Updated user"
         required: true
         schema:
           $ref: "#/definitions/User"
@@ -138,14 +138,14 @@ paths:
           description: "Internal Server Error"
     delete:
       tags:
-      - "users/{userid}"
-      summary: "Delete a single user by userid"
-      description: "This can only be done by the logged in user."
+      - "users/{user_id}"
+      summary: "Delete a single user by user_id"
+      description: "This can only be done by the user that's logged-in."
       operationId: "deleteUser"
       produces:
       - "application/json"
       parameters:
-      - name: "userid"
+      - name: "user_id"
         in: "path"
         description: "The name that needs to be deleted"
         required: true
@@ -158,15 +158,15 @@ paths:
         "404":
           description: "User Not Found"
   
-  /users/{userid}/tasks:
+  /users/{user_id}/tasks:
     get:
       tags:
-      - "/users/{userid}/tasks"
-      summary: "Get all tasks from a specific user by userid"
+      - "/users/{user_id}/tasks"
+      summary: "Get all tasks from a specific user by user_id"
       description: ""
       parameters:
       - in: "path"
-        name: "userid"
+        name: "user_id"
         description: "The user that needs to be fetched. "
         required: true
         type: 'integer'
@@ -184,7 +184,7 @@ paths:
           description: "Internal server error"
     post:
       tags:
-      - "/users/{userid}/tasks"
+      - "/users/{user_id}/tasks"
       summary: "Add a new task for a specific user to the database"
       description: ""
       operationId: "addTask"
@@ -194,7 +194,7 @@ paths:
       - "application/json"
       parameters:
       - in: "path"
-        name: "userid"
+        name: "user_id"
         description: "The user that needs to be fetched. Use user1 for testing. "
         required: true
         type: 'integer'
@@ -213,16 +213,19 @@ paths:
           description: "User not found"
         "500":
           description: "Internal server error"
-
+    
 definitions:
   Task:
     type: "object"
     properties:
-      userId:
+      user_id:
         type: "integer"
         format: "int64"
       user:
         type: "string"        
+      taskId:
+        type: "integer"
+        format: "int64"
       title:
         type: "string"
       description:
@@ -241,7 +244,7 @@ definitions:
   User:
     type: "object"
     properties:
-      userid:
+      user_id:
         type: "integer"
         format: "int64"
       firstName:
