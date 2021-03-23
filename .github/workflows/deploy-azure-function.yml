@@ -1,9 +1,10 @@
 name: Deploy functions to Azure Functions
 
 on:
-  push:
-    branches:
-      - development
+  [push]
+  # push:
+  #   branches:
+  #     - development
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "functions"
